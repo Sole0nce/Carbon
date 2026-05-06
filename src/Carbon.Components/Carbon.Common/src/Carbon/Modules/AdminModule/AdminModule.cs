@@ -13,7 +13,7 @@ namespace Carbon.Modules;
 
 public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 {
-	public static readonly string Title = "<b>Admin Centre</b>";
+	public static readonly string Title = "<b>管理中心</b>";
 	public override string Name => "Admin";
 	public override VersionNumber Version => new(1, 8, 0);
 	public override Type Type => typeof(AdminModule);
@@ -94,6 +94,242 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		[LogType.Warning] = "#dbbe2a",
 		[LogType.Error] = "#db2a2a"
 	};
+
+	private static readonly Dictionary<string, string> SimplifiedChinese = new()
+	{
+		["Admin Centre"] = "管理中心",
+		["Carbon"] = "Carbon",
+		["Players"] = "玩家",
+		["Entities"] = "实体",
+		["Permissions"] = "权限",
+		["Modules"] = "模块",
+		["Environment"] = "环境",
+		["Plugins"] = "插件",
+		["Profiler"] = "性能分析",
+		["Greet"] = "欢迎",
+		["Configuration"] = "配置",
+		["Tabs"] = "标签页",
+		["Apply Changes"] = "应用更改",
+		["Customization"] = "自定义",
+		["Background Blur"] = "背景模糊",
+		["Background Opacity"] = "背景透明度",
+		["Background Image"] = "背景图片",
+		["Background Image Opacity"] = "背景图片透明度",
+		["Background Column Opacity"] = "背景列透明度",
+		["Title Underline Opacity"] = "标题下划线透明度",
+		["Option Width"] = "选项宽度",
+		["Selected Tab Color"] = "已选标签颜色",
+		["Editable Input Highlight"] = "可编辑输入高亮",
+		["Name Text Color"] = "名称文本颜色",
+		["Option Name Color"] = "选项名称颜色",
+		["Button Selected Color"] = "按钮选中颜色",
+		["Button Warned Color"] = "按钮警告颜色",
+		["Button Important Color"] = "按钮重要颜色",
+		["Option Color (1st)"] = "选项颜色（第一）",
+		["Option Color (2nd)"] = "选项颜色（第二）",
+		["Spectating Info Overlay"] = "旁观信息浮层",
+		["Spectating End Teleport Back"] = "结束旁观后传送回原位",
+		["Disable uMod (Plugins tab)"] = "禁用 uMod（插件页）",
+		["Hide Plugin Icons (Plugins tab)"] = "隐藏插件图标（插件页）",
+		["General"] = "常规",
+		["Watchers"] = "监听器",
+		["Logging"] = "日志",
+		["Miscellaneous"] = "其他",
+		["Debugging"] = "调试",
+		["Conditionals"] = "条件编译",
+		["Quick Actions"] = "快捷操作",
+		["Button Name"] = "按钮名称",
+		["Button Command"] = "按钮命令",
+		["User Mode"] = "用户模式",
+		["Include User ID"] = "包含用户 ID",
+		["Confirm Dialog"] = "确认对话框",
+		["Add"] = "添加",
+		["Edit"] = "编辑",
+		["Stop Editing"] = "停止编辑",
+		["Search"] = "搜索",
+		["Sorting"] = "排序",
+		["Options"] = "选项",
+		["Groups"] = "组",
+		["Add Group"] = "添加组",
+		["Grant All"] = "授予全部",
+		["Revoke All"] = "撤销全部",
+		["Core Modules"] = "核心模块",
+		["Other Modules"] = "其他模块",
+		["Online"] = "在线",
+		["Offline"] = "离线",
+		["No online players found."] = "未找到在线玩家。",
+		["No offline players found."] = "未找到离线玩家。",
+		["Player Information"] = "玩家信息",
+		["Name"] = "名称",
+		["Steam ID"] = "Steam ID",
+		["Net ID"] = "网络 ID",
+		["IP"] = "IP",
+		["Position"] = "位置",
+		["Player Flags"] = "玩家标志",
+		["View Permissions"] = "查看权限",
+		["Actions"] = "操作",
+		["Inventory Lock"] = "背包锁定",
+		["Select Entity"] = "选择实体",
+		["Blind Player"] = "致盲玩家",
+		["Unblind Player"] = "解除致盲",
+		["Stats"] = "状态",
+		["Combat"] = "战斗",
+		["Health"] = "生命值",
+		["Thirst"] = "口渴",
+		["Hunger"] = "饥饿",
+		["Radiation"] = "辐射",
+		["Bleeding"] = "流血",
+		["Wetness"] = "潮湿",
+		["Empower Stats"] = "强化状态",
+		["Crafting"] = "制作",
+		["No crafts."] = "没有制作队列。",
+		["Entities"] = "实体",
+		["Search Entity"] = "搜索实体",
+		["Multi-selection"] = "多选",
+		["Range"] = "范围",
+		["No entities found with that filter"] = "未找到匹配过滤条件的实体",
+		["Hierarchy"] = "层级",
+		["Id"] = "ID",
+		["Owner"] = "拥有者",
+		["Prefab"] = "预制体",
+		["Flags"] = "标志",
+		["Skin"] = "皮肤",
+		["Edit Flags"] = "编辑标志",
+		["Rotation"] = "旋转",
+		["Loot Container"] = "查看容器",
+		["Display Name"] = "显示名称",
+		["Children"] = "子实体",
+		["CCTV"] = "监控摄像头",
+		["Identifier"] = "标识符",
+		["View CCTV"] = "查看 CCTV",
+		["Code Lock"] = "密码锁",
+		["Code"] = "密码",
+		["Minicopter"] = "迷你直升机",
+		["Open Fuel"] = "打开燃料箱",
+		["Building Block"] = "建筑块",
+		["Grade"] = "等级",
+		["Entity Flags"] = "实体标志",
+		["Time"] = "时间",
+		["Date"] = "日期",
+		["Progress Time"] = "时间流逝",
+		["Ocean"] = "海洋",
+		["Scale"] = "比例",
+		["Level"] = "水平",
+		["Weather Preset"] = "天气预设",
+		["Wind"] = "风",
+		["Rain"] = "雨",
+		["Thunder"] = "雷",
+		["Rainbow"] = "彩虹",
+		["Atmosphere"] = "大气",
+		["Brightness"] = "亮度",
+		["Contrast"] = "对比度",
+		["Directionality"] = "方向性",
+		["Fogginess"] = "雾度",
+		["Clouds"] = "云",
+		["Size"] = "大小",
+		["Opacity"] = "透明度",
+		["Coverage"] = "覆盖率",
+		["Sharpness"] = "锐度",
+		["Coloring"] = "着色",
+		["Attenuation"] = "衰减",
+		["Saturation"] = "饱和度",
+		["Scattering"] = "散射",
+		["Cancel"] = "取消",
+		["Remove"] = "移除",
+		["Duplicate"] = "复制",
+		["Property Name"] = "属性名称",
+		["New Property"] = "新属性",
+		["No entries"] = "没有条目",
+		["CREATE ITEM"] = "创建物品",
+		["ASSEMBLIES"] = "程序集",
+		["MEMORY"] = "内存",
+		["CALLS"] = "调用",
+		["Calls"] = "调用",
+		["Memory"] = "内存",
+		["Chart Options"] = "图表选项",
+		["No assemblies available"] = "没有可用程序集",
+		["No memory records available"] = "没有可用内存记录",
+		["No call records available"] = "没有可用调用记录",
+		["Recording Info"] = "记录信息",
+		["Status"] = "状态",
+		["Duration"] = "持续时间",
+		["Samples"] = "样本",
+		["Assembly Calls"] = "程序集调用",
+		["Assembly Memory"] = "程序集内存",
+		["Assembly Time"] = "程序集耗时",
+		["Assembly Exceptions"] = "程序集异常",
+		["Call Time (Total)"] = "调用耗时（总计）",
+		["Call Time (Own)"] = "调用耗时（自身）",
+		["Call Memory (Total)"] = "调用内存（总计）",
+		["Call Memory (Own)"] = "调用内存（自身）",
+		["Call Exceptions (Total)"] = "调用异常（总计）",
+		["Call Exceptions (Own)"] = "调用异常（自身）",
+		["Memory Allocs"] = "内存分配",
+		["Memory Allocs (Memory)"] = "内存分配（内存）",
+		["Method"] = "方法",
+		["Allocations"] = "分配",
+		["Exceptions"] = "异常",
+		["Type"] = "类型",
+		["All"] = "全部",
+		["None"] = "无",
+		["Out of bounds"] = "超出范围",
+		["Please wait..."] = "请稍候...",
+		["Failed to load chart!"] = "图表加载失败！",
+		["To view the chart,\nremain on the same page number as this."] = "要查看图表，\n请保持在相同页码。",
+		["No data available."] = "没有可用数据。",
+		["Confirm action"] = "确认操作",
+		["DECLINE"] = "拒绝",
+		["CONFIRM"] = "确认",
+		["No tab selected."] = "未选择标签页。",
+		["REVEAL"] = "显示",
+		["TIMELINE\nMODE"] = "时间线\n模式",
+		["COMPARE"] = "对比",
+		["IMPORT"] = "导入",
+		["EXPORT"] = "导出",
+		["ABORT"] = "中止",
+		["CLEAR"] = "清除",
+		["REC"] = "记录",
+		["Record"] = "记录",
+	};
+
+	internal static string Zh(string text)
+	{
+		if (string.IsNullOrEmpty(text))
+		{
+			return text;
+		}
+
+		if (SimplifiedChinese.TryGetValue(text, out var value))
+		{
+			return value;
+		}
+
+		if (text.Contains('\n'))
+		{
+			var lines = text.Split('\n');
+			var translated = false;
+			for (int i = 0; i < lines.Length; i++)
+			{
+				var line = Zh(lines[i]);
+				translated |= line != lines[i];
+				lines[i] = line;
+			}
+			return translated ? string.Join('\n', lines) : text;
+		}
+
+		if (text.StartsWith("<b>") && text.EndsWith("</b>"))
+		{
+			return $"<b>{Zh(text[3..^4])}</b>";
+		}
+
+		var suffix = text.IndexOf(" (", StringComparison.Ordinal);
+		if (suffix > 0 && SimplifiedChinese.TryGetValue(text[..suffix], out value))
+		{
+			return value + text[suffix..];
+		}
+
+		return text;
+	}
 
 	public bool HandleEnableNeedsKeyboard(PlayerSession ap)
 	{
@@ -309,6 +545,66 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				["quickactions_edit"] = "Edit",
 				["quickactions_stopedit"] = "Stop Editing",
 				["maxplayers"] = "Maximum Players"
+			},
+			["zh-CN"] = new()
+			{
+				["hostname"] = "主机名",
+				["level"] = "地图",
+				["info"] = "信息",
+				["version"] = "版本",
+				["version2"] = "信息版本",
+				["hooks"] = "钩子",
+				["statichooks"] = "静态钩子",
+				["dynamichooks"] = "动态钩子",
+				["plugins"] = "插件",
+				["mods"] = "模块",
+				["console"] = "控制台",
+				["execservercmd"] = "执行服务器命令",
+				["config"] = "配置",
+				["ismodded"] = "标记为 Modded",
+				["ismodded_help"] = "启用后会将服务器标记为 modded。",
+				["general"] = "常规",
+				["watchers"] = "监听器",
+				["scriptwatchers"] = "脚本监听器",
+				["scriptwatchers_help"] = "禁用后必须手动使用 'c.load' 或 'c.unload' 加载/卸载插件。",
+				["zipscriptwatchers"] = "ZIP 脚本监听器",
+				["zipscriptwatchers_help"] = "禁用后必须手动使用 'c.load' 或 'c.unload' 加载/卸载插件。",
+				["scriptwatchersoption"] = "脚本监听器选项",
+				["scriptwatchersoption_help"] = "指定脚本监听器启用时仅监听 'carbon/plugins' 文件夹，还是包含其子文件夹。",
+				["logging"] = "日志",
+				["logfilemode"] = "日志文件模式",
+				["logverbosity"] = "日志详细程度（调试）",
+				["logseverity"] = "日志严重级别",
+				["misc"] = "其他",
+				["serverlang"] = "服务器语言",
+				["webreqip"] = "WebRequest IP",
+				["permmode"] = "权限模式",
+				["nocontent"] = "没有可用选项。\n请选择子标签页来填充此区域（如果可用）。",
+				["consoleinfo"] = "显示控制台信息",
+				["consoleinfo_help"] = "在控制台底部显示仅 Windows 可用的 Carbon 信息。",
+				["playerdefgroup"] = "玩家组",
+				["admindefgroup"] = "管理员组",
+				["moderatordefgroup"] = "版主组",
+				["permissions"] = "权限",
+				["debugging"] = "调试",
+				["scriptdebugorigin"] = "脚本调试来源",
+				["scriptdebugorigin_help"] = "服务器启动时附加调试器后，编译器会替换插件文件的调试来源。",
+				["conditionals"] = "条件编译",
+				["quickactions"] = "快捷操作",
+				["quickactions_name"] = "按钮名称",
+				["quickactions_name_help"] = "快捷操作按钮的名称。",
+				["quickactions_command"] = "按钮命令",
+				["quickactions_command_help"] = "快捷操作按钮的命令，多个命令用 | 分隔。",
+				["quickactions_user"] = "用户模式",
+				["quickactions_user_help"] = "执行命令时使用用户权限调用。",
+				["quickactions_incluserid"] = "包含用户 ID",
+				["quickactions_incluserid_help"] = "执行命令时在命令末尾追加玩家 Steam ID。",
+				["quickactions_confirmdialog"] = "确认对话框",
+				["quickactions_confirmdialog_help"] = "执行敏感命令前显示确认对话框。",
+				["quickactions_add"] = "添加",
+				["quickactions_edit"] = "编辑",
+				["quickactions_stopedit"] = "停止编辑",
+				["maxplayers"] = "最大玩家数"
 			}
 		};
 	}
