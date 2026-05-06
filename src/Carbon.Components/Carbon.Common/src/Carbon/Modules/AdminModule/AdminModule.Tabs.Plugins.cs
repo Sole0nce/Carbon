@@ -530,7 +530,7 @@ public partial class AdminModule
 
 							var version = cui.CreatePanel(container, changelog, Cache.CUI.BlankColor,
 								xMin: 0.78f);
-							cui.CreateText(container, version, "1 1 1 0.2", "RELEASE DATE", 12, yMax: 0.7f,
+							cui.CreateText(container, version, "1 1 1 0.2", Zh("RELEASE DATE"), 12, yMax: 0.7f,
 								align: TextAnchor.MiddleCenter,
 								font: CUI.Handler.FontTypes.RobotoCondensedBold);
 							cui.CreateText(container, version, accentReadableColor, "14 June", 15,
@@ -540,7 +540,7 @@ public partial class AdminModule
 							cui.CreatePanel(container, version, "0.7 0.7 0.7 0.2", xMin: 0.3f, xMax: 0.7f,
 								yMin: 0.55f, yMax: 0.55f, OyMin: -detailBarThickness);
 
-							cui.CreateText(container, version, "1 1 1 0.2", "RATING", 12, yMin: 0.65f,
+							cui.CreateText(container, version, "1 1 1 0.2", Zh("RATING"), 12, yMin: 0.65f,
 								align: TextAnchor.MiddleCenter,
 								font: CUI.Handler.FontTypes.RobotoCondensedBold);
 							cui.CreateText(container, version, Cache.CUI.BlankColor, string.Empty, 0,
@@ -627,7 +627,7 @@ public partial class AdminModule
 								cui.CreateText(container, panel, "1 1 1 0.5",
 									$"Securely log into your {selectedVendor.Type} account through OAuth-based login!\n\nScan the QR code or go to the URL, log into {selectedVendor.Type} and type in the provided authentication code below to complete the login process.",
 									15, xMin: 0.51f, xMax: 0.9f, yMax: 0.67f, align: TextAnchor.UpperLeft);
-								cui.CreateText(container, panel, "1 1 1 1", "Authorization code:", 13,
+								cui.CreateText(container, panel, "1 1 1 1", Zh("Authorization code:"), 13,
 									xMin: 0.51f, yMax: 0.35f, align: TextAnchor.UpperLeft);
 
 								cui.CreateProtectedButton(container, parent: panel,
