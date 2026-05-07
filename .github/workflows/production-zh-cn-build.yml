@@ -205,7 +205,7 @@ jobs:
         shell: bash
         env:
           VERSION: ${{ steps.env.outputs.version }}
-          DEFINE: "PROD;NO_SELF_UPDATE"
+          DEFINE: "PROD%3BNO_SELF_UPDATE"
           TAG: production_zh_CN_build
           ARG: ${{ matrix.build_arg }}
         run: |
