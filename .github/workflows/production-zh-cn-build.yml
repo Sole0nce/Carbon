@@ -59,6 +59,14 @@ jobs:
           token: ${{ secrets.PAT_ALL_REPO || github.token }}
           submodules: recursive
 
+      - name: Merge Latest Production
+        shell: bash
+        run: |
+          git remote add upstream https://github.com/CarbonCommunity/Carbon.git || git remote set-url upstream https://github.com/CarbonCommunity/Carbon.git
+          git fetch --no-tags upstream production
+          git -c submodule.recurse=false merge --no-commit --no-ff upstream/production
+          git submodule sync --recursive
+          git submodule update --init --recursive
       - name: Environment Setup
         id: env
         shell: bash
