@@ -50,6 +50,7 @@ jobs:
         run: |
           git config --global fetch.parallel 0
           git config --global submodule.fetchJobs 0
+          git config --global submodule.recurse false
           git config --global --add safe.directory "*"
 
       - name: Git Clone
@@ -57,14 +58,14 @@ jobs:
         with:
           ref: production_zh_CN
           token: ${{ secrets.PAT_ALL_REPO || github.token }}
-          submodules: recursive
+          submodules: false
 
       - name: Merge Latest Production
         shell: bash
         run: |
           git remote add upstream https://github.com/CarbonCommunity/Carbon.git || git remote set-url upstream https://github.com/CarbonCommunity/Carbon.git
-          git fetch --no-tags upstream production
-          git -c submodule.recurse=false merge --no-commit --no-ff upstream/production
+          git fetch --no-tags --recurse-submodules=no upstream production
+          git merge --no-commit --no-ff --no-recurse-submodules upstream/production
           git submodule sync --recursive
           git submodule update --init --recursive
       - name: Environment Setup
