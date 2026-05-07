@@ -58,6 +58,7 @@ jobs:
         with:
           ref: production_zh_CN
           token: ${{ secrets.PAT_ALL_REPO || github.token }}
+          fetch-depth: 0
           submodules: false
 
       - name: Merge Latest Production
