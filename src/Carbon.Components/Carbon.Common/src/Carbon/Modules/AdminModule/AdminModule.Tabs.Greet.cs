@@ -19,11 +19,11 @@ public partial class AdminModule
 					OyMin: -20, OyMax: -20);
 				cui.CreateText(container, panel,
 					color: "1 1 1 0.5",
-					text: "Welcome to <b>Carbon</b>!\n\n<size=12><color=grey>If you've seen this panel again, your existent settings have not been reset.\nFor more information, go to <color=orange>carbonmod.gg</color>.</color></size>",
+					text: Zh("Welcome to <b>Carbon</b>!\n\n<size=12><color=grey>If you've seen this panel again, your existent settings have not been reset.\nFor more information, go to <color=orange>carbonmod.gg</color>.</color></size>"),
 					18,
-					yMax: 0.495f, OyMin: -20, OyMax: -20, align: TextAnchor.UpperCenter);
-				cui.CreateProtectedButton(container, panel, "#7d8f32", "1 1 1 1", "Continue ▶", 9,
-					xMin: 0.5f, xMax: 0.5f, yMin: 0.25f, yMax: 0.25f, OxMin: -30, OxMax: 30, OyMin: -12.5f, OyMax: 12.5f, command: "greet.continue");
+					yMax: 0.495f, OyMin: -20, OyMax: -20, align: TextAnchor.UpperCenter, font: ChineseFont);
+				cui.CreateProtectedButton(container, panel, "#7d8f32", "1 1 1 1", $"{Zh("Continue")} ▶", 9,
+					xMin: 0.5f, xMax: 0.5f, yMin: 0.25f, yMax: 0.25f, OxMin: -30, OxMax: 30, OyMin: -12.5f, OyMax: 12.5f, command: "greet.continue", font: ChineseFont);
 			};
 			return tab;
 		}

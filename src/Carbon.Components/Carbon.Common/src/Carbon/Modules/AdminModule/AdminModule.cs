@@ -37,6 +37,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 	public readonly Handler Handler = new();
 
 	internal const int RangeCuts = 50;
+	internal const Handler.FontTypes ChineseFont = Handler.FontTypes.NotoSansArabicBold;
 	internal readonly string[] EmptyElement =
 	[
 		string.Empty
@@ -300,6 +301,8 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		["CLEAR"] = "清除",
 		["REC"] = "记录",
 		["Record"] = "记录",
+		["Welcome to <b>Carbon</b>!\n\n<size=12><color=grey>If you've seen this panel again, your existent settings have not been reset.\nFor more information, go to <color=orange>carbonmod.gg</color>.</color></size>"] = "欢迎使用 <b>Carbon</b>！\n\n<size=12><color=grey>如果你再次看到此面板，现有设置并未被重置。\n更多信息请访问 <color=orange>carbonmod.gg</color>。</color></size>",
+		["Continue"] = "继续",
 	};
 
 	internal static string Zh(string text)
@@ -327,9 +330,13 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			return translated ? string.Join("\n", lines) : text;
 		}
 
-		if (text.StartsWith("<b>") && text.EndsWith("</b>"))
+		if (text.StartsWith("<b>"))
 		{
-			return $"<b>{Zh(text[3..^4])}</b>";
+			var boldEnd = text.IndexOf("</b>", StringComparison.Ordinal);
+			if (boldEnd > 3)
+			{
+				return $"<b>{Zh(text[3..boldEnd])}</b>{text[(boldEnd + 4)..]}";
+			}
 		}
 
 		var suffix = text.IndexOf(" (", StringComparison.Ordinal);
@@ -715,7 +722,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: Zh(text), 11,
 			xMin: offset, xMax: offset + width, yMin: 0, yMax: 1,
 			command: disabled ? string.Empty : command,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
@@ -739,7 +746,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: $" / {page.TotalPages + 1:n0}", 9,
 			xMin: 0.5f, xMax: 1f, yMin: 0, yMax: 1,
 			align: TextAnchor.MiddleLeft,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateProtectedInputField(container, parent: id,
 			color: "1 1 1 1",
@@ -749,7 +756,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			command: PanelId + $".changecolumnpage {column} 4 ",
 			characterLimit: 0,
 			readOnly: false,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		#region Left
 
@@ -759,7 +766,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: "<<", 8,
 			xMin: 0, xMax: 0.1f, yMin: 0f, yMax: 1f,
 			command: page.CurrentPage > 0 ? PanelId + $".changecolumnpage {column} 2" : "",
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateProtectedButton(container, parent: id,
 			color: "0.3 0.3 0.3 0.1",
@@ -767,7 +774,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: "<", 8,
 			xMin: 0.1f, xMax: 0.2f, yMin: 0f, yMax: 1f,
 			command: PanelId + $".changecolumnpage {column} 0",
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		#endregion
 
@@ -779,7 +786,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: ">>", 8,
 			xMin: 0.9f, xMax: 1f, yMin: 0f, yMax: 1f,
 			command: page.CurrentPage < page.TotalPages ? PanelId + $".changecolumnpage {column} 3" : "",
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateProtectedButton(container, parent: id,
 			color: "0.3 0.3 0.3 0.1",
@@ -787,7 +794,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: ">", 8,
 			xMin: 0.8f, xMax: 0.9f, yMin: 0f, yMax: 1f,
 			command: PanelId + $".changecolumnpage {column} 1",
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		#endregion
 	}
@@ -799,7 +806,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: Zh(text)?.ToUpper(), 12,
 			OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			align: align,
-			font: Handler.FontTypes.RobotoCondensedBold);
+			font: ChineseFont);
 
 		if (!string.IsNullOrEmpty(text))
 		{
@@ -817,7 +824,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: Zh(text), size, characterLimit: 0, readOnly: true,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 				align: align,
-				font: font);
+				font: ChineseFont);
 		}
 		else
 		{
@@ -826,7 +833,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: Zh(text), size,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 				align: align,
-				font: font);
+				font: ChineseFont);
 		}
 	}
 	public void TabPanelButton(CUI cui, CuiElementContainer container, string parent, string text, string command, float height, float offset, Tab.OptionButton.Types type = Tab.OptionButton.Types.None, TextAnchor align = TextAnchor.MiddleCenter)
@@ -846,7 +853,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			command: command,
 			align: align,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 	}
@@ -865,7 +872,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: "0.2 0.2 0.2 0.5",
@@ -878,7 +885,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: string.Empty, 11,
 			xMin: 0.975f, xMax: 0.975f, OxMin: -25 , OyMin: -12.5f, OyMax: 12.5f, yMin: 0.5f, yMax: 0.5f,
 			command: command,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
@@ -911,7 +918,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: color,
@@ -934,7 +941,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			readOnly: readOnly,
 			needsKeyboard: session.Input == option,
 			autoFocus: session.Input == option && session.Input != session.PreviousInput,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		if (session.Input == option)
 		{
@@ -970,7 +977,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: "0.2 0.2 0.2 0.5",
@@ -988,7 +995,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: Zh(value), 11,
 			xMin: 0, xMax: 1, yMin: 0, yMax: 1,
 			align: TextAnchor.MiddleCenter,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		var left = cui.CreateProtectedButton(container, inPanel,
 			color: color,
@@ -997,7 +1004,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0f, xMax: 0.15f, yMin: 0, yMax: 1,
 			command: $"{command} true",
 			align: TextAnchor.MiddleCenter,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, left, "fade", Cache.CUI.WhiteColor);
 
@@ -1008,7 +1015,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0.85f, xMax: 1f, yMin: 0, yMax: 1,
 			command: $"{command} false",
 			align: TextAnchor.MiddleCenter,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, right, "fade", Cache.CUI.WhiteColor);
 	}
@@ -1033,7 +1040,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: DataInstance.Colors.OptionColor,
@@ -1057,7 +1064,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0f, xMax: 1f, yMin: 0, yMax: 1,
 			command: $"{command} false",
 			align: TextAnchor.MiddleLeft,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
@@ -1101,7 +1108,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					OxMin: shiftOffset,
 					command: $"{command} true call {actualI}",
 					align: TextAnchor.MiddleLeft,
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				cui.CreateImage(container, subButton, "fade", Cache.CUI.WhiteColor);
 
@@ -1132,7 +1139,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: $"{page.CurrentPage + 1:n0} / {page.TotalPages + 1:n0}", 9,
 					xMin: 0.5f, xMax: 1f, yMin: 0, yMax: 1,
 					align: TextAnchor.MiddleLeft,
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				#region Left
 
@@ -1142,7 +1149,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: "<<", 8,
 					xMin: 0, xMax: 0.1f, yMin: 0f, yMax: 1f,
 					command: $"{command} true --",
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				cui.CreateProtectedButton(container, id,
 					color: "0.4 0.7 0.2 0.7",
@@ -1150,7 +1157,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: "<", 8,
 					xMin: 0.1f, xMax: 0.2f, yMin: 0f, yMax: 1f,
 					command: $"{command} true -1",
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				#endregion
 
@@ -1162,7 +1169,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: ">>", 8,
 					xMin: 0.9f, xMax: 1f, yMin: 0f, yMax: 1f,
 					command: $"{command} true ++",
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				cui.CreateProtectedButton(container, id,
 					color: "0.4 0.7 0.2 0.7",
@@ -1170,7 +1177,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: ">", 8,
 					xMin: 0.8f, xMax: 0.9f, yMin: 0f, yMax: 1f,
 					command: $"{command} true 1",
-					font: Handler.FontTypes.RobotoCondensedRegular);
+					font: ChineseFont);
 
 				#endregion
 			}
@@ -1197,7 +1204,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: color,
@@ -1302,7 +1309,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 		}
 
 		var inPanel = cui.CreatePanel(container, panel,
@@ -1325,7 +1332,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			readOnly: input.ReadOnly,
 			needsKeyboard: session.Input == option,
 			autoFocus: session.Input == option && session.Input != session.PreviousInput,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		if (session.Input == option)
 		{
@@ -1339,7 +1346,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 1f - buttonPriority, xMax: 1f, yMin: 0f, yMax: 1f,
 			command: $"{command} button",
 			align: button.Align,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 
 		cui.CreateImage(container, buttonCui, "fade", Cache.CUI.WhiteColor);
 
@@ -1366,7 +1373,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				text: $"{Zh(text)}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: Handler.FontTypes.RobotoCondensedRegular);
+				font: ChineseFont);
 
 			cui.CreatePanel(container, panel,
 				color: DataInstance.Colors.OptionColor,
@@ -1380,7 +1387,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: colorSplit.Length > 1 ? $"#{ColorUtility.ToHtmlStringRGB(new Color(colorSplit[0].ToFloat(), colorSplit[1].ToFloat(), colorSplit[2].ToFloat(), 1))}" : string.Empty, 10,
 			xMin: toggleButtonScale, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			command: command,
-			font: Handler.FontTypes.RobotoCondensedRegular);
+			font: ChineseFont);
 	}
 	public void TabPanelWidget(CUI cui, CuiElementContainer container, string parent, PlayerSession session, Tab.OptionWidget widget, float height, float offset)
 	{
@@ -1497,7 +1504,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			layerIndex++;
 		}
 
-		cui.CreateText(container, panel, Cache.CUI.WhiteColor, Zh(chart.Name), chart.NameSize, xMin: 0.025f, xMax: 0.95f, yMin: 1, yMax: 1, OyMin: 10, OyMax: 17.5f, align: chart.NameAlign, font: Handler.FontTypes.RobotoCondensedBold);
+		cui.CreateText(container, panel, Cache.CUI.WhiteColor, Zh(chart.Name), chart.NameSize, xMin: 0.025f, xMax: 0.95f, yMin: 1, yMax: 1, OyMin: 10, OyMax: 17.5f, align: chart.NameAlign, font: ChineseFont);
 
 		Community.Runtime.Core.NextFrame(() =>
 		{
@@ -1613,7 +1620,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 						text: Title, 18,
 						xMin: 0.0175f, yMin: 0.8f, xMax: 1f, yMax: 0.97f,
 						align: TextAnchor.UpperLeft,
-						font: Handler.FontTypes.RobotoCondensedBold);
+						font: ChineseFont);
 
 					#endregion
 
