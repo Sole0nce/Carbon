@@ -1,0 +1,273 @@
+name: Production zh_CN Build
+concurrency: build-production-zh-cn
+
+on:
+  workflow_dispatch:
+
+jobs:
+  configure:
+    name: Setup production_zh_CN
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.identity.outputs.version }}
+      date: ${{ steps.identity.outputs.date }}
+      clock: ${{ steps.identity.outputs.clock }}
+      tag: ${{ steps.identity.outputs.tag }}
+    steps:
+      - name: Configure Identity
+        id: identity
+        shell: bash
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "clock=$(date +'%H:%M:%S')" >> $GITHUB_OUTPUT
+          echo "tag=$(date +'%Yd%j')" >> $GITHUB_OUTPUT
+          echo "version=2.0.${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build
+    needs: configure
+    runs-on: ubuntu-latest
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: Linux
+            target: x86_64-unknown-linux-gnu
+            build_arg: Unix
+          - group: Windows
+            target: x86_64-pc-windows-gnu
+            build_arg: ""
+
+    outputs:
+      version: ${{ steps.env.outputs.version }}
+      commit_sha: ${{ steps.env.outputs.commit_sha }}
+
+    steps:
+      - name: Configure Git
+        shell: bash
+        run: |
+          git config --global fetch.parallel 0
+          git config --global submodule.fetchJobs 0
+          git config --global --add safe.directory "*"
+
+      - name: Git Clone
+        uses: actions/checkout@v6
+        with:
+          ref: production_zh_CN
+          token: ${{ secrets.PAT_ALL_REPO || github.token }}
+          submodules: recursive
+
+      - name: Environment Setup
+        id: env
+        shell: bash
+        env:
+          DATE: ${{ needs.configure.outputs.date }}
+          CLOCK: ${{ needs.configure.outputs.clock }}
+          TAG: ${{ needs.configure.outputs.tag }}
+          VERSION: ${{ needs.configure.outputs.version }}
+        run: |
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "clock=$CLOCK" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "ref=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            10.0.x
+
+      - name: Generate Rust Hash
+        id: rust-hash
+        shell: bash
+        run: |
+          echo "hash=${{ hashFiles('src/Carbon.Native/src/**', 'src/Carbon.Native/Cargo.toml', 'src/Carbon.Native/Cargo.lock', 'src/Carbon.Native/build.rs') }}" >> $GITHUB_OUTPUT
+
+      - name: Cache Native Binaries
+        id: cache-native
+        uses: actions/cache@v5
+        with:
+          path: |
+            src/Carbon.Native/target/${{ matrix.target }}/release/*.so
+            src/Carbon.Native/target/${{ matrix.target }}/release/*.dll
+            src/Carbon.Native/target/${{ matrix.target }}/prod/*.so
+            src/Carbon.Native/target/${{ matrix.target }}/prod/*.dll
+          key: native-${{ matrix.target }}-prod-zh-cn-both-${{ steps.rust-hash.outputs.hash }}
+
+      - name: Setup Zig (Linux) (Cond)
+        if: steps.cache-native.outputs.cache-hit != 'true' && matrix.group == 'Linux'
+        uses: mlugg/setup-zig@v2
+        with:
+          version: 0.14.1
+
+      - name: Install Zig Build (Linux) (Cond)
+        if: steps.cache-native.outputs.cache-hit != 'true' && matrix.group == 'Linux'
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-zigbuild
+
+      - name: Install MinGW (Windows) (Cond)
+        if: matrix.group == 'Windows' && steps.cache-native.outputs.cache-hit != 'true'
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends mingw-w64
+
+      - name: Carbon.Native Toolchain (Cond)
+        if: steps.cache-native.outputs.cache-hit != 'true'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build Native (Standard) (Cond)
+        if: steps.cache-native.outputs.cache-hit != 'true'
+        working-directory: src/Carbon.Native
+        shell: bash
+        run: |
+          if [[ "${{ matrix.group }}" == "Linux" ]]; then
+            cargo zigbuild -r --target ${{ matrix.target }}.2.17
+          else
+            cargo build -r --target ${{ matrix.target }}
+          fi
+
+      - name: Build Native (Prod) (Cond)
+        if: steps.cache-native.outputs.cache-hit != 'true'
+        working-directory: src/Carbon.Native
+        shell: bash
+        run: |
+          if [[ "${{ matrix.group }}" == "Linux" ]]; then
+            cargo zigbuild --profile prod --target ${{ matrix.target }}.2.17
+          else
+            cargo build --profile prod --target ${{ matrix.target }}
+          fi
+
+      - name: Verify Native Linking & Symbols
+        if: matrix.group == 'Linux' || (matrix.group == 'Windows' && steps.cache-native.outputs.cache-hit != 'true')
+        shell: bash
+        run: |
+          TARGET_DIR="src/Carbon.Native/target/${{ matrix.target }}/prod"
+          echo "Searching in: $TARGET_DIR"
+
+          if [[ "${{ matrix.group }}" == "Windows" ]]; then
+            BIN_PATH=$(find "$TARGET_DIR" -maxdepth 1 -name "*.dll" | head -n 1)
+            if [ -z "$BIN_PATH" ]; then
+              echo "::error::No .dll found in $TARGET_DIR"
+              ls -R src/Carbon.Native/target/
+              exit 1
+            fi
+
+            IMPORTS=$(x86_64-w64-mingw32-objdump -p "$BIN_PATH" | grep "DLL Name" || true)
+            if echo "$IMPORTS" | grep -iE "libgcc|libstdc++|libwinpthread"; then
+              echo "::error::Windows Binary is NOT statically linked! Found forbidden dependencies."
+              echo "$IMPORTS" | grep -iE "libgcc|libstdc++|libwinpthread"
+              exit 1
+            fi
+
+            SYMBOLS=$(x86_64-w64-mingw32-nm -g "$BIN_PATH" | grep " T " || true)
+          else
+            BIN_PATH=$(find "$TARGET_DIR" -maxdepth 1 -name "*.so" | head -n 1)
+            if [ -z "$BIN_PATH" ]; then
+              echo "::error::No .so found in $TARGET_DIR"
+              ls -R src/Carbon.Native/target/
+              exit 1
+            fi
+
+            GLIBC_REFS=$(objdump -T "$BIN_PATH" | grep "GLIBC_" | sort -uV)
+            if echo "$GLIBC_REFS" | grep -qE "GLIBC_2\.(1[8-9]|[2-9][0-9])"; then
+              echo "::error::Linux Binary linked against too new GLIBC (2.18+)! Zig target override failed."
+              echo "$GLIBC_REFS"
+              exit 1
+            fi
+
+            SYMBOLS=$(nm -gD "$BIN_PATH" | grep " T " || true)
+          fi
+
+          if [ -z "$SYMBOLS" ]; then
+            echo "::error::No exported symbols found in $BIN_PATH! Binary is useless."
+            exit 1
+          fi
+
+          echo "Binary Verification Passed: Statically linked and exports $(echo "$SYMBOLS" | wc -l) functions."
+
+      - name: Pre-build Carbon Runner
+        run: dotnet build src/Carbon.Tools/Carbon.Runner/Carbon.Runner.csproj -c Debug -o ./runner-bin
+
+      - name: Carbon Bootstrap CS
+        run: dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/bootstrap.cs
+
+      - name: Carbon Update CS
+        shell: bash
+        run: dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/update.cs
+
+      - name: Carbon Build
+        shell: bash
+        env:
+          VERSION: ${{ steps.env.outputs.version }}
+          DEFINE: PROD
+          TAG: production_zh_CN_build
+          ARG: ${{ matrix.build_arg }}
+        run: |
+          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Release$ARG $DEFINE $TAG -noclean
+          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Minimal$ARG $DEFINE $TAG -noclean
+
+      - name: Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-${{ matrix.group }}
+          path: |
+            release/*.tar.gz
+            release/*.zip
+            release/*.info
+
+  release:
+    name: Release production_zh_CN_build
+    needs: [ "configure", "build" ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Git Clone
+        uses: actions/checkout@v6
+
+      - name: Delete existing release tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete production_zh_CN_build --cleanup-tag --yes || echo "Release/Tag not found, nothing to delete"
+
+      - name: Sleep for 5 seconds
+        run: sleep 5s
+        shell: bash
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release
+          merge-multiple: true
+
+      - name: Display structure
+        run: ls -R
+        working-directory: release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@a92196038060e0c673cf3ba5b98710dd716731df
+        with:
+          draft: false
+          prerelease: true
+          tag_name: production_zh_CN_build
+          target_commitish: ${{ needs.build.outputs.commit_sha }}
+          name: "Production zh_CN Build - v${{ needs.build.outputs.version }}"
+          body: |
+            This is a production-profile build of Carbon from the `production_zh_CN` branch.
+            It is intended for testing the Simplified Chinese Admin Centre localization.
+
+            ### How to install
+            1. Download the `Carbon.[Windows|Linux].Release` archive from the attachments below.
+            2. Unzip the archive to the root of your Rust Dedicated Server.
+            3. Restart the server.
+          files: |
+            release/*.tar.gz
+            release/*.zip
+            release/*.info

@@ -314,7 +314,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			return value;
 		}
 
-		if (text.Contains('\n'))
+		if (text.Contains("\n"))
 		{
 			var lines = text.Split('\n');
 			var translated = false;
@@ -324,7 +324,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				translated |= line != lines[i];
 				lines[i] = line;
 			}
-			return translated ? string.Join('\n', lines) : text;
+			return translated ? string.Join("\n", lines) : text;
 		}
 
 		if (text.StartsWith("<b>") && text.EndsWith("</b>"))
