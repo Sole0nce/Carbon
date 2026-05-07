@@ -108,6 +108,10 @@ public static class SelfUpdater
 
 	internal static void Execute()
 	{
+#if NO_SELF_UPDATE
+		Logger.Log($" Carbon {Target} self-updating is disabled for this custom build. Running {Release} build [{Versions.CurrentVersion}] on tag '{Tag}'.");
+		return;
+#endif
 		var versionOverride = GetVersionOverride();
 		var hasVersionOverride = !string.IsNullOrEmpty(versionOverride);
 		var version = Versions.GetVersion(Tag);

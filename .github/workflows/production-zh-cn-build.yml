@@ -205,12 +205,12 @@ jobs:
         shell: bash
         env:
           VERSION: ${{ steps.env.outputs.version }}
-          DEFINE: PROD
+          DEFINE: "PROD;NO_SELF_UPDATE"
           TAG: production_zh_CN_build
           ARG: ${{ matrix.build_arg }}
         run: |
-          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Release$ARG $DEFINE $TAG -noclean
-          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Minimal$ARG $DEFINE $TAG -noclean
+          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Release$ARG "$DEFINE" $TAG -noclean
+          dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/build.cs Minimal$ARG "$DEFINE" $TAG -noclean
 
       - name: Artifacts
         uses: actions/upload-artifact@v7
