@@ -21,7 +21,12 @@ jobs:
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
           echo "clock=$(date +'%H:%M:%S')" >> $GITHUB_OUTPUT
           echo "tag=$(date +'%Yd%j')" >> $GITHUB_OUTPUT
-          echo "version=2.0.${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+          UPSTREAM_LATEST=$(git ls-remote --tags --sort='-v:refname' https://github.com/CarbonCommunity/Carbon.git 'refs/tags/2.0.*' | head -1 | sed 's/.*refs\/tags\///')
+          MAJOR_MINOR=$(echo "$UPSTREAM_LATEST" | cut -d. -f1,2)
+          PATCH=$(echo "$UPSTREAM_LATEST" | cut -d. -f3)
+          NEXT_PATCH=$((PATCH + 1))
+          echo "version=$MAJOR_MINOR.$NEXT_PATCH" >> $GITHUB_OUTPUT
 
   build:
     name: Build
