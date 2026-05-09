@@ -1,4 +1,4 @@
-name: 🔄 Auto Sync All Branches from Upstream
+name: 🔄 Auto Sync All Branches (Smart Backup)
 
 on:
   schedule:
@@ -8,8 +8,7 @@ on:
 jobs:
   sync-incremental:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    permissions: write-all
 
     steps:
       - name: Checkout
@@ -22,10 +21,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          mkdir -p /tmp/backup_workflow
-          cp .github/workflows/sync.yml /tmp/backup_workflow/sync.yml
-
-          UPSTREAM_URL="https://github.com/esx-framework/esx-recipes.git"
+          UPSTREAM_URL="https://github.com/CarbonCommunity/Carbon.git"
           git remote add upstream $UPSTREAM_URL
           git fetch upstream --prune
 
@@ -33,7 +29,7 @@ jobs:
               branch_name=${remote_ref#refs/heads/}
               
               if git rev-parse --verify "origin/$branch_name" >/dev/null 2>&1; then
-                  MY_CHANGES=$(git log upstream/$branch_name..origin/$branch_name --oneline 2>/dev/null || echo "")
+                  MY_CHANGES=$(git log upstream/$branch_name..origin/$branch_name --oneline -- . ':!.github' 2>/dev/null || echo "")
                   
                   if [ ! -z "$MY_CHANGES" ]; then
                       suffix=1
@@ -42,25 +38,9 @@ jobs:
                           suffix=$((suffix + 1))
                           backup_name="${branch_name}${suffix}"
                       done
-                      
                       git push origin "origin/$branch_name:refs/heads/$backup_name" --force
                   fi
               fi
 
-              git checkout -B "temp_sync" "upstream/$branch_name"
-
-              if [ -f ".github/workflows/sync.yml" ]; then
-                  wf_suffix=""
-                  while [ -f ".github/workflows/upstream_sync${wf_suffix}.yml" ]; do
-                      if [ -z "$wf_suffix" ]; then wf_suffix=1; else wf_suffix=$((wf_suffix + 1)); fi
-                  done
-                  mv .github/workflows/sync.yml ".github/workflows/upstream_sync${wf_suffix}.yml"
-              fi
-
-              mkdir -p .github/workflows
-              cp /tmp/backup_workflow/sync.yml .github/workflows/sync.yml
-              git add .github/workflows/
-              git commit -m "chore: safe sync backup and protect" || true
-
-              git push origin "temp_sync:refs/heads/$branch_name" --force
+              git push origin "upstream/$branch_name:refs/heads/$branch_name" --force
           done
