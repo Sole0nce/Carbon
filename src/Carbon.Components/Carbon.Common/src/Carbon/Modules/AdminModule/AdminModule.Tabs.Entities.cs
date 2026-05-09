@@ -19,17 +19,17 @@ public partial class AdminModule
 		internal static PlayerSession LastContainerLooter;
 		internal static string[] BuildingGrades =
 		[
-			"Twig",
-			"Wood",
-			"Stone",
-			"Metal",
-			"Top Tier"
+			"树枝",
+			"木头",
+			"石头",
+			"金属",
+			"最高级"
 		];
 		internal const string MultiselectionReplacement = "-";
 
 		public static Tab Get()
 		{
-			var tab = new Tab("entities", "Entities", Community.Runtime.Core, (ap, tab2) => { tab2.ClearColumn(1); ResetSelection(tab2, ap); DrawEntities(tab2, ap); }, "entities.use");
+			var tab = new Tab("entities", "实体", Community.Runtime.Core, (ap, tab2) => { tab2.ClearColumn(1); ResetSelection(tab2, ap); DrawEntities(tab2, ap); }, "entities.use");
 			tab.AddColumn(0);
 			tab.AddColumn(1);
 
@@ -70,7 +70,7 @@ public partial class AdminModule
 		internal static void DrawEntities(Tab tab, PlayerSession ap3)
 		{
 			tab.ClearColumn(0);
-			tab.AddName(0, "Entities");
+			tab.AddName(0, "实体");
 
 			var selectedEntitites = ap3.GetStorage<List<BaseEntity>>(tab, "selectedentities");
 
@@ -79,12 +79,12 @@ public partial class AdminModule
 				selectedEntitites = ap3.SetStorage(tab, "selectedentities", new List<BaseEntity>());
 			}
 
-			tab.AddInputButton(0, "Search Entity", 0.3f,
+			tab.AddInputButton(0, "搜索实体", 0.3f,
 				new Tab.OptionInput(null, ap => ap.GetStorage(tab, "filter", string.Empty), 0, false, (ap, args) => { ap.SetStorage(tab, "filter", args.Select(x => x as string).ToString(" ")); DrawEntities(tab, ap); }),
-				new Tab.OptionButton($"Refresh", ap => { DrawEntities(tab, ap); }));
+				new Tab.OptionButton($"刷新", ap => { DrawEntities(tab, ap); }));
 
 			var isMulti = ap3.GetStorage(tab, "multi", false);
-			tab.AddToggle(0, "Multi-selection", ap =>
+			tab.AddToggle(0, "多选", ap =>
 			{
 				isMulti = ap.SetStorage(tab, "multi", !isMulti);
 				selectedEntitites.Clear();
@@ -123,25 +123,25 @@ public partial class AdminModule
 			});
 			EntityCount = string.IsNullOrEmpty(usedFilter) ? 0 : map.Count();
 
-			tab.AddRange(0, "Range", 0, maximumRange, ap => range, (ap, value) => { try { ap.SetStorage(tab, "range", (int)value); DrawEntities(tab, ap); } catch (Exception ex) { Logger.Error($"Oof", ex); } }, ap => $"{range:0.0}m");
-			tab.AddName(0, $"Entities  ({EntityCount:n0})", TextAnchor.MiddleLeft);
+			tab.AddRange(0, "范围", 0, maximumRange, ap => range, (ap, value) => { try { ap.SetStorage(tab, "range", (int)value); DrawEntities(tab, ap); } catch (Exception ex) { Logger.Error($"Oof", ex); } }, ap => $"{range:0.0}m");
+			tab.AddName(0, $"实体  ({EntityCount:n0})", TextAnchor.MiddleLeft);
 
 			var filter = ap3.GetStorage(tab, "filter", string.Empty);
 			tab.AddButtonArray(0,
-				new Tab.OptionButton("Players", ap => { ap.SetStorage(tab, "filter", nameof(BasePlayer)); DrawEntities(tab, ap); }, _ => filter == nameof(BasePlayer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
-				new Tab.OptionButton("Containers", ap => { ap.SetStorage(tab, "filter", nameof(StorageContainer)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(StorageContainer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
-				new Tab.OptionButton("Deployables", ap => { ap.SetStorage(tab, "filter", nameof(Deployable)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(Deployable) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
-				new Tab.OptionButton("Collectibles", ap => { ap.SetStorage(tab, "filter", nameof(CollectibleEntity)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(CollectibleEntity) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
-				new Tab.OptionButton("NPCs", ap => { ap.SetStorage(tab, "filter", nameof(NPCPlayer)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(NPCPlayer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
+				new Tab.OptionButton("玩家", ap => { ap.SetStorage(tab, "filter", nameof(BasePlayer)); DrawEntities(tab, ap); }, _ => filter == nameof(BasePlayer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
+				new Tab.OptionButton("容器", ap => { ap.SetStorage(tab, "filter", nameof(StorageContainer)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(StorageContainer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
+				new Tab.OptionButton("可部署", ap => { ap.SetStorage(tab, "filter", nameof(Deployable)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(Deployable) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
+				new Tab.OptionButton("可拾取", ap => { ap.SetStorage(tab, "filter", nameof(CollectibleEntity)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(CollectibleEntity) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
+				new Tab.OptionButton("NPC", ap => { ap.SetStorage(tab, "filter", nameof(NPCPlayer)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(NPCPlayer) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
 				new Tab.OptionButton("I/O", ap => { ap.SetStorage(tab, "filter", nameof(IOEntity)); ap.ClearStorage(tab, "validatefilter"); DrawEntities(tab, ap); }, _ => filter == nameof(IOEntity) ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None));
 
 			switch (ap3.GetStorage(tab, "filter", string.Empty))
 			{
 				case nameof(BasePlayer):
 					tab.AddButtonArray(0,
-						new Tab.OptionButton("Online", ap => { ap.SetStorage(tab, "filter", nameof(BasePlayer)); ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && player.IsConnected)); DrawEntities(tab, ap); }),
-						new Tab.OptionButton("Offline", ap => { ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && !player.IsConnected)); DrawEntities(tab, ap); }),
-						new Tab.OptionButton("Dead", ap => { ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && player.IsDead())); DrawEntities(tab, ap); }));
+						new Tab.OptionButton("在线", ap => { ap.SetStorage(tab, "filter", nameof(BasePlayer)); ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && player.IsConnected)); DrawEntities(tab, ap); }),
+						new Tab.OptionButton("离线", ap => { ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && !player.IsConnected)); DrawEntities(tab, ap); }),
+						new Tab.OptionButton("死亡", ap => { ap.SetStorage(tab, "validatefilter", new Func<BaseEntity, bool>(entity => entity is BasePlayer player && player.IsDead())); DrawEntities(tab, ap); }));
 					break;
 			}
 
@@ -174,7 +174,7 @@ public partial class AdminModule
 
 			if (EntityCount == 0)
 			{
-				tab.AddText(0, "No entities found with that filter", 9, "1 1 1 0.2", TextAnchor.MiddleCenter, CUI.Handler.FontTypes.RobotoCondensedRegular);
+				tab.AddText(0, "未找到匹配该筛选条件的实体", 9, "1 1 1 0.2", TextAnchor.MiddleCenter, CUI.Handler.FontTypes.RobotoCondensedRegular);
 			}
 		}
 		internal static void DrawEntitySettings(Tab tab, int column = 1, PlayerSession ap3 = null)
@@ -188,7 +188,7 @@ public partial class AdminModule
 			var multiSelection = selectedEntitites.Count > 1;
 			var sameTypeSelection = selectedEntitites.All(x => x != null && entity != null && x.GetType() == entity.GetType());
 
-			tab.AddName(column, "Hierarchy");
+			tab.AddName(column, "层级");
 
 			if (column != 1) tab.AddButton(column, "<", ap => { DrawEntities(tab, ap); DrawEntitySettings(tab, 1, ap); }, ap => Tab.OptionButton.Types.Warned);
 
@@ -200,9 +200,9 @@ public partial class AdminModule
 				if (player != ap3?.Player && Singleton.HasAccess(ap3.Player, "entities.kill_entity"))
 				{
 					tab.AddButtonArray(column,
-						new Tab.OptionButton("Kill", ap =>
+						new Tab.OptionButton("删除", ap =>
 						{
-							tab.CreateDialog($"Are you sure about that?", ap =>
+							tab.CreateDialog($"你确定要这样做吗？", ap =>
 							{
 								DoAll<BaseEntity>(e => e.Kill());
 
@@ -219,9 +219,9 @@ public partial class AdminModule
 								tab.ClearColumn(column);
 							});
 						}, ap => Tab.OptionButton.Types.Important),
-						new Tab.OptionButton("Kill (Gibbed)", ap =>
+						new Tab.OptionButton("删除（粉碎）", ap =>
 						{
-							tab.CreateDialog($"Are you sure about that?", ap =>
+							tab.CreateDialog($"你确定要这样做吗？", ap =>
 							{
 								DoAll<BaseEntity>(e => e.Kill(BaseNetworkable.DestroyMode.Gib));
 
@@ -240,12 +240,12 @@ public partial class AdminModule
 						}));
 				}
 
-				tab.AddInput(column, "Id", ap => multiSelection ? MultiselectionReplacement : $"{entity.net.ID} [<b>{entity.GetType().FullName}</b>]", null);
-				tab.AddInput(column, "Name", ap => multiSelection ? MultiselectionReplacement : $"{entity.ShortPrefabName}", null);
+				tab.AddInput(column, "ID", ap => multiSelection ? MultiselectionReplacement : $"{entity.net.ID} [<b>{entity.GetType().FullName}</b>]", null);
+				tab.AddInput(column, "名称", ap => multiSelection ? MultiselectionReplacement : $"{entity.ShortPrefabName}", null);
 
 				if (!multiSelection)
 				{
-					tab.AddInputButton(column, "Owner", 0.3f,
+					tab.AddInputButton(column, "所有者", 0.3f,
 						new Tab.OptionInput(null, ap => $"{entity.OwnerID}", 0, !Singleton.HasAccess(ap3.Player, "entities.owner_change"), (ap, args) =>
 						{
 							var id = ((string)args[0]).ToUlong();
@@ -254,7 +254,7 @@ public partial class AdminModule
 							DrawEntities(tab, ap);
 							DrawEntitySettings(tab, 1, ap);
 						}),
-						new Tab.OptionButton("Select", ap =>
+						new Tab.OptionButton("选择", ap =>
 						{
 							if (owner == null) return;
 
@@ -264,27 +264,27 @@ public partial class AdminModule
 						}, ap => owner == null ? Tab.OptionButton.Types.None : Tab.OptionButton.Types.Selected));
 				}
 
-				tab.AddInput(column, "Prefab", ap => multiSelection ? MultiselectionReplacement : $"{entity.PrefabName}", null);
-				tab.AddInput(column, "Flags", ap => multiSelection ? MultiselectionReplacement : entity.flags == 0 ? "None" : $"{entity.flags}", null);
-				tab.AddInput(column, "Skin", ap => multiSelection ? MultiselectionReplacement : entity.skinID.ToString(), callback: (session, args) =>
+				tab.AddInput(column, "预制体", ap => multiSelection ? MultiselectionReplacement : $"{entity.PrefabName}", null);
+				tab.AddInput(column, "标志", ap => multiSelection ? MultiselectionReplacement : entity.flags == 0 ? "无" : $"{entity.flags}", null);
+				tab.AddInput(column, "皮肤", ap => multiSelection ? MultiselectionReplacement : entity.skinID.ToString(), callback: (session, args) =>
 				{
 					entity.skinID = ((string)args[0]).ToUlong();
 					entity.SendNetworkUpdate();
 				});
-				tab.AddButton(column, "Edit Flags", ap => { DrawEntitySettings(tab, 0, ap); DrawEntityFlags(tab, ap, 1); });
-				tab.AddInput(column, "Position", ap => multiSelection ? MultiselectionReplacement : $"{entity.transform.position} [{MapHelper.PositionToString(entity.transform.position)}]", null);
-				tab.AddInput(column, "Rotation", ap => multiSelection ? MultiselectionReplacement : $"{entity.ServerRotation.eulerAngles}", null);
+				tab.AddButton(column, "编辑标志", ap => { DrawEntitySettings(tab, 0, ap); DrawEntityFlags(tab, ap, 1); });
+				tab.AddInput(column, "位置", ap => multiSelection ? MultiselectionReplacement : $"{entity.transform.position} [{MapHelper.PositionToString(entity.transform.position)}]", null);
+				tab.AddInput(column, "旋转", ap => multiSelection ? MultiselectionReplacement : $"{entity.ServerRotation.eulerAngles}", null);
 
 				if (sameTypeSelection)
 				{
 					if (!multiSelection && Singleton.HasAccess(ap3.Player, "entities.tp_entity"))
 					{
 						tab.AddButtonArray(column,
-							new Tab.OptionButton("TeleportTo",
+							new Tab.OptionButton("传送到",
 								ap => { ap.Player.Teleport(entity.transform.position); }),
-							new Tab.OptionButton("Teleport2Me", ap =>
+							new Tab.OptionButton("传送到我", ap =>
 							{
-								tab.CreateDialog($"Are you sure about that?", ap =>
+								tab.CreateDialog($"你确定要这样做吗？", ap =>
 								{
 									if (entity is BasePlayer player)
 									{
@@ -297,7 +297,7 @@ public partial class AdminModule
 									}
 								}, null);
 							}),
-							new Tab.OptionButton("Teleport2OwnedItem",
+							new Tab.OptionButton("传送到所属物",
 								ap =>
 								{
 									var entities = BaseEntity.Util.FindTargetsOwnedBy(player.userID, string.Empty);
@@ -309,7 +309,7 @@ public partial class AdminModule
 									}
 									else
 									{
-										Logger.Warn($" No entities owned by {player} could be found to teleport to.");
+										Logger.Warn($" 未找到属于 {player} 的实体，无法传送。");
 									}
 								}));
 					}
@@ -318,7 +318,7 @@ public partial class AdminModule
 					{
 						if (!multiSelection && Singleton.HasAccess(ap3.Player, "entities.loot_entity"))
 						{
-							tab.AddButton(column, "Loot Container", ap =>
+							tab.AddButton(column, "搜刮容器", ap =>
 							{
 								LastContainerLooter = ap;
 
@@ -340,13 +340,13 @@ public partial class AdminModule
 									ap.Player.ClientRPC(RpcTarget.Player("RPC_OpenLootPanel", ap.Player), storage.panelName);
 								});
 							});
-							tab.AddText(1, "To loot a backpack, drag the backpack item over any hotbar slots while looting an entity", 10, "1 1 1 0.4");
+							tab.AddText(1, "要搜刮背包，请在搜刮实体时将背包物品拖到任意快捷栏", 10, "1 1 1 0.4");
 						}
 					}
 
 					if (entity is BasePlayer)
 					{
-						tab.AddInput(column, "Display Name",
+						tab.AddInput(column, "显示名称",
 							ap => multiSelection ? MultiselectionReplacement : player.displayName);
 						tab.AddInput(column, "Steam ID",
 							ap => multiSelection ? MultiselectionReplacement : player.UserIDString);
@@ -360,27 +360,27 @@ public partial class AdminModule
 						if (!multiSelection && (ap3.Player.IsAdmin || Singleton.Permissions.UserHasPermission(ap3?.Player.UserIDString, "carbon.cmod") ||
 						                        player.userID.IsSteamId()))
 						{
-							tab.AddButtonArray(1, new Tab.OptionButton("Kick", ap =>
+							tab.AddButtonArray(1, new Tab.OptionButton("踢出", ap =>
 							{
-								Singleton.Modal.Open(ap.Player, $"Kick {player.displayName}",
+								Singleton.Modal.Open(ap.Player, $"踢出 {player.displayName}",
 									new Dictionary<string, ModalModule.Modal.Field>
 									{
-										["reason"] = ModalModule.Modal.Field.Make("Reason",
-											ModalModule.Modal.Field.FieldTypes.String, @default: "Stop doing that.")
+										["reason"] = ModalModule.Modal.Field.Make("原因",
+											ModalModule.Modal.Field.FieldTypes.String, @default: "别这么做。")
 									}, onConfirm: (p, m) =>
 									{
 										player.Kick(m.Get<string>("reason"));
 									});
-							}), new Tab.OptionButton("Ban", ap =>
+							}), new Tab.OptionButton("封禁", ap =>
 							{
-								Singleton.Modal.Open(ap.Player, $"Ban {player.displayName}",
+								Singleton.Modal.Open(ap.Player, $"封禁 {player.displayName}",
 									new Dictionary<string, ModalModule.Modal.Field>
 									{
 										["reason"] =
-											ModalModule.Modal.Field.Make("Reason",
+											ModalModule.Modal.Field.Make("原因",
 												ModalModule.Modal.Field.FieldTypes.String,
-												@default: "Stop doing that."),
-										["until"] = ModalModule.Modal.ButtonField.MakeButton("Until", "Select Date",
+												@default: "别这么做。"),
+										["until"] = ModalModule.Modal.ButtonField.MakeButton("有效期至", "选择日期",
 											m =>
 											{
 												Core.NextTick(() => Singleton.DatePicker.Draw(ap.Player,
@@ -399,7 +399,7 @@ public partial class AdminModule
 
 										player.AsIPlayer().Ban(m.Get<string>("reason"), then);
 									});
-							}), new Tab.OptionButton(player.IsSleeping() ? "End Sleep" : "Sleep", ap =>
+							}), new Tab.OptionButton(player.IsSleeping() ? "结束睡眠" : "睡眠", ap =>
 							{
 								if (player.IsSleeping())
 								{
@@ -411,15 +411,15 @@ public partial class AdminModule
 								}
 
 								DrawEntitySettings(tab, 1, ap);
-							}), new Tab.OptionButton("Hostility", ap =>
+							}), new Tab.OptionButton("敌对状态", ap =>
 							{
 								var fields = new Dictionary<string, ModalModule.Modal.Field>
 								{
-									["duration"] = ModalModule.Modal.Field.Make("Duration",
+									["duration"] = ModalModule.Modal.Field.Make("持续时间",
 										ModalModule.Modal.Field.FieldTypes.Float, true, 60f)
 								};
 
-								Singleton.Modal.Open(ap.Player, "Player Hostile", fields, (ap, modal) =>
+								Singleton.Modal.Open(ap.Player, "玩家敌对", fields, (ap, modal) =>
 								{
 									var duration = modal.Get<float>("duration").Clamp(0f, float.MaxValue);
 									player.State.unHostileTimestamp = Network.TimeEx.currentTimestamp + duration;
@@ -436,21 +436,21 @@ public partial class AdminModule
 								});
 							}));
 						}
-						else tab.AddText(1, $"You need 'carbon.cmod' permission to kick, ban, sleep or change player hostility.",
+						else tab.AddText(1, $"你需要 'carbon.cmod' 权限才能踢出、封禁、睡眠或更改玩家敌对状态。",
 							10, "1 1 1 0.4");
 
 						var temp = Pool.Get<List<Tab.OptionButton>>();
 
 						if (Singleton.HasAccess(ap3.Player, "entities.loot_players"))
 						{
-							temp.Add(new Tab.OptionButton("Loot", ap =>
+							temp.Add(new Tab.OptionButton("搜刮", ap =>
 							{
 								if (multiSelection) return;
 
 								OpenPlayerContainer(ap, player, tab);
 							}));
 
-							temp.Add(new Tab.OptionButton("Strip", ap =>
+							temp.Add(new Tab.OptionButton("扒光", ap =>
 							{
 								if (multiSelection) return;
 
@@ -460,9 +460,9 @@ public partial class AdminModule
 
 						if (Singleton.HasAccess(ap3.Player, "entities.respawn_players"))
 						{
-							temp.Add(new Tab.OptionButton("Respawn", ap =>
+							temp.Add(new Tab.OptionButton("重生", ap =>
 							{
-								tab.CreateDialog($"Are you sure about that?", ap =>
+								tab.CreateDialog($"你确定要这样做吗？", ap =>
 								{
 									DoAll<BasePlayer>(e =>
 									{
@@ -478,13 +478,13 @@ public partial class AdminModule
 
 						Pool.FreeUnmanaged(ref temp);
 
-						tab.AddText(1, "To loot a backpack, drag the backpack item over any hotbar slots while looting a player", 10, "1 1 1 0.4");
+						tab.AddText(1, "要搜刮背包，请在搜刮玩家时将背包物品拖到任意快捷栏", 10, "1 1 1 0.4");
 
 						if (Singleton.HasAccess(ap3.Player, "players.inventory_management"))
 						{
-							tab.AddName(1, "Inventory Lock");
+							tab.AddName(1, "背包锁定");
 							tab.AddButtonArray(1,
-								new Tab.OptionButton("Main", ap =>
+								new Tab.OptionButton("主背包", ap =>
 									{
 										player.inventory.containerMain.SetLocked(!player.inventory.containerMain
 											.IsLocked());
@@ -492,7 +492,7 @@ public partial class AdminModule
 									ap => player.inventory.containerMain.IsLocked()
 										? Tab.OptionButton.Types.Important
 										: Tab.OptionButton.Types.None),
-								new Tab.OptionButton("Belt", ap =>
+								new Tab.OptionButton("快捷栏", ap =>
 									{
 										player.inventory.containerBelt.SetLocked(!player.inventory.containerBelt
 											.IsLocked());
@@ -500,7 +500,7 @@ public partial class AdminModule
 									ap => player.inventory.containerBelt.IsLocked()
 										? Tab.OptionButton.Types.Important
 										: Tab.OptionButton.Types.None),
-								new Tab.OptionButton("Wear", ap =>
+								new Tab.OptionButton("装备", ap =>
 									{
 										player.inventory.containerWear.SetLocked(!player.inventory.containerWear
 											.IsLocked());
@@ -514,9 +514,9 @@ public partial class AdminModule
 						{
 							if (!PlayersTab.BlindedPlayers.Contains(player))
 							{
-								tab.AddButton(1, "Blind Player", ap =>
+								tab.AddButton(1, "致盲玩家", ap =>
 								{
-									tab.CreateDialog("Are you sure you want to blind the player?", ap =>
+									tab.CreateDialog("你确定要致盲该玩家吗？", ap =>
 									{
 										BlindPlayer(ap3.Player, player);
 										SelectEntity(tab, ap, entity);
@@ -528,7 +528,7 @@ public partial class AdminModule
 							}
 							else
 							{
-								tab.AddButton(1, "Unblind Player", ap =>
+								tab.AddButton(1, "解除致盲", ap =>
 								{
 									UnblindPlayer(ap3.Player, player);
 									EntitiesTab.SelectEntity(tab, ap, entity);
@@ -538,11 +538,11 @@ public partial class AdminModule
 						}
 					}
 
-					if (!multiSelection && entity.parentEntity.IsValid(true)) tab.AddButton(column, $"Parent: {entity.parentEntity.Get(true)}", ap => { DrawEntities(tab, ap); SelectEntity(tab, ap, entity.parentEntity.Get(true)); DrawEntitySettings(tab, 1, ap); });
+					if (!multiSelection && entity.parentEntity.IsValid(true)) tab.AddButton(column, $"父级: {entity.parentEntity.Get(true)}", ap => { DrawEntities(tab, ap); SelectEntity(tab, ap, entity.parentEntity.Get(true)); DrawEntitySettings(tab, 1, ap); });
 
 					if (!multiSelection && entity.children.Count > 0)
 					{
-						tab.AddName(column, "Children", TextAnchor.MiddleLeft);
+						tab.AddName(column, "子实体", TextAnchor.MiddleLeft);
 						foreach (var child in entity.children)
 						{
 							tab.AddButton(column, $"{child}", ap => { SelectEntity(tab, ap, child); DrawEntities(tab, ap); DrawEntitySettings(tab, 1, ap); });
@@ -554,10 +554,10 @@ public partial class AdminModule
 						case CCTV_RC cctv:
 							{
 								tab.AddName(column, "CCTV", TextAnchor.MiddleLeft);
-								tab.AddInput(column, "Identifier", ap => multiSelection ? MultiselectionReplacement : cctv.GetIdentifier(), (ap, args) => { cctv.UpdateIdentifier(((string)args[0]), true); });
+								tab.AddInput(column, "标识符", ap => multiSelection ? MultiselectionReplacement : cctv.GetIdentifier(), (ap, args) => { cctv.UpdateIdentifier(((string)args[0]), true); });
 								if (!multiSelection)
 								{
-									tab.AddButton(column, "View CCTV", ap =>
+									tab.AddButton(column, "查看 CCTV", ap =>
 									{
 										Core.timer.In(0.1f, () => { Admin.Close(ap.Player); ap.SetStorage(tab, "wasviewingcam", true); });
 										Core.timer.In(0.3f, () =>
@@ -581,8 +581,8 @@ public partial class AdminModule
 							}
 						case CodeLock codeLock:
 							{
-								tab.AddName(column, "Code Lock", TextAnchor.MiddleLeft);
-								tab.AddInput(column, "Code", ap => multiSelection ? MultiselectionReplacement : codeLock.code, (ap, args) =>
+								tab.AddName(column, "密码锁", TextAnchor.MiddleLeft);
+								tab.AddInput(column, "密码", ap => multiSelection ? MultiselectionReplacement : codeLock.code, (ap, args) =>
 								{
 									var code = ((string)args[0]);
 
@@ -595,18 +595,18 @@ public partial class AdminModule
 							}
 						case Minicopter minicopter:
 							{
-								tab.AddName(column, "Minicopter", TextAnchor.MiddleLeft);
+								tab.AddName(column, "迷你直升机", TextAnchor.MiddleLeft);
 
 								if (!minicopter)
 								{
-									tab.AddButton(column, "Open Fuel", ap => { LastContainerLooter = ap; Core.timer.In(0.2f, () => Admin.Close(ap.Player)); Core.timer.In(0.5f, () => { minicopter.engineController.FuelSystem.LootFuel(ap.Player); }); });
+									tab.AddButton(column, "打开燃油", ap => { LastContainerLooter = ap; Core.timer.In(0.2f, () => Admin.Close(ap.Player)); Core.timer.In(0.5f, () => { minicopter.engineController.FuelSystem.LootFuel(ap.Player); }); });
 								}
 								break;
 							}
 						case BuildingBlock block:
 							{
-								tab.AddName(column, "Building Block", TextAnchor.MiddleLeft);
-								tab.AddDropdown(column, "Grade", (ap) => (int)block.grade, (ap, index) =>
+								tab.AddName(column, "建筑块", TextAnchor.MiddleLeft);
+								tab.AddDropdown(column, "等级", (ap) => (int)block.grade, (ap, index) =>
 								{
 									DoAll<BuildingBlock>(e =>
 									{
@@ -622,20 +622,20 @@ public partial class AdminModule
 
 					if (entity is BaseCombatEntity combat)
 					{
-						tab.AddName(column, "Combat", TextAnchor.MiddleLeft);
-						tab.AddRange(column, "Health", 0, combat.MaxHealth(), ap => combat.health, (ap, value) =>
+						tab.AddName(column, "战斗", TextAnchor.MiddleLeft);
+						tab.AddRange(column, "生命值", 0, combat.MaxHealth(), ap => combat.health, (ap, value) =>
 						{
 							DoAll<BaseCombatEntity>(e => e.SetHealth(value));
 						}, ap => $"{combat.health:0}");
 
 						if (entity is BasePlayer)
 						{
-							tab.AddRange(column, "Thirst", 0, player.metabolism.hydration.max, _ => player.metabolism.hydration.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.hydration.SetValue(value)), _ => $"{player.metabolism.hydration.value:0}");
-							tab.AddRange(column, "Hunger", 0, player.metabolism.calories.max, _ => player.metabolism.calories.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.calories.SetValue(value)), _ => $"{player.metabolism.calories.value:0}");
-							tab.AddRange(column, "Radiation", 0, player.metabolism.radiation_poison.max, _ => player.metabolism.radiation_poison.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.radiation_poison.SetValue(value)), _ => $"{player.metabolism.radiation_poison.value:0}");
-							tab.AddRange(column, "Bleeding", 0, player.metabolism.bleeding.max, _ => player.metabolism.bleeding.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.bleeding.SetValue(value)), _ => $"{player.metabolism.bleeding.value:0}");
-							tab.AddRange(column, "Wetness", 0, player.metabolism.wetness.max * 10f, ap => player.metabolism.wetness.value * 10f, (_, value) => player.metabolism.wetness.SetValue(value * 0.1f), _ => $"{player.metabolism.wetness.value * 100f:0}%");
-							tab.AddButton(column, "Empower Stats", _ =>
+							tab.AddRange(column, "水分", 0, player.metabolism.hydration.max, _ => player.metabolism.hydration.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.hydration.SetValue(value)), _ => $"{player.metabolism.hydration.value:0}");
+							tab.AddRange(column, "饱食度", 0, player.metabolism.calories.max, _ => player.metabolism.calories.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.calories.SetValue(value)), _ => $"{player.metabolism.calories.value:0}");
+							tab.AddRange(column, "辐射", 0, player.metabolism.radiation_poison.max, _ => player.metabolism.radiation_poison.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.radiation_poison.SetValue(value)), _ => $"{player.metabolism.radiation_poison.value:0}");
+							tab.AddRange(column, "流血", 0, player.metabolism.bleeding.max, _ => player.metabolism.bleeding.value, (_, value) => DoAll<BasePlayer>(e => e.metabolism.bleeding.SetValue(value)), _ => $"{player.metabolism.bleeding.value:0}");
+							tab.AddRange(column, "湿度", 0, player.metabolism.wetness.max * 10f, ap => player.metabolism.wetness.value * 10f, (_, value) => player.metabolism.wetness.SetValue(value * 0.1f), _ => $"{player.metabolism.wetness.value * 100f:0}%");
+							tab.AddButton(column, "强化属性", _ =>
 							{
 								EmpowerPlayerStats(ap3.Player, player);
 							});
@@ -673,7 +673,7 @@ public partial class AdminModule
 
 			tab.ClearColumn(column);
 
-			tab.AddName(column, "Entity Flags", TextAnchor.MiddleLeft);
+			tab.AddName(column, "实体标志", TextAnchor.MiddleLeft);
 			foreach (var flag in Enum.GetNames(typeof(BaseEntity.Flags)).OrderBy(x => x))
 			{
 				var flagValue = (BaseEntity.Flags)Enum.Parse(typeof(BaseEntity.Flags), flag);

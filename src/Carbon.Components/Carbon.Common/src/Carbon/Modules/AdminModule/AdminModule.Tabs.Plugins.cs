@@ -40,12 +40,12 @@ public partial class AdminModule
 		public static string[] DropdownOptions { get; } =
 		[
 			"A-Z",
-			"Price",
-			"Author",
-			"Installed",
-			"Pending Update",
-			"Favourites",
-			"Owned"
+			"价格",
+			"作者",
+			"已安装",
+			"待更新",
+			"收藏",
+			"已拥有"
 		];
 		public static PlayerSession.Page PlaceboPage { get; } = new PlayerSession.Page();
 		public static List<string> TagFilter = new();
@@ -102,7 +102,7 @@ public partial class AdminModule
 			OsEx.Folder.Create(Path.Combine(Defines.GetScriptsFolder(), "backups"));
 
 			Tab tab = null;
-			tab = new Tab("plugins", "Plugins", Community.Runtime.Core, access: "plugins.use", onChange:
+			tab = new Tab("plugins", "插件", Community.Runtime.Core, access: "plugins.use", onChange:
 				(session, tab1) =>
 				{
 					tab.AddColumn(0, true);

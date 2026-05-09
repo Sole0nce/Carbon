@@ -33,7 +33,7 @@ public partial class AdminModule
 
 		private static ConfigurationTab Make()
 		{
-			var tab = new ConfigurationTab("configuration", "Configuration", Community.Runtime.Core,
+			var tab = new ConfigurationTab("configuration", "配置", Community.Runtime.Core,
 				(session, tab) =>
 				{
 					session.ClearStorage(null, "itemtabitem");

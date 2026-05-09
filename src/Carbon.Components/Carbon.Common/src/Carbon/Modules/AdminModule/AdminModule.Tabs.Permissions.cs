@@ -23,13 +23,13 @@ public partial class AdminModule
 			Version
 		}
 
-		public static string[] SortTypeNames = Enum.GetNames(typeof(SortTypes));
+		public static string[] SortTypeNames = ["加载顺序", "名称", "版本"];
 
 		public static Tab Get()
 		{
 			permission = Community.Runtime.Core.permission;
 
-			var tab = new Tab("permissions", "Permissions", Community.Runtime.Core, (ap, tab) =>
+			var tab = new Tab("permissions", "权限", Community.Runtime.Core, (ap, tab) =>
 			{
 				ap.SetStorage(tab, "toggleall", true);
 				ap.SetStorage(tab, "groupedit", false);
@@ -45,9 +45,9 @@ public partial class AdminModule
 				GeneratePlayers(tab, permission, ap);
 			}, "permissions.use");
 
-			tab.AddName(0, "Options", TextAnchor.MiddleLeft);
+			tab.AddName(0, "选项", TextAnchor.MiddleLeft);
 
-			tab.AddButton(0, "Players", ap =>
+			tab.AddButton(0, "玩家", ap =>
 			{
 				ap.SetStorage(tab, "toggleall", true);
 				ap.SetStorage(tab, "groupedit", false);
@@ -65,7 +65,7 @@ public partial class AdminModule
 
 			GeneratePlayers(tab, permission, PlayerSession.Blank);
 
-			tab.AddButton(0, "Groups", ap =>
+			tab.AddButton(0, "组", ap =>
 			{
 				ap.SetStorage(tab, "toggleall", true);
 				ap.SetStorage(tab, "pluginedit", false);
@@ -94,20 +94,20 @@ public partial class AdminModule
 			var filter = ap.GetStorage(tab, "playerfilter", string.Empty)?.Trim().ToLower();
 
 			tab.ClearColumn(1);
-			tab.AddName(1, "Players", TextAnchor.MiddleLeft);
+			tab.AddName(1, "玩家", TextAnchor.MiddleLeft);
 			{
-				tab.AddInput(1, "Search", ap => ap.GetStorage(tab, "playerfilter", string.Empty), (ap, args) =>
+				tab.AddInput(1, "搜索", ap => ap.GetStorage(tab, "playerfilter", string.Empty), (ap, args) =>
 				{
 					ap.SetStorage(tab, "playerfilter", args.Select(x => x as string).ToString(" "));
 					GeneratePlayers(tab, perms, ap);
 				});
-				tab.AddButtonArray(1, new Tab.OptionButton("Add User", ap =>
+				tab.AddButtonArray(1, new Tab.OptionButton("添加用户", ap =>
 				{
-					Singleton.Modal.Open(ap.Player, "Create New User", new()
+					Singleton.Modal.Open(ap.Player, "创建新用户", new()
 					{
-						["steamid"] = ModalModule.Modal.Field.Make("Steam ID", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: field => !field.Get<string>().IsSteamId() ? "Not a valid Steam ID." : permission.UserExists(field.Get<string>()) ? "User with the same Steam ID already exists." : string.Empty),
-						["displayname"] = ModalModule.Modal.Field.Make("Display Name", ModalModule.Modal.Field.FieldTypes.String),
-						["language"] = ModalModule.Modal.Field.Make("Language", ModalModule.Modal.Field.FieldTypes.String)
+						["steamid"] = ModalModule.Modal.Field.Make("Steam ID", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: field => !field.Get<string>().IsSteamId() ? "无效的 Steam ID。" : permission.UserExists(field.Get<string>()) ? "该 Steam ID 的用户已存在。" : string.Empty),
+						["displayname"] = ModalModule.Modal.Field.Make("显示名称", ModalModule.Modal.Field.FieldTypes.String),
+						["language"] = ModalModule.Modal.Field.Make("语言", ModalModule.Modal.Field.FieldTypes.String)
 					}, (pl, mod) =>
 					{
 						var user = permission.GetUserData(mod.Get<string>("steamid"), addIfNotExisting: true);
@@ -159,7 +159,7 @@ public partial class AdminModule
 
 				var existentPlayer = BasePlayer.FindAwakeOrSleeping(player.Key);
 				tab.AddButtonArray(2,
-					new Tab.OptionButton("Select Player", (ap2) =>
+					new Tab.OptionButton("选择玩家", (ap2) =>
 					{
 						Singleton.SetTab(ap.Player, "players");
 						var tab = Singleton.GetTab(ap.Player);
@@ -167,7 +167,7 @@ public partial class AdminModule
 						PlayersTab.RefreshPlayers(tab, ap);
 						PlayersTab.ShowInfo(1, tab, ap, existentPlayer);
 					}, ap => Tab.OptionButton.Types.Warned),
-					new Tab.OptionButton(!groupEdit ? $"{(hookableType == HookableTypes.Plugin ? "▼ Modules" : "▼ Groups")}" : "▼ Plugins", (ap2) =>
+					new Tab.OptionButton(!groupEdit ? $"{(hookableType == HookableTypes.Plugin ? "▼ 模块" : "▼ 组")}" : "▼ 插件", (ap2) =>
 					{
 						if (groupEdit)
 						{
@@ -184,13 +184,13 @@ public partial class AdminModule
 							GenerateHookables(tab, ap, permission, player, null, hookableType);
 						}
 					}),
-					new Tab.OptionButton("Edit User", (ap2) =>
+					new Tab.OptionButton("编辑用户", (ap2) =>
 					{
-						Singleton.Modal.Open(ap.Player, "Edit User", new()
+						Singleton.Modal.Open(ap.Player, "编辑用户", new()
 						{
 							["steamid"] = ModalModule.Modal.Field.Make("Steam ID", ModalModule.Modal.Field.FieldTypes.String, required: false, @default: player.Key, isReadOnly: true),
-							["displayname"] = ModalModule.Modal.Field.Make("Display Name", ModalModule.Modal.Field.FieldTypes.String, @default: player.Value.LastSeenNickname, required: true),
-							["language"] = ModalModule.Modal.Field.Make("Language", ModalModule.Modal.Field.FieldTypes.String, @default: player.Value.Language, required: true)
+							["displayname"] = ModalModule.Modal.Field.Make("显示名称", ModalModule.Modal.Field.FieldTypes.String, @default: player.Value.LastSeenNickname, required: true),
+							["language"] = ModalModule.Modal.Field.Make("语言", ModalModule.Modal.Field.FieldTypes.String, @default: player.Value.Language, required: true)
 						}, (pl, mod) =>
 						{
 							var user = permission.GetUserData(player.Key);
@@ -204,9 +204,9 @@ public partial class AdminModule
 			else
 			{
 				tab.AddName(2, $"{selectedGroup}");
-				tab.AddButtonArray(2, new Tab.OptionButton("Delete", ap =>
+				tab.AddButtonArray(2, new Tab.OptionButton("删除", ap =>
 				{
-					tab.CreateDialog($"Are you sure you want to delete the '{selectedGroup}' group?", ap2 =>
+					tab.CreateDialog($"你确定要删除 '{selectedGroup}' 组吗？", ap2 =>
 					{
 						permission.RemoveGroup(selectedGroup);
 
@@ -215,11 +215,11 @@ public partial class AdminModule
 						tab.ClearColumn(3);
 						GenerateGroups(tab, permission, ap);
 					}, null);
-				}, (ap) => Tab.OptionButton.Types.Important), new Tab.OptionButton("Edit", ap =>
+				}, (ap) => Tab.OptionButton.Types.Important), new Tab.OptionButton("编辑", ap =>
 				{
 					var temp = Facepunch.Pool.Get<List<string>>();
 					var groups = Community.Runtime.Core.permission.GetGroups();
-					temp.Add("None");
+					temp.Add("无");
 					temp.AddRange(groups);
 					temp.Remove(selectedGroup);
 
@@ -228,12 +228,12 @@ public partial class AdminModule
 
 					var parent = permission.GetGroupParent(selectedGroup);
 					var parentIndex = Array.IndexOf(array, parent);
-					Singleton.Modal.Open(ap.Player, $"Editing '{selectedGroup}'", new Dictionary<string, ModalModule.Modal.Field>()
+					Singleton.Modal.Open(ap.Player, $"编辑 '{selectedGroup}'", new Dictionary<string, ModalModule.Modal.Field>()
 					{
-						["name"] = ModalModule.Modal.Field.Make("Name", ModalModule.Modal.Field.FieldTypes.String, true, selectedGroup, true),
-						["dname"] = ModalModule.Modal.Field.Make("Display Name", ModalModule.Modal.Field.FieldTypes.String, @default: permission.GetGroupTitle(selectedGroup)),
-						["rank"] = ModalModule.Modal.Field.Make("Rank", ModalModule.Modal.Field.FieldTypes.Integer, @default: permission.GetGroupRank(selectedGroup)),
-						["parent"] = ModalModule.Modal.EnumField.MakeEnum("Parent", array, @default: string.IsNullOrEmpty(parent) ? 0 : Array.IndexOf(array, parent), customIsInvalid: field => permission.GetGroupParent(array[field.Get<int>()]) == selectedGroup ? $"Circular parenting detected with '{array[field.Get<int>()]}'." : null)
+						["name"] = ModalModule.Modal.Field.Make("名称", ModalModule.Modal.Field.FieldTypes.String, true, selectedGroup, true),
+						["dname"] = ModalModule.Modal.Field.Make("显示名称", ModalModule.Modal.Field.FieldTypes.String, @default: permission.GetGroupTitle(selectedGroup)),
+						["rank"] = ModalModule.Modal.Field.Make("排序", ModalModule.Modal.Field.FieldTypes.Integer, @default: permission.GetGroupRank(selectedGroup)),
+						["parent"] = ModalModule.Modal.EnumField.MakeEnum("父组", array, @default: string.IsNullOrEmpty(parent) ? 0 : Array.IndexOf(array, parent), customIsInvalid: field => permission.GetGroupParent(array[field.Get<int>()]) == selectedGroup ? $"检测到 '{array[field.Get<int>()]}' 存在循环继承。" : null)
 					}, (ap2, modal) =>
 					{
 						var parentIndex = modal.Get<int>("parent");
@@ -252,22 +252,22 @@ public partial class AdminModule
 					});
 				}));
 				tab.AddButtonArray(2,
-					new Tab.OptionButton("Duplicate Group", ap =>
+					new Tab.OptionButton("复制组", ap =>
 					{
 						var temp = Facepunch.Pool.Get<List<string>>();
 						var groups = Community.Runtime.Core.permission.GetGroups();
-						temp.Add("None");
+						temp.Add("无");
 						temp.AddRange(groups);
 
 						var array = temp.ToArray();
 						Facepunch.Pool.FreeUnmanaged(ref temp);
 
-						Singleton.Modal.Open(ap.Player, "Duplicate Group", new Dictionary<string, ModalModule.Modal.Field>
+						Singleton.Modal.Open(ap.Player, "复制组", new Dictionary<string, ModalModule.Modal.Field>
 						{
-							["name"] = ModalModule.Modal.Field.Make("Name", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: (field) => permission.GetGroups().Any(x => x == field.Get<string>()) ? "Group with that name already exists." : null),
-							["dname"] = ModalModule.Modal.Field.Make("Display Name", ModalModule.Modal.Field.FieldTypes.String, @default: string.Empty),
-							["rank"] = ModalModule.Modal.Field.Make("Rank", ModalModule.Modal.Field.FieldTypes.Integer, @default: 0),
-							["parent"] = ModalModule.Modal.EnumField.MakeEnum("Parent", array, @default: 0)
+							["name"] = ModalModule.Modal.Field.Make("名称", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: (field) => permission.GetGroups().Any(x => x == field.Get<string>()) ? "同名组已存在。" : null),
+							["dname"] = ModalModule.Modal.Field.Make("显示名称", ModalModule.Modal.Field.FieldTypes.String, @default: string.Empty),
+							["rank"] = ModalModule.Modal.Field.Make("排序", ModalModule.Modal.Field.FieldTypes.Integer, @default: 0),
+							["parent"] = ModalModule.Modal.EnumField.MakeEnum("父组", array, @default: 0)
 						}, onConfirm: (BasePlayer p, ModalModule.Modal modal) =>
 						{
 							var name = modal.Get<string>("name");
@@ -289,7 +289,7 @@ public partial class AdminModule
 							Singleton.NextFrame(() => Singleton.Draw(ap.Player));
 						});
 					}, ap => Tab.OptionButton.Types.None),
-					new Tab.OptionButton(!groupEdit ? $"{(hookableType == HookableTypes.Plugin ? "▼ Modules" : "▼ Groups")}" : "▼ Plugins", (ap2) =>
+					new Tab.OptionButton(!groupEdit ? $"{(hookableType == HookableTypes.Plugin ? "▼ 模块" : "▼ 组")}" : "▼ 插件", (ap2) =>
 					{
 						if (pluginEdit)
 						{
@@ -312,9 +312,9 @@ public partial class AdminModule
 			{
 				tab.ClearColumn(3);
 
-				tab.AddName(2, "Groups", TextAnchor.MiddleLeft);
+				tab.AddName(2, "组", TextAnchor.MiddleLeft);
 				{
-					tab.AddInput(2, "Search", ap => ap.GetStorage(tab, "groupfilter", string.Empty), (ap, args) =>
+					tab.AddInput(2, "搜索", ap => ap.GetStorage(tab, "groupfilter", string.Empty), (ap, args) =>
 					{
 						ap.SetStorage(tab, "groupfilter", args.Select(x => x as string).ToString(" "));
 						GenerateHookables(tab, ap, permission, player, selectedGroup, hookableType);
@@ -344,9 +344,9 @@ public partial class AdminModule
 			}
 			else if (!pluginEdit)
 			{
-				tab.AddName(2, hookableType == HookableTypes.Module ? "Modules" : "Plugins", TextAnchor.MiddleLeft);
+				tab.AddName(2, hookableType == HookableTypes.Module ? "模块" : "插件", TextAnchor.MiddleLeft);
 				{
-					tab.AddInput(2, "Search", ap => ap.GetStorage(tab, "pluginfilter", string.Empty), (ap, args) =>
+					tab.AddInput(2, "搜索", ap => ap.GetStorage(tab, "pluginfilter", string.Empty), (ap, args) =>
 					{
 						ap.SetStorage(tab, "pluginfilter", args.Select(x => x as string).ToString(" "));
 						GenerateHookables(tab, ap, permission, player, selectedGroup, hookableType);
@@ -355,7 +355,7 @@ public partial class AdminModule
 					var sort = (SortTypes)ap.GetStorage(tab, "sorttype", 0);
 					var sortFlip = ap.GetStorage(tab, "sortflip", false);
 
-					tab.AddDropdown(2, "Sorting", ap => (int)sort, (session, index) =>
+					tab.AddDropdown(2, "排序方式", ap => (int)sort, (session, index) =>
 					{
 						if ((int)sort != index)
 						{
@@ -429,9 +429,9 @@ public partial class AdminModule
 			}
 			else
 			{
-				tab.AddName(2, "Players", TextAnchor.MiddleLeft);
+				tab.AddName(2, "玩家", TextAnchor.MiddleLeft);
 				{
-					tab.AddInput(2, "Search", ap => ap.GetStorage(tab, "pluginfilter", string.Empty), (ap, args) =>
+					tab.AddInput(2, "搜索", ap => ap.GetStorage(tab, "pluginfilter", string.Empty), (ap, args) =>
 					{
 						ap.SetStorage(tab, "pluginfilter", args.Select(x => x as string).ToString(" "));
 						GenerateHookables(tab, ap, permission, player, selectedGroup, hookableType);
@@ -482,13 +482,13 @@ public partial class AdminModule
 			var filter = ap.GetStorage(tab, "permfilter", string.Empty)?.Trim().ToLower();
 
 			tab.ClearColumn(3);
-			tab.AddName(3, "Permissions", TextAnchor.MiddleLeft);
-			tab.AddInput(3, "Search", ap => ap.GetStorage(tab, "permfilter", string.Empty), (ap, args) =>
+			tab.AddName(3, "权限", TextAnchor.MiddleLeft);
+			tab.AddInput(3, "搜索", ap => ap.GetStorage(tab, "permfilter", string.Empty), (ap, args) =>
 			{
 				ap.SetStorage(tab, "permfilter", args.Select(x => x as string).ToString(" "));
 				GeneratePermissions(tab, ap, perms, hookable, player, selectedGroup);
 			});
-			tab.AddButton(3, grantAllStatus ? "Grant All" : "Revoke All", ap =>
+			tab.AddButton(3, grantAllStatus ? "全部授予" : "全部撤销", ap =>
 			{
 				foreach (var perm in perms.GetPermissions(hookable))
 				{
@@ -553,7 +553,7 @@ public partial class AdminModule
 
 					if (isInherited)
 					{
-						tab.AddText(3, $"Inherited by the following groups: {list.TrimEnd(',', ' ')}", 8, "1 1 1 0.6", TextAnchor.UpperLeft, CUI.Handler.FontTypes.RobotoCondensedRegular);
+						tab.AddText(3, $"由以下组继承：{list.TrimEnd(',', ' ')}", 8, "1 1 1 0.6", TextAnchor.UpperLeft, CUI.Handler.FontTypes.RobotoCondensedRegular);
 					}
 				}
 				else
@@ -571,9 +571,9 @@ public partial class AdminModule
 		public static void GenerateGroups(Tab tab, Permission perms, PlayerSession ap)
 		{
 			tab.ClearColumn(1);
-			tab.AddName(1, "Groups", TextAnchor.MiddleLeft);
+			tab.AddName(1, "组", TextAnchor.MiddleLeft);
 			{
-				tab.AddInput(1, "Search", ap => ap.GetStorage(tab, "groupfilter", string.Empty), (ap, args) =>
+				tab.AddInput(1, "搜索", ap => ap.GetStorage(tab, "groupfilter", string.Empty), (ap, args) =>
 				{
 					ap.SetStorage(tab, "groupfilter", args.Select(x => x as string).ToString(" "));
 					GenerateGroups(tab, perms, ap);
@@ -581,22 +581,22 @@ public partial class AdminModule
 
 				var groupFilter = ap.GetStorage<string>(tab, "groupfilter");
 
-				tab.AddButton(1, "Add Group", ap =>
+				tab.AddButton(1, "添加组", ap =>
 				{
 					var temp = Facepunch.Pool.Get<List<string>>();
 					var groups = Community.Runtime.Core.permission.GetGroups();
-					temp.Add("None");
+					temp.Add("无");
 					temp.AddRange(groups);
 
 					var array = temp.ToArray();
 					Facepunch.Pool.FreeUnmanaged(ref temp);
 
-					Singleton.Modal.Open(ap.Player, "Create Group", new Dictionary<string, ModalModule.Modal.Field>()
+					Singleton.Modal.Open(ap.Player, "创建组", new Dictionary<string, ModalModule.Modal.Field>()
 					{
-						["name"] = ModalModule.Modal.Field.Make("Name", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: (field) => perms.GetGroups().Any(x => x == field.Get<string>()) ? "Group with that name already exists." : null),
-						["dname"] = ModalModule.Modal.Field.Make("Display Name", ModalModule.Modal.Field.FieldTypes.String, @default: string.Empty),
-						["rank"] = ModalModule.Modal.Field.Make("Rank", ModalModule.Modal.Field.FieldTypes.Integer, @default: 0),
-						["parent"] = ModalModule.Modal.EnumField.MakeEnum("Parent", array, @default: 0)
+						["name"] = ModalModule.Modal.Field.Make("名称", ModalModule.Modal.Field.FieldTypes.String, true, customIsInvalid: (field) => perms.GetGroups().Any(x => x == field.Get<string>()) ? "同名组已存在。" : null),
+						["dname"] = ModalModule.Modal.Field.Make("显示名称", ModalModule.Modal.Field.FieldTypes.String, @default: string.Empty),
+						["rank"] = ModalModule.Modal.Field.Make("排序", ModalModule.Modal.Field.FieldTypes.Integer, @default: 0),
+						["parent"] = ModalModule.Modal.EnumField.MakeEnum("父组", array, @default: 0)
 					}, onConfirm: (BasePlayer player, ModalModule.Modal modal) =>
 					{
 						var parentIndex = modal.Get<int>("parent");
