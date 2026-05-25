@@ -279,41 +279,41 @@ public partial class AdminModule
 				const float offset = -46f;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(!timelineMode ? 0.2 : 0.5)}",
-					"TIMELINE\nMODE", 8, xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing,
+					Zh("TIMELINE\nMODE"), 8, xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing,
 					command: "adminmodule.timelinemode");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(sample.IsCompared ? 0.2 : 0.5)}",
-					$"<size=6>{(!sample.IsCleared ? "COMPARE" : "IMPORT")}\n</size>PROTO", 8,
+					$"<size=6>{Zh(!sample.IsCleared ? "COMPARE" : "IMPORT")}\n</size>PROTO", 8,
 					xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing, command: "adminmodule.profilerimport");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(sample.IsCleared ? 0.2 : 0.5)}",
-					"<size=6>EXPORT\n</size>PROTO", 8,
+					$"<size=6>{Zh("EXPORT")}\n</size>PROTO", 8,
 					xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing, command: "adminmodule.profilerexport 3");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(sample.IsCleared ? 0.2 : 0.5)}",
-					"<size=6>EXPORT\n</size>CSV", 8,
+					$"<size=6>{Zh("EXPORT")}\n</size>CSV", 8,
 					xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing, command: "adminmodule.profilerexport 2");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(sample.IsCleared ? 0.2 : 0.5)}",
-					"<size=6>EXPORT\n</size>JSON", 8,
+					$"<size=6>{Zh("EXPORT")}\n</size>JSON", 8,
 					xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing, command: "adminmodule.profilerexport 1");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 {(sample.IsCleared ? 0.2 : 0.5)}",
-					"<size=6>EXPORT\n</size>TABLE", 8,
+					$"<size=6>{Zh("EXPORT")}\n</size>TABLE", 8,
 					xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing, command: "adminmodule.profilerexport 0");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, !sample.IsCleared || MonoProfiler.IsRecording ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5",
-					MonoProfiler.IsRecording ? "ABORT" : "CLEAR", 8,
+					Zh(MonoProfiler.IsRecording ? "ABORT" : "CLEAR"), 8,
 					xMin: 0.83f, xMax: 0.925f, command: "adminmodule.profilerclear");
 
 				cui.CreateProtectedButton(container, panel,
-					MonoProfiler.IsRecording ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5", "REC<size=6>\n[SHIFT]</size>", 8,
+					MonoProfiler.IsRecording ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5", $"{Zh("REC")}<size=6>\n[SHIFT]</size>", 8,
 					xMin: 0.93f, xMax: 0.99f, command: "adminmodule.profilertoggle");
 			});
 
@@ -548,16 +548,16 @@ public partial class AdminModule
 				const float offset = -46f;
 
 				cui.CreateProtectedButton(container, panel, "0.2 0.2 0.2 0.7", $"1 1 1 0.5",
-					"TIMELINE\nMODE", 8, xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing,
+					Zh("TIMELINE\nMODE"), 8, xMin: 0.83f, xMax: 0.925f, OxMin: offset * tabSpacing, OxMax: offset * tabSpacing,
 					command: "adminmodule.timelinemode");
 				tabSpacing++;
 
 				cui.CreateProtectedButton(container, panel, !recording.IsDiscarded() || recording.IsRecording() ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5",
-					recording.IsRecording() ? "ABORT" : "CLEAR", 8,
+					Zh(recording.IsRecording() ? "ABORT" : "CLEAR"), 8,
 					xMin: 0.83f, xMax: 0.925f, command: "adminmodule.timelineclear");
 
 				cui.CreateProtectedButton(container, panel,
-					recording.IsRecording() ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5", "REC", 8,
+					recording.IsRecording() ? "0.9 0.1 0.1 1" : "0.2 0.2 0.2 0.7", "1 1 1 0.5", Zh("REC"), 8,
 					xMin: 0.93f, xMax: 0.99f, command: "adminmodule.timelinetoggle");
 			});
 
@@ -920,15 +920,15 @@ public partial class AdminModule
 		{
 			var dictionary = Pool.Get<Dictionary<string, ModalModule.Modal.Field>>();
 
-			dictionary["duration"] = ModalModule.Modal.Field.Make("Duration", ModalModule.Modal.Field.FieldTypes.Float, true, 3f, customIsInvalid: field => field.Value.ToString().ToFloat() <= 0 ? "Duration must be above zero." : string.Empty);
-			dictionary["calls"] = ModalModule.Modal.Field.Make("Calls", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["advancedmemory"] = ModalModule.Modal.Field.Make("Advanced Memory", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["callmemory"] = ModalModule.Modal.Field.Make("Call Memory", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["swa"] = ModalModule.Modal.Field.Make("Stack Walk Allocations", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["gc"] = ModalModule.Modal.Field.Make("GC Events", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["timings"] = ModalModule.Modal.Field.Make("Timings (Performance Intensive)", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["duration"] = ModalModule.Modal.Field.Make(Zh("Duration"), ModalModule.Modal.Field.FieldTypes.Float, true, 3f, customIsInvalid: field => field.Value.ToString().ToFloat() <= 0 ? "持续时间必须大于零。" : string.Empty);
+			dictionary["calls"] = ModalModule.Modal.Field.Make(Zh("Calls"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["advancedmemory"] = ModalModule.Modal.Field.Make(Zh("Advanced Memory"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["callmemory"] = ModalModule.Modal.Field.Make(Zh("Call Memory"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["swa"] = ModalModule.Modal.Field.Make(Zh("Stack Walk Allocations"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["gc"] = ModalModule.Modal.Field.Make(Zh("GC Events"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["timings"] = ModalModule.Modal.Field.Make(Zh("Timings (Performance Intensive)"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
 
-			Modal.Open(player, "Profile Recording", dictionary, (_, _) =>
+			Modal.Open(player, Zh("Profile Recording"), dictionary, (_, _) =>
 			{
 				MonoProfiler.ProfilerArgs profilerArgs = default;
 
@@ -1135,17 +1135,17 @@ public partial class AdminModule
 		if (!MonoProfiler.IsRecording)
 		{
 			var dictionary = Pool.Get<Dictionary<string, ModalModule.Modal.Field>>();
-			dictionary["duration"] = ModalModule.Modal.Field.Make("Duration", ModalModule.Modal.Field.FieldTypes.Float, true, 3f,
-				customIsInvalid: field => field.Get<float>() <= 0 ? "Duration must be above zero." : field.Get<float>() > 100 ? $"You cannot record above {TimeEx.Format(100, shortName: false).ToLower()}." : string.Empty);
-			dictionary["rate"] = ModalModule.Modal.Field.Make("Rate", ModalModule.Modal.Field.FieldTypes.Float, true, 1f,
-				customIsInvalid: field => field.Get<float>() < 1 ? "Rate must be above or equal to one second." : field.Get<float>() > 10 ? $"Rate must be under or equal to 10 seconds." : string.Empty);
-			dictionary["calls"] = ModalModule.Modal.Field.Make("Calls", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["advancedmemory"] = ModalModule.Modal.Field.Make("Advanced Memory", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["callmemory"] = ModalModule.Modal.Field.Make("Call Memory", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["swa"] = ModalModule.Modal.Field.Make("Stack Walk Allocations", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
-			dictionary["timings"] = ModalModule.Modal.Field.Make("Timings (Performance Intensive)", ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["duration"] = ModalModule.Modal.Field.Make(Zh("Duration"), ModalModule.Modal.Field.FieldTypes.Float, true, 3f,
+				customIsInvalid: field => field.Get<float>() <= 0 ? "持续时间必须大于零。" : field.Get<float>() > 100 ? $"不能记录超过 {TimeEx.Format(100, shortName: false).ToLower()}。" : string.Empty);
+			dictionary["rate"] = ModalModule.Modal.Field.Make(Zh("Rate"), ModalModule.Modal.Field.FieldTypes.Float, true, 1f,
+				customIsInvalid: field => field.Get<float>() < 1 ? "频率必须大于或等于 1 秒。" : field.Get<float>() > 10 ? "频率必须小于或等于 10 秒。" : string.Empty);
+			dictionary["calls"] = ModalModule.Modal.Field.Make(Zh("Calls"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["advancedmemory"] = ModalModule.Modal.Field.Make(Zh("Advanced Memory"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["callmemory"] = ModalModule.Modal.Field.Make(Zh("Call Memory"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["swa"] = ModalModule.Modal.Field.Make(Zh("Stack Walk Allocations"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
+			dictionary["timings"] = ModalModule.Modal.Field.Make(Zh("Timings (Performance Intensive)"), ModalModule.Modal.Field.FieldTypes.Boolean, false, true);
 
-			Modal.Open(player, "Timeline Profiling", dictionary, (player, _) =>
+			Modal.Open(player, Zh("Timeline Profiling"), dictionary, (player, _) =>
 			{
 				MonoProfiler.ProfilerArgs profilerArgs = default;
 
@@ -1160,7 +1160,7 @@ public partial class AdminModule
 				{
 					if (discarded)
 					{
-						Notifications.Add(player, "Timeline profiling has been discarded.");
+						Notifications.Add(player, "时间线性能分析记录已丢弃。");
 					}
 
 					if (ap.IsInMenu && ap.SelectedTab != null && ap.SelectedTab.Id == "profiler")

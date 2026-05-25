@@ -15,7 +15,7 @@ public partial class AdminModule
 			Enabled
 		}
 
-		private static string[] _sortTypeNames = Enum.GetNames(typeof(SortTypes));
+		private static string[] _sortTypeNames = ["加载顺序", "名称", "启用状态"];
 
 		private static string[] _configBlacklist = new[]
 		{
@@ -26,7 +26,7 @@ public partial class AdminModule
 		{
 			var tab = (Tab)null;
 
-			tab = new Tab("modules", "Modules", Community.Runtime.Core, access: "modules.use", onChange: (ap, tab) =>
+			tab = new Tab("modules", "模块", Community.Runtime.Core, access: "modules.use", onChange: (ap, tab) =>
 			{
 				Draw(tab, ap);
 			});
@@ -41,7 +41,7 @@ public partial class AdminModule
 
 			var searchInput = ap.GetStorage<string>(tab, "search")?.ToLower();
 
-			tab.AddInput(0, "Search", ap => searchInput, (ap, args) =>
+			tab.AddInput(0, "搜索", ap => searchInput, (ap, args) =>
 			{
 				ap.SetStorage(tab, "search", args.Select(x => x as string).ToString(" "));
 				Draw(tab, ap);
@@ -50,7 +50,7 @@ public partial class AdminModule
 			var sort = (SortTypes)ap.GetStorage(tab, "sorttype", 0);
 			var sortFlip = ap.GetStorage(tab, "sortflip", false);
 
-			tab.AddDropdown(0, "Sorting", ap => (int)sort, (ap, index) =>
+			tab.AddDropdown(0, "排序方式", ap => (int)sort, (ap, index) =>
 			{
 				if ((int)sort != index)
 				{
@@ -65,13 +65,13 @@ public partial class AdminModule
 				Draw(tab, ap);
 			}, _sortTypeNames);
 
-			tab.AddName(0, "Core Modules");
+			tab.AddName(0, "核心模块");
 			Generate(sort, sortFlip, tab,
 				x => x.ForceEnabled && (ap.HasStorage(tab, "search") && !string.IsNullOrEmpty(searchInput)
 					? x.Name.ToLower().Contains(searchInput)
 					: true));
 
-			tab.AddName(0, "Other Modules");
+			tab.AddName(0, "其他模块");
 			Generate(sort, sortFlip, tab,
 				x => !x.ForceEnabled && (ap.HasStorage(tab, "search") && !string.IsNullOrEmpty(searchInput)
 					? x.Name.ToLower().Contains(searchInput)
@@ -107,7 +107,7 @@ public partial class AdminModule
 							},
 							type: _ => Tab.OptionButton.Types.None),
 						new Tab.OptionButton(
-							$"{(module.ForceEnabled ? "Always Enabled" : module.IsEnabled() ? "Enabled" : "Disabled")}",
+							$"{(module.ForceEnabled ? "始终启用" : module.IsEnabled() ? "已启用" : "已禁用")}",
 							ap =>
 							{
 								if (module.ForceEnabled) return;
@@ -118,7 +118,7 @@ public partial class AdminModule
 							},
 							type: ap => module.ForceEnabled ? Tab.OptionButton.Types.Warned :
 								module.IsEnabled() ? Tab.OptionButton.Types.Selected : Tab.OptionButton.Types.None),
-						new Tab.OptionButton("Edit Config", ap =>
+						new Tab.OptionButton("编辑配置", ap =>
 							{
 								if (!exists)
 								{

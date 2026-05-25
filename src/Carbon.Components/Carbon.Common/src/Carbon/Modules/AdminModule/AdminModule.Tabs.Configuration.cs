@@ -33,7 +33,7 @@ public partial class AdminModule
 
 		private static ConfigurationTab Make()
 		{
-			var tab = new ConfigurationTab("configuration", "Configuration", Community.Runtime.Core,
+			var tab = new ConfigurationTab("configuration", "配置", Community.Runtime.Core,
 				(session, tab) =>
 				{
 					session.ClearStorage(null, "itemtabitem");
@@ -178,7 +178,7 @@ public partial class AdminModule
 							lineType: InputField.LineType.MultiLineNewline);
 					}
 
-					cui.CreateProtectedButton(container, main, "0.4 0.6 0.3 1", "0.8 1 0.7 1", "CREATE ITEM", 10,
+					cui.CreateProtectedButton(container, main, "0.4 0.6 0.3 1", "0.8 1 0.7 1", Zh("CREATE ITEM"), 10,
 						xMin: 0.07f, xMax: 0.25f, yMin: 0.1f, yMax: 0.15f, OyMin: 200f, OyMax: 200f, OxMin: 290,
 						OxMax: 290,
 						font: CUI.Handler.FontTypes.RobotoCondensedBold, command: "adminmodule.itemcreate");
