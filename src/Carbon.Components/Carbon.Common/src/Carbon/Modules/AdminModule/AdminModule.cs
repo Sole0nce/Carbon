@@ -13,7 +13,7 @@ namespace Carbon.Modules;
 
 public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 {
-	public static readonly string Title = "<b>管理中心</b>";
+	public static readonly string Title = "<b>Admin Centre</b>";
 	public override string Name => "Admin";
 	public override VersionNumber Version => new(1, 8, 0);
 	public override Type Type => typeof(AdminModule);
@@ -37,7 +37,6 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 	public readonly Handler Handler = new();
 
 	internal const int RangeCuts = 50;
-	internal const Handler.FontTypes ChineseFont = Handler.FontTypes.NotoSansArabicBold;
 	internal readonly string[] EmptyElement =
 	[
 		string.Empty
@@ -95,258 +94,6 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		[LogType.Warning] = "#dbbe2a",
 		[LogType.Error] = "#db2a2a"
 	};
-
-	private static readonly Dictionary<string, string> SimplifiedChinese = new()
-	{
-		["Admin Centre"] = "管理中心",
-		["Carbon"] = "Carbon",
-		["Players"] = "玩家",
-		["Entities"] = "实体",
-		["Permissions"] = "权限",
-		["Modules"] = "模块",
-		["Environment"] = "环境",
-		["Plugins"] = "插件",
-		["Profiler"] = "性能分析",
-		["Greet"] = "欢迎",
-		["Configuration"] = "配置",
-		["Tabs"] = "标签页",
-		["Apply Changes"] = "应用更改",
-		["Customization"] = "自定义",
-		["Background Blur"] = "背景模糊",
-		["Background Opacity"] = "背景透明度",
-		["Background Image"] = "背景图片",
-		["Background Image Opacity"] = "背景图片透明度",
-		["Background Column Opacity"] = "背景列透明度",
-		["Title Underline Opacity"] = "标题下划线透明度",
-		["Option Width"] = "选项宽度",
-		["Selected Tab Color"] = "已选标签颜色",
-		["Editable Input Highlight"] = "可编辑输入高亮",
-		["Name Text Color"] = "名称文本颜色",
-		["Option Name Color"] = "选项名称颜色",
-		["Button Selected Color"] = "按钮选中颜色",
-		["Button Warned Color"] = "按钮警告颜色",
-		["Button Important Color"] = "按钮重要颜色",
-		["Option Color (1st)"] = "选项颜色（第一）",
-		["Option Color (2nd)"] = "选项颜色（第二）",
-		["Spectating Info Overlay"] = "旁观信息浮层",
-		["Spectating End Teleport Back"] = "结束旁观后传送回原位",
-		["Disable uMod (Plugins tab)"] = "禁用 uMod（插件页）",
-		["Hide Plugin Icons (Plugins tab)"] = "隐藏插件图标（插件页）",
-		["General"] = "常规",
-		["Watchers"] = "监听器",
-		["Logging"] = "日志",
-		["Miscellaneous"] = "其他",
-		["Debugging"] = "调试",
-		["Conditionals"] = "条件编译",
-		["Quick Actions"] = "快捷操作",
-		["Button Name"] = "按钮名称",
-		["Button Command"] = "按钮命令",
-		["User Mode"] = "用户模式",
-		["Include User ID"] = "包含用户 ID",
-		["Confirm Dialog"] = "确认对话框",
-		["Add"] = "添加",
-		["Edit"] = "编辑",
-		["Stop Editing"] = "停止编辑",
-		["Search"] = "搜索",
-		["Sorting"] = "排序",
-		["Options"] = "选项",
-		["Groups"] = "组",
-		["Add Group"] = "添加组",
-		["Grant All"] = "授予全部",
-		["Revoke All"] = "撤销全部",
-		["Core Modules"] = "核心模块",
-		["Other Modules"] = "其他模块",
-		["Online"] = "在线",
-		["Offline"] = "离线",
-		["No online players found."] = "未找到在线玩家。",
-		["No offline players found."] = "未找到离线玩家。",
-		["Player Information"] = "玩家信息",
-		["Name"] = "名称",
-		["Steam ID"] = "Steam ID",
-		["Net ID"] = "网络 ID",
-		["IP"] = "IP",
-		["Position"] = "位置",
-		["Player Flags"] = "玩家标志",
-		["View Permissions"] = "查看权限",
-		["Actions"] = "操作",
-		["Inventory Lock"] = "背包锁定",
-		["Select Entity"] = "选择实体",
-		["Blind Player"] = "致盲玩家",
-		["Unblind Player"] = "解除致盲",
-		["Stats"] = "状态",
-		["Combat"] = "战斗",
-		["Health"] = "生命值",
-		["Thirst"] = "口渴",
-		["Hunger"] = "饥饿",
-		["Radiation"] = "辐射",
-		["Bleeding"] = "流血",
-		["Wetness"] = "潮湿",
-		["Empower Stats"] = "强化状态",
-		["Crafting"] = "制作",
-		["No crafts."] = "没有制作队列。",
-		["Search Entity"] = "搜索实体",
-		["Multi-selection"] = "多选",
-		["Range"] = "范围",
-		["No entities found with that filter"] = "未找到匹配过滤条件的实体",
-		["Hierarchy"] = "层级",
-		["Id"] = "ID",
-		["Owner"] = "拥有者",
-		["Prefab"] = "预制体",
-		["Flags"] = "标志",
-		["Skin"] = "皮肤",
-		["Edit Flags"] = "编辑标志",
-		["Rotation"] = "旋转",
-		["Loot Container"] = "查看容器",
-		["Display Name"] = "显示名称",
-		["Children"] = "子实体",
-		["CCTV"] = "监控摄像头",
-		["Identifier"] = "标识符",
-		["View CCTV"] = "查看 CCTV",
-		["Code Lock"] = "密码锁",
-		["Code"] = "密码",
-		["Minicopter"] = "迷你直升机",
-		["Open Fuel"] = "打开燃料箱",
-		["Building Block"] = "建筑块",
-		["Grade"] = "等级",
-		["Entity Flags"] = "实体标志",
-		["Time"] = "时间",
-		["Date"] = "日期",
-		["Progress Time"] = "时间流逝",
-		["Ocean"] = "海洋",
-		["Scale"] = "比例",
-		["Level"] = "水平",
-		["Weather Preset"] = "天气预设",
-		["Wind"] = "风",
-		["Rain"] = "雨",
-		["Thunder"] = "雷",
-		["Rainbow"] = "彩虹",
-		["Atmosphere"] = "大气",
-		["Brightness"] = "亮度",
-		["Contrast"] = "对比度",
-		["Directionality"] = "方向性",
-		["Fogginess"] = "雾度",
-		["Clouds"] = "云",
-		["Size"] = "大小",
-		["Opacity"] = "透明度",
-		["Coverage"] = "覆盖率",
-		["Sharpness"] = "锐度",
-		["Coloring"] = "着色",
-		["Attenuation"] = "衰减",
-		["Saturation"] = "饱和度",
-		["Scattering"] = "散射",
-		["Cancel"] = "取消",
-		["Remove"] = "移除",
-		["Duplicate"] = "复制",
-		["Property Name"] = "属性名称",
-		["New Property"] = "新属性",
-		["No entries"] = "没有条目",
-		["CREATE ITEM"] = "创建物品",
-		["ASSEMBLIES"] = "程序集",
-		["MEMORY"] = "内存",
-		["CALLS"] = "调用",
-		["Calls"] = "调用",
-		["Memory"] = "内存",
-		["Chart Options"] = "图表选项",
-		["No assemblies available"] = "没有可用程序集",
-		["No memory records available"] = "没有可用内存记录",
-		["No call records available"] = "没有可用调用记录",
-		["Recording Info"] = "记录信息",
-		["Status"] = "状态",
-		["Duration"] = "持续时间",
-		["Samples"] = "样本",
-		["Assembly Calls"] = "程序集调用",
-		["Assembly Memory"] = "程序集内存",
-		["Assembly Time"] = "程序集耗时",
-		["Assembly Exceptions"] = "程序集异常",
-		["Call Time (Total)"] = "调用耗时（总计）",
-		["Call Time (Own)"] = "调用耗时（自身）",
-		["Call Memory (Total)"] = "调用内存（总计）",
-		["Call Memory (Own)"] = "调用内存（自身）",
-		["Call Exceptions (Total)"] = "调用异常（总计）",
-		["Call Exceptions (Own)"] = "调用异常（自身）",
-		["Memory Allocs"] = "内存分配",
-		["Memory Allocs (Memory)"] = "内存分配（内存）",
-		["Method"] = "方法",
-		["Allocations"] = "分配",
-		["Exceptions"] = "异常",
-		["Type"] = "类型",
-		["All"] = "全部",
-		["None"] = "无",
-		["Out of bounds"] = "超出范围",
-		["Please wait..."] = "请稍候...",
-		["Failed to load chart!"] = "图表加载失败！",
-		["RELEASE DATE"] = "发布日期",
-		["RATING"] = "评分",
-		["Authorization code:"] = "授权码：",
-		["Timeline Profiling"] = "时间线性能分析",
-		["Profile Recording"] = "性能分析记录",
-		["Rate"] = "频率",
-		["Advanced Memory"] = "高级内存",
-		["Call Memory"] = "调用内存",
-		["Stack Walk Allocations"] = "堆栈遍历分配",
-		["GC Events"] = "GC 事件",
-		["Timings (Performance Intensive)"] = "计时（性能开销较高）",
-		["To view the chart,\nremain on the same page number as this."] = "要查看图表，\n请保持在相同页码。",
-		["No data available."] = "没有可用数据。",
-		["Confirm action"] = "确认操作",
-		["DECLINE"] = "拒绝",
-		["CONFIRM"] = "确认",
-		["No tab selected."] = "未选择标签页。",
-		["REVEAL"] = "显示",
-		["TIMELINE\nMODE"] = "时间线\n模式",
-		["COMPARE"] = "对比",
-		["IMPORT"] = "导入",
-		["EXPORT"] = "导出",
-		["ABORT"] = "中止",
-		["CLEAR"] = "清除",
-		["REC"] = "记录",
-		["Record"] = "记录",
-		["Welcome to <b>Carbon</b>!\n\n<size=12><color=grey>If you've seen this panel again, your existent settings have not been reset.\nFor more information, go to <color=orange>carbonmod.gg</color>.</color></size>"] = "欢迎使用 <b>Carbon</b>！\n\n<size=12><color=grey>如果你再次看到此面板，现有设置并未被重置。\n更多信息请访问 <color=orange>carbonmod.gg</color>。</color></size>",
-		["Continue"] = "继续",
-	};
-
-	internal static string Zh(string text)
-	{
-		if (string.IsNullOrEmpty(text))
-		{
-			return text;
-		}
-
-		if (SimplifiedChinese.TryGetValue(text, out var value))
-		{
-			return value;
-		}
-
-		if (text.Contains("\n"))
-		{
-			var lines = text.Split('\n');
-			var translated = false;
-			for (int i = 0; i < lines.Length; i++)
-			{
-				var line = Zh(lines[i]);
-				translated |= line != lines[i];
-				lines[i] = line;
-			}
-			return translated ? string.Join("\n", lines) : text;
-		}
-
-		if (text.StartsWith("<b>"))
-		{
-			var boldEnd = text.IndexOf("</b>", StringComparison.Ordinal);
-			if (boldEnd > 3)
-			{
-				return $"<b>{Zh(text[3..boldEnd])}</b>{text[(boldEnd + 4)..]}";
-			}
-		}
-
-		var suffix = text.IndexOf(" (", StringComparison.Ordinal);
-		if (suffix > 0 && SimplifiedChinese.TryGetValue(text[..suffix], out value))
-		{
-			return value + text[suffix..];
-		}
-
-		return text;
-	}
 
 	public bool HandleEnableNeedsKeyboard(PlayerSession ap)
 	{
@@ -562,66 +309,6 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				["quickactions_edit"] = "Edit",
 				["quickactions_stopedit"] = "Stop Editing",
 				["maxplayers"] = "Maximum Players"
-			},
-			["zh-CN"] = new()
-			{
-				["hostname"] = "主机名",
-				["level"] = "地图",
-				["info"] = "信息",
-				["version"] = "版本",
-				["version2"] = "信息版本",
-				["hooks"] = "钩子",
-				["statichooks"] = "静态钩子",
-				["dynamichooks"] = "动态钩子",
-				["plugins"] = "插件",
-				["mods"] = "模块",
-				["console"] = "控制台",
-				["execservercmd"] = "执行服务器命令",
-				["config"] = "配置",
-				["ismodded"] = "标记为 Modded",
-				["ismodded_help"] = "启用后会将服务器标记为 modded。",
-				["general"] = "常规",
-				["watchers"] = "监听器",
-				["scriptwatchers"] = "脚本监听器",
-				["scriptwatchers_help"] = "禁用后必须手动使用 'c.load' 或 'c.unload' 加载/卸载插件。",
-				["zipscriptwatchers"] = "ZIP 脚本监听器",
-				["zipscriptwatchers_help"] = "禁用后必须手动使用 'c.load' 或 'c.unload' 加载/卸载插件。",
-				["scriptwatchersoption"] = "脚本监听器选项",
-				["scriptwatchersoption_help"] = "指定脚本监听器启用时仅监听 'carbon/plugins' 文件夹，还是包含其子文件夹。",
-				["logging"] = "日志",
-				["logfilemode"] = "日志文件模式",
-				["logverbosity"] = "日志详细程度（调试）",
-				["logseverity"] = "日志严重级别",
-				["misc"] = "其他",
-				["serverlang"] = "服务器语言",
-				["webreqip"] = "WebRequest IP",
-				["permmode"] = "权限模式",
-				["nocontent"] = "没有可用选项。\n请选择子标签页来填充此区域（如果可用）。",
-				["consoleinfo"] = "显示控制台信息",
-				["consoleinfo_help"] = "在控制台底部显示仅 Windows 可用的 Carbon 信息。",
-				["playerdefgroup"] = "玩家组",
-				["admindefgroup"] = "管理员组",
-				["moderatordefgroup"] = "版主组",
-				["permissions"] = "权限",
-				["debugging"] = "调试",
-				["scriptdebugorigin"] = "脚本调试来源",
-				["scriptdebugorigin_help"] = "服务器启动时附加调试器后，编译器会替换插件文件的调试来源。",
-				["conditionals"] = "条件编译",
-				["quickactions"] = "快捷操作",
-				["quickactions_name"] = "按钮名称",
-				["quickactions_name_help"] = "快捷操作按钮的名称。",
-				["quickactions_command"] = "按钮命令",
-				["quickactions_command_help"] = "快捷操作按钮的命令，多个命令用 | 分隔。",
-				["quickactions_user"] = "用户模式",
-				["quickactions_user_help"] = "执行命令时使用用户权限调用。",
-				["quickactions_incluserid"] = "包含用户 ID",
-				["quickactions_incluserid_help"] = "执行命令时在命令末尾追加玩家 Steam ID。",
-				["quickactions_confirmdialog"] = "确认对话框",
-				["quickactions_confirmdialog_help"] = "执行敏感命令前显示确认对话框。",
-				["quickactions_add"] = "添加",
-				["quickactions_edit"] = "编辑",
-				["quickactions_stopedit"] = "停止编辑",
-				["maxplayers"] = "最大玩家数"
 			}
 		};
 	}
@@ -719,10 +406,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		var button = cui.CreateProtectedButton(container, parent: parent,
 			color: highlight ? $"{DataInstance.Colors.SelectedTabColor} 0.7" : "0.3 0.3 0.3 0.1",
 			textColor: $"1 1 1 {(disabled ? 0.15 : 0.5)}",
-			text: Zh(text), 11,
+			text: text, 11,
 			xMin: offset, xMax: offset + width, yMin: 0, yMax: 1,
 			command: disabled ? string.Empty : command,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
@@ -746,7 +433,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: $" / {page.TotalPages + 1:n0}", 9,
 			xMin: 0.5f, xMax: 1f, yMin: 0, yMax: 1,
 			align: TextAnchor.MiddleLeft,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateProtectedInputField(container, parent: id,
 			color: "1 1 1 1",
@@ -756,7 +443,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			command: PanelId + $".changecolumnpage {column} 4 ",
 			characterLimit: 0,
 			readOnly: false,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		#region Left
 
@@ -766,7 +453,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: "<<", 8,
 			xMin: 0, xMax: 0.1f, yMin: 0f, yMax: 1f,
 			command: page.CurrentPage > 0 ? PanelId + $".changecolumnpage {column} 2" : "",
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateProtectedButton(container, parent: id,
 			color: "0.3 0.3 0.3 0.1",
@@ -774,7 +461,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: "<", 8,
 			xMin: 0.1f, xMax: 0.2f, yMin: 0f, yMax: 1f,
 			command: PanelId + $".changecolumnpage {column} 0",
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		#endregion
 
@@ -786,7 +473,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: ">>", 8,
 			xMin: 0.9f, xMax: 1f, yMin: 0f, yMax: 1f,
 			command: page.CurrentPage < page.TotalPages ? PanelId + $".changecolumnpage {column} 3" : "",
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateProtectedButton(container, parent: id,
 			color: "0.3 0.3 0.3 0.1",
@@ -794,7 +481,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: ">", 8,
 			xMin: 0.8f, xMax: 0.9f, yMin: 0f, yMax: 1f,
 			command: PanelId + $".changecolumnpage {column} 1",
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		#endregion
 	}
@@ -803,10 +490,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 	{
 		var cuiText = cui.CreateText(container, parent,
 			color: DataInstance.Colors.NameTextColor,
-			text: Zh(text)?.ToUpper(), 12,
+			text: text?.ToUpper(), 12,
 			OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			align: align,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedBold);
 
 		if (!string.IsNullOrEmpty(text))
 		{
@@ -821,19 +508,19 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateInputField(container, parent: parent,
 				color: color,
-				text: Zh(text), size, characterLimit: 0, readOnly: true,
+				text: text, size, characterLimit: 0, readOnly: true,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 				align: align,
-				font: ChineseFont);
+				font: font);
 		}
 		else
 		{
 			cui.CreateText(container, parent: parent,
 				color: color,
-				text: Zh(text), size,
+				text: text, size,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 				align: align,
-				font: ChineseFont);
+				font: font);
 		}
 	}
 	public void TabPanelButton(CUI cui, CuiElementContainer container, string parent, string text, string command, float height, float offset, Tab.OptionButton.Types type = Tab.OptionButton.Types.None, TextAnchor align = TextAnchor.MiddleCenter)
@@ -849,11 +536,11 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		var button = cui.CreateProtectedButton(container, parent: parent,
 			color: color,
 			textColor: "1 1 1 0.5",
-			text: Zh(text), 11,
+			text: text, 11,
 			OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			command: command,
 			align: align,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 	}
@@ -869,10 +556,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: "0.2 0.2 0.2 0.5",
@@ -885,7 +572,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: string.Empty, 11,
 			xMin: 0.975f, xMax: 0.975f, OxMin: -25 , OyMin: -12.5f, OyMax: 12.5f, yMin: 0.5f, yMax: 0.5f,
 			command: command,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
@@ -915,10 +602,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: color,
@@ -933,7 +620,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 		cui.CreateProtectedInputField(container, parent: inPanel,
 			color: $"1 1 1 {(readOnly ? 0.2f : 1f)}",
-			text: Zh(placeholder), 11,
+			text: placeholder, 11,
 			xMin: 0.03f, xMax: 1, yMin: 0, yMax: 1,
 			command: command,
 			align: TextAnchor.MiddleLeft,
@@ -941,7 +628,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			readOnly: readOnly,
 			needsKeyboard: session.Input == option,
 			autoFocus: session.Input == option && session.Input != session.PreviousInput,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		if (session.Input == option)
 		{
@@ -974,10 +661,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: "0.2 0.2 0.2 0.5",
@@ -992,10 +679,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 		cui.CreateText(container, inPanel,
 			color: "1 1 1 0.7",
-			text: Zh(value), 11,
+			text: value, 11,
 			xMin: 0, xMax: 1, yMin: 0, yMax: 1,
 			align: TextAnchor.MiddleCenter,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		var left = cui.CreateProtectedButton(container, inPanel,
 			color: color,
@@ -1004,7 +691,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0f, xMax: 0.15f, yMin: 0, yMax: 1,
 			command: $"{command} true",
 			align: TextAnchor.MiddleCenter,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, left, "fade", Cache.CUI.WhiteColor);
 
@@ -1015,7 +702,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0.85f, xMax: 1f, yMin: 0, yMax: 1,
 			command: $"{command} false",
 			align: TextAnchor.MiddleCenter,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, right, "fade", Cache.CUI.WhiteColor);
 	}
@@ -1037,10 +724,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: DataInstance.Colors.OptionColor,
@@ -1064,11 +751,11 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			xMin: 0f, xMax: 1f, yMin: 0, yMax: 1,
 			command: $"{command} false",
 			align: TextAnchor.MiddleLeft,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, button, "fade", Cache.CUI.WhiteColor);
 
-		cui.CreateText(container, button, "1 1 1 0.7", Zh(index >= options.Length ? "Out of bounds" : options[index]), 10,
+		cui.CreateText(container, button, "1 1 1 0.7", index >= options.Length ? "Out of bounds" : options[index], 10,
 			xMin: string.IsNullOrEmpty(icon) ? 0.035f : 0.09f, xMax: 1f, yMin: 0f, yMax: 1f, align: TextAnchor.MiddleLeft);
 
 		cui.CreateText(container, button, "1 1 1 0.4", "▼", 8,
@@ -1108,11 +795,11 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					OxMin: shiftOffset,
 					command: $"{command} true call {actualI}",
 					align: TextAnchor.MiddleLeft,
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				cui.CreateImage(container, subButton, "fade", Cache.CUI.WhiteColor);
 
-				cui.CreateText(container, subButton, isSelected ? "1 1 1 0.7" : "1 1 1 0.4", Zh(current), 10,
+				cui.CreateText(container, subButton, isSelected ? "1 1 1 0.7" : "1 1 1 0.4", current, 10,
 					xMin: string.IsNullOrEmpty(subIcon) ? 0.035f : 0.085f, xMax: 1f, yMin: 0f, yMax: 1f, align: TextAnchor.MiddleLeft);
 
 				if (!string.IsNullOrEmpty(subIcon))
@@ -1139,7 +826,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: $"{page.CurrentPage + 1:n0} / {page.TotalPages + 1:n0}", 9,
 					xMin: 0.5f, xMax: 1f, yMin: 0, yMax: 1,
 					align: TextAnchor.MiddleLeft,
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				#region Left
 
@@ -1149,7 +836,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: "<<", 8,
 					xMin: 0, xMax: 0.1f, yMin: 0f, yMax: 1f,
 					command: $"{command} true --",
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				cui.CreateProtectedButton(container, id,
 					color: "0.4 0.7 0.2 0.7",
@@ -1157,7 +844,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: "<", 8,
 					xMin: 0.1f, xMax: 0.2f, yMin: 0f, yMax: 1f,
 					command: $"{command} true -1",
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				#endregion
 
@@ -1169,7 +856,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: ">>", 8,
 					xMin: 0.9f, xMax: 1f, yMin: 0f, yMax: 1f,
 					command: $"{command} true ++",
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				cui.CreateProtectedButton(container, id,
 					color: "0.4 0.7 0.2 0.7",
@@ -1177,7 +864,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					text: ">", 8,
 					xMin: 0.8f, xMax: 0.9f, yMin: 0f, yMax: 1f,
 					command: $"{command} true 1",
-					font: ChineseFont);
+					font: Handler.FontTypes.RobotoCondensedRegular);
 
 				#endregion
 			}
@@ -1201,10 +888,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: color,
@@ -1237,13 +924,13 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		// Text - Align to left ->
 		if (percentage <= 0.15f)
 		{
-			cui.CreateText(container, inPanel, "1 1 1 1", Zh(valueText), 8, xMin: percentage + 0.03f, OyMin: -2.5f, align: TextAnchor.LowerLeft);
+			cui.CreateText(container, inPanel, "1 1 1 1", valueText, 8, xMin: percentage + 0.03f, OyMin: -2.5f, align: TextAnchor.LowerLeft);
 		}
 
 		// Text - Align to right <-
 		else
 		{
-			cui.CreateText(container, inPanel, "1 1 1 1", Zh(valueText), 8, xMax: percentage - 0.03f, OyMin: -2.5f,align: TextAnchor.LowerRight);
+			cui.CreateText(container, inPanel, "1 1 1 1", valueText, 8, xMax: percentage - 0.03f, OyMin: -2.5f,align: TextAnchor.LowerRight);
 		}
 
 		var cuts = max.Clamp(min, RangeCuts);
@@ -1278,7 +965,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 				Tab.OptionButton.Types.Important => DataInstance.Colors.ButtonImportantColor,
 				_ => DataInstance.Colors.OptionColor
 			};
-			var buttonCui = cui.CreateProtectedButton(container, panel, color, "1 1 1 0.5", Zh(button.Name), 11,
+			var buttonCui = cui.CreateProtectedButton(container, panel, color, "1 1 1 0.5", button.Name, 11,
 				xMin: currentOffset, xMax: currentOffset + cuts, yMin: 0, yMax: 1,
 				command: $"{command} {i}");
 
@@ -1306,10 +993,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 		}
 
 		var inPanel = cui.CreatePanel(container, panel,
@@ -1324,7 +1011,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 		cui.CreateProtectedInputField(container, parent: inPanel,
 			color: $"1 1 1 {(input.ReadOnly ? 0.2f : 1f)}",
-			text: Zh(input.Placeholder?.Invoke(session)), 11,
+			text: input.Placeholder?.Invoke(session), 11,
 			xMin: 0.03f, xMax: 1f - buttonPriority, yMin: 0, yMax: 1,
 			command: $"{command} input",
 			align: TextAnchor.MiddleLeft,
@@ -1332,7 +1019,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			readOnly: input.ReadOnly,
 			needsKeyboard: session.Input == option,
 			autoFocus: session.Input == option && session.Input != session.PreviousInput,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		if (session.Input == option)
 		{
@@ -1342,11 +1029,11 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		var buttonCui = cui.CreateProtectedButton(container, parent: inPanel,
 			color: buttonColor,
 			textColor: "1 1 1 0.5",
-			text: Zh(button.Name), 11,
+			text: button.Name, 11,
 			xMin: 1f - buttonPriority, xMax: 1f, yMin: 0f, yMax: 1f,
 			command: $"{command} button",
 			align: button.Align,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateImage(container, buttonCui, "fade", Cache.CUI.WhiteColor);
 
@@ -1370,10 +1057,10 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			cui.CreateText(container, panel,
 				color: DataInstance.Colors.OptionNameColor,
-				text: $"{Zh(text)}:", 12,
+				text: $"{text}:", 12,
 				OxMin: Option_LeftOffset, OxMax: Option_RightOffset, yMin: 0, yMax: 1,
 				align: TextAnchor.MiddleLeft,
-				font: ChineseFont);
+				font: Handler.FontTypes.RobotoCondensedRegular);
 
 			cui.CreatePanel(container, panel,
 				color: DataInstance.Colors.OptionColor,
@@ -1387,7 +1074,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			text: colorSplit.Length > 1 ? $"#{ColorUtility.ToHtmlStringRGB(new Color(colorSplit[0].ToFloat(), colorSplit[1].ToFloat(), colorSplit[2].ToFloat(), 1))}" : string.Empty, 10,
 			xMin: toggleButtonScale, OxMax: Option_RightOffset, yMin: offset, yMax: offset + height,
 			command: command,
-			font: ChineseFont);
+			font: Handler.FontTypes.RobotoCondensedRegular);
 	}
 	public void TabPanelWidget(CUI cui, CuiElementContainer container, string parent, PlayerSession session, Tab.OptionWidget widget, float height, float offset)
 	{
@@ -1412,14 +1099,14 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		if (!chart.Responsive && !canExpand)
 		{
 			cui.CreatePanel(container, panel, "0.15 0.15 0.15 0.3", blur: true, OyMax: 25f);
-			cui.CreateText(container, panel, "1 1 1 0.5", Zh("To view the chart,\nremain on the same page number as this."), 10);
+			cui.CreateText(container, panel, "1 1 1 0.5", "To view the chart,\nremain on the same page number as this.", 10);
 			return;
 		}
 
 		if (chart.IsEmpty())
 		{
 			cui.CreatePanel(container, panel, "0.15 0.15 0.15 0.3", blur: true, OyMax: 25f);
-			cui.CreateText(container, panel, "1 1 1 0.5", Zh("No data available."), 10);
+			cui.CreateText(container, panel, "1 1 1 0.5", "No data available.", 10);
 			return;
 		}
 
@@ -1474,7 +1161,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		var spacing = -5;
 
 		var loadingOverlay = cui.CreatePanel(container, panel, "0 0 0 0.2", blur: true, id: $"{identifier}_loading");
-		var loadingText = cui.CreateText(container, loadingOverlay, "1 1 1 0.5", Zh("Please wait..."), 10, id: $"{identifier}_loadingtxt");
+		var loadingText = cui.CreateText(container, loadingOverlay, "1 1 1 0.5", "Please wait...", 10, id: $"{identifier}_loadingtxt");
 		var chartImage = cui.CreateImage(container, scroll, 0, Cache.CUI.WhiteColor, xMin: 0.01f, id: $"{identifier}_chart");
 
 		CreateLayerButton("All", System.Drawing.Color.BlanchedAlmond, chart.Chart.Layers.All(x => x.Disabled), !chart.Chart.Layers.All(x => x.LayerSettings.Shadows == 0));
@@ -1487,7 +1174,6 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 		void CreateLayerButton(string text, System.Drawing.Color color, bool mainEnabled, bool secondEnabled)
 		{
-			text = Zh(text);
 			var textLength = text.Length;
 			var pColor = color;
 			var sColor = System.Drawing.Color.FromArgb((int)(pColor.R * 1.5f).Clamp(0, 255), (int)(pColor.G * 1.5f).Clamp(0, 255), (int)(pColor.B * 1.5f).Clamp(0, 255));
@@ -1504,7 +1190,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 			layerIndex++;
 		}
 
-		cui.CreateText(container, panel, Cache.CUI.WhiteColor, Zh(chart.Name), chart.NameSize, xMin: 0.025f, xMax: 0.95f, yMin: 1, yMax: 1, OyMin: 10, OyMax: 17.5f, align: chart.NameAlign, font: ChineseFont);
+		cui.CreateText(container, panel, Cache.CUI.WhiteColor, chart.Name, chart.NameSize, xMin: 0.025f, xMax: 0.95f, yMin: 1, yMax: 1, OyMin: 10, OyMax: 17.5f, align: chart.NameAlign, font: Handler.FontTypes.RobotoCondensedBold);
 
 		Community.Runtime.Core.NextFrame(() =>
 		{
@@ -1533,7 +1219,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 					default:
 					case Tab.OptionChart.ChartCache.StatusTypes.Failure:
 					{
-						pool.Add(cui.UpdateText(loadingText, "0.9 0.1 0.1 0.75", Zh("Failed to load chart!"), 10));
+						pool.Add(cui.UpdateText(loadingText, "0.9 0.1 0.1 0.75", "Failed to load chart!", 10));
 						pool.Send(session.Player);
 						break;
 					}
@@ -1546,9 +1232,9 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		if (admin.Tooltip == tooltip)
 		{
 			var tip = cui.CreatePanel(container, parent, "#1a6498",
-				xMin: 0.05f, xMax: ((float)Zh(admin.Tooltip.Tooltip).Length).Scale(1f, 78f, 0.1f, 0.79f), yMin: offset, yMax: offset + height);
+				xMin: 0.05f, xMax: ((float)admin.Tooltip.Tooltip.Length).Scale(1f, 78f, 0.1f, 0.79f), yMin: offset, yMax: offset + height);
 
-			cui.CreateText(container, tip, "#6bc0fc", Zh(admin.Tooltip.Tooltip), 10);
+			cui.CreateText(container, tip, "#6bc0fc", admin.Tooltip.Tooltip, 10);
 		}
 
 		if (!string.IsNullOrEmpty(tooltip.Tooltip))
@@ -1620,7 +1306,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 						text: Title, 18,
 						xMin: 0.0175f, yMin: 0.8f, xMax: 1f, yMax: 0.97f,
 						align: TextAnchor.UpperLeft,
-						font: ChineseFont);
+						font: Handler.FontTypes.RobotoCondensedBold);
 
 					#endregion
 
@@ -1807,13 +1493,13 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 										var blur = cui.CreatePanel(container, parent: panel,
 											color: "0 0 0 0.4",
-											xMin: xMin, xMax: 1f, yMin: rowIndex, yMax: rowIndex + rowHeight,
+											xMin: xMin, OxMax: Option_RightOffset, yMin: rowIndex, yMax: rowIndex + rowHeight,
 											blur: true);
 
 										cui.CreateImage(container, blur, "fade", Cache.CUI.WhiteColor);
 
 										cui.CreateProtectedButton(container, blur,
-											color: Cache.CUI.BlankColor, textColor: "1 1 1 0.5", text: Zh("REVEAL").SpacedString(1), 8, command: PanelId + $".callaction {i} {actualI}");
+											color: Cache.CUI.BlankColor, textColor: "1 1 1 0.5", text: "REVEAL".SpacedString(1), 8, command: PanelId + $".callaction {i} {actualI}");
 									}
 
 									static void HandleInputHighlight(float xMin, Tab.Option row, CUI cui, CuiElementContainer container, string panel, PlayerSession ap, float rowIndex, float rowHeight, int i, int actualI, float xMax = 0.985f, string command = null)
@@ -1855,21 +1541,21 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 							cui.CreatePanel(container, dialog, "0 0 0 0.9");
 
 							cui.CreateText(container, dialog,
-								"1 1 1 1", Zh(tab.Dialog.Title), 20, yMin: 0.1f);
+								"1 1 1 1", tab.Dialog.Title, 20, yMin: 0.1f);
 
 							cui.CreateText(container, dialog,
-								"1 1 1 0.4", Zh("Confirm action").ToUpper().SpacedString(3), 10, yMin: 0.2f);
+								"1 1 1 0.4", "Confirm action".ToUpper().SpacedString(3), 10, yMin: 0.2f);
 
-							cui.CreateProtectedButton(container, dialog, "0.9 0.4 0.3 0.8", "1 1 1 0.7", Zh("DECLINE").SpacedString(1), 10,
+							cui.CreateProtectedButton(container, dialog, "0.9 0.4 0.3 0.8", "1 1 1 0.7", "DECLINE".SpacedString(1), 10,
 								xMin: 0.4f, xMax: 0.49f, yMin: 0.425f, yMax: 0.475f, command: $"{PanelId}.dialogaction decline");
 
-							cui.CreateProtectedButton(container, dialog, "0.4 0.9 0.3 0.8", "1 1 1 0.7", Zh("CONFIRM").SpacedString(1), 10,
+							cui.CreateProtectedButton(container, dialog, "0.4 0.9 0.3 0.8", "1 1 1 0.7", "CONFIRM".SpacedString(1), 10,
 								xMin: 0.51f, xMax: 0.6f, yMin: 0.425f, yMax: 0.475f, command: $"{PanelId}.dialogaction confirm");
 						}
 					}
 					else
 					{
-						cui.CreateText(container, panels, "1 1 1 0.4", Zh("No tab selected."), 9);
+						cui.CreateText(container, panels, "1 1 1 0.4", "No tab selected.", 9);
 					}
 				}
 			}
@@ -2300,7 +1986,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 
 						var mainEnabled = false;
 						var pColor = System.Drawing.Color.BlanchedAlmond;
-						var text = $"    {Zh("All")}";
+						var text = $"    All";
 
 						if (layerIndex == -1)
 						{
@@ -2322,7 +2008,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 							newIdentifier = chart.GetIdentifier(reset: true);
 							mainEnabled = !layer.Disabled;
 							pColor = layer.LayerSettings.Color;
-							text = $"    {Zh(layer.Name)}";
+							text = $"    {layer.Name}";
 						}
 
 						var sColor = System.Drawing.Color.FromArgb((int)(pColor.R * 1.5f).Clamp(0, 255), (int)(pColor.G * 1.5f).Clamp(0, 255), (int)(pColor.B * 1.5f).Clamp(0, 255));
@@ -2331,7 +2017,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 						var mainCommand = args.Select(x => x as string).Skip(3).ToString(" ");
 
 						pool.Add(cui.UpdatePanel($"{oldIdentifier}_loading", "0 0 0 0.2", xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f, blur: true));
-						pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "1 1 1 0.5", Zh("Please wait..."), 10, xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f));
+						pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "1 1 1 0.5", "Please wait...", 10, xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f));
 						pool.Add(cui.UpdateImage($"{oldIdentifier}_chart", 0, Cache.CUI.WhiteColor, xMin: 0.01f));
 						pool.Add(cui.UpdateProtectedButton($"{oldIdentifier}_layerbtn_{layerIndex}", $"{pColor.R / 255f} {pColor.G / 255f} {pColor.B / 255f} {(!mainEnabled ? 0.15 : 0.5)}", rustSColor, text, 8,
 							command: $"{mainCommand} {layerIndex} {oldIdentifier} {mainCommand}"));
@@ -2364,7 +2050,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 								default:
 								case Tab.OptionChart.ChartCache.StatusTypes.Failure:
 								{
-									pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "0.9 0.1 0.1 0.75", Zh("Failed to load chart!"), 10));
+									pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "0.9 0.1 0.1 0.75", "Failed to load chart!", 10));
 									pool.Send(ap.Player);
 									break;
 								}
@@ -2421,7 +2107,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 						var mainCommand = args.Select(x => x as string).Skip(3).ToString(" ");
 
 						pool.Add(cui.UpdatePanel($"{oldIdentifier}_loading", "0 0 0 0.2", xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f, blur: true));
-						pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "1 1 1 0.5", Zh("Please wait..."), 10, xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f));
+						pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "1 1 1 0.5", "Please wait...", 10, xMin: 0.01f, xMax: 0.99f, yMin: 0.01f, yMax: 0.99f));
 						pool.Add(cui.UpdateImage($"{oldIdentifier}_chart", 0, Cache.CUI.WhiteColor, xMin: 0.01f));
 						pool.Add(cui.UpdateProtectedButton($"{oldIdentifier}_layerbtn2_{layerIndex}", $"{pColor.R / 255f} {pColor.G / 255f} {pColor.B / 255f} {(!secondEnabled ? 0.15 : 0.5)}", rustSColor, "\u29bf", 8,
 							command: $"{mainCommand} {layerIndex} {oldIdentifier} {mainCommand}"));
@@ -2454,7 +2140,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 								default:
 								case Tab.OptionChart.ChartCache.StatusTypes.Failure:
 								{
-									pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "0.9 0.1 0.1 0.75", Zh("Failed to load chart!"), 10));
+									pool.Add(cui.UpdateText($"{oldIdentifier}_loadingtxt", "0.9 0.1 0.1 0.75", "Failed to load chart!", 10));
 									pool.Send(ap.Player);
 									break;
 								}
