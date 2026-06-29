@@ -11,7 +11,7 @@ public class Config
 	public List<Command.Prefix> Prefixes = new();
 	public Dictionary<string, string> Aliases;
 	public bool Rcon = true;
-	public string Language = "en";
+	public string Language = "zh-CN";
 	public string WebRequestIp;
 
 	public WatchersConfig Watchers = new();
