@@ -22,7 +22,7 @@ public partial class AdminModule
 
 		public static SourceViewerTab Make(string fileName, string content, string context, int size = 8)
 		{
-			var tab = new SourceViewerTab("sourceviewer", "Source Viewer", Community.Runtime.Core);
+			var tab = new SourceViewerTab("sourceviewer", "源码查看器", Community.Runtime.Core);
 			tab.OnChange += (_, tab1) =>
 			{
 				tab1.AddColumn(0, true);

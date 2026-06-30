@@ -33,7 +33,7 @@ public partial class AdminModule
 			AddColumn(0, true);
 			AddColumn(1, true);
 
-			AddButton(0, "Cancel", ap => { OnCancel?.Invoke(ap); }, ap => OptionButton.Types.Important);
+			AddButton(0, "取消", ap => { OnCancel?.Invoke(ap); }, ap => OptionButton.Types.Important);
 
 			foreach (var folder in Directory.GetDirectories(Defines.GetLangFolder()))
 			{

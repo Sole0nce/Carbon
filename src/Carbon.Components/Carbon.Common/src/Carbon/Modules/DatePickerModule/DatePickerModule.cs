@@ -25,8 +25,8 @@ public partial class DatePickerModule : CarbonModule<EmptyModuleConfig, EmptyMod
 
 	internal static readonly string[] Months = new string[]
 	{
-			"January", "February", "March", "April", "May", "June",
-			"July", "August", "September", "October", "November", "December"
+			"1月", "2月", "3月", "4月", "5月", "6月",
+			"7月", "8月", "9月", "10月", "11月", "12月"
 	};
 
 	public override bool InitEnd()
@@ -79,7 +79,7 @@ public partial class DatePickerModule : CarbonModule<EmptyModuleConfig, EmptyMod
 
 		cui.CreateText(container, parent: main,
 			color: "1 1 1 0.8",
-			text: "<b>Date Picker</b>", 18,
+			text: "<b>日期选择器</b>", 18,
 			xMin: 0f, yMin: 0.8f, xMax: 1f, yMax: 0.98f,
 			align: TextAnchor.UpperCenter,
 			font: Handler.FontTypes.RobotoCondensedBold);
@@ -154,7 +154,7 @@ public partial class DatePickerModule : CarbonModule<EmptyModuleConfig, EmptyMod
 		cui.CreateProtectedButton(container, parent: main,
 			color: "0.2 0.6 0.2 0.5",
 			textColor: "0.5 1 0.5 1",
-			text: "NOW", 9,
+			text: "现在", 9,
 			xMin: 0.9f, xMax: 0.95f, yMin: 0.95f, yMax: 0.99f,
 			command: PanelId + ".action reset");
 
@@ -166,7 +166,7 @@ public partial class DatePickerModule : CarbonModule<EmptyModuleConfig, EmptyMod
 			command: PanelId + ".close",
 			font: Handler.FontTypes.DroidSansMono);
 
-		cui.CreateProtectedButton(container, main, "0.3 1 0.3 0.2", "0.8 1 0.8 1", "CONFIRM".SpacedString(1), 8,
+		cui.CreateProtectedButton(container, main, "0.3 1 0.3 0.2", "0.8 1 0.8 1", "确认", 8,
 			xMin: 0.4f, xMax: 0.6f, yMin: 0.05f, yMax: 0.12f,
 			command: PanelId + $".action confirm");
 

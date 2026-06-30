@@ -88,7 +88,7 @@ public partial class ColorPickerModule : CarbonModule<EmptyModuleConfig, EmptyMo
 
 		cui.CreateText(container, main,
 			color: "1 1 1 0.8",
-			text: "<b>Color Picker</b>", 18,
+			text: "<b>颜色选择器</b>", 18,
 			xMin: 0f, yMin: 0.8f, xMax: 1f, yMax: 0.98f,
 			align: TextAnchor.UpperCenter,
 			font: Handler.FontTypes.RobotoCondensedBold);
@@ -106,21 +106,21 @@ public partial class ColorPickerModule : CarbonModule<EmptyModuleConfig, EmptyMo
 
 		cui.CreateText(container, main,
 			color: "1 1 1 0.3",
-			text: "------------------------------------------------------------------------------------------------------------------------------------- BRIGHTNESS", 8,
+			text: "------------------------------------------------------------------------------------------------------------------------------------- 亮度", 8,
 			xMin: 0f, xMax: 0.775f, yMin: 0.01f, yMax: 0.98f,
 			align: TextAnchor.LowerRight,
 			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateText(container, main,
 			color: "1 1 1 0.3",
-			text: "SHADES ---------------", 8,
+			text: "色调 ---------------", 8,
 			xMin: 0.805f, xMax: 1, yMin: 0.085f, yMax: 1f,
 			align: TextAnchor.LowerLeft,
 			font: Handler.FontTypes.RobotoCondensedRegular);
 
 		cui.CreateText(container, main,
 			color: "1 1 1 0.3",
-			text: "------------------- ALPHA", 8,
+			text: "------------------- 透明度", 8,
 			xMin: 0, xMax: 0.14f, yMin: 0.085f, yMax: 1f,
 			align: TextAnchor.LowerRight,
 			font: Handler.FontTypes.RobotoCondensedRegular);

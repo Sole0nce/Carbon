@@ -355,14 +355,14 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 
 		var entityId = entity.IsValid() ? entity.net.ID : default;
 
-		CreateText(cui, container, container.Name, ref heightOffset, $"{(CanBeMoved(player, entity) ? "<color=green><b>✓</b></color>" : "<color=red><b>✘</b></color>")} Use <color=white>RIGHT-CLICK</color> to move the entity (hold <color=white>SPRINT</color> to skip auto-snapping)\n{(CanBeToggled(entity) ? "<color=green><b>✓</b></color>" : "<color=red><b>✘</b></color>")} Use <color=white>MIDDLE-CLICK</color> to toggle the entity (hold <color=white>SPRINT</color> to lock/unlock)");
+		CreateText(cui, container, container.Name, ref heightOffset, $"{(CanBeMoved(player, entity) ? "<color=green><b>✓</b></color>" : "<color=red><b>✘</b></color>")} 右键移动实体（按住<color=white>冲刺键</color>跳过自动吸附）\n{(CanBeToggled(entity) ? "<color=green><b>✓</b></color>" : "<color=red><b>✘</b></color>")} 中键切换实体（按住<color=white>冲刺键</color>锁定/解锁）");
 		if (showExtra || editor.destructionMode)
 		{
-			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "Destruction Mode", 3, editor.destructionMode ? "#8bb52a" : ".9 .2 .3 .4");
+			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "破坏模式", 3, editor.destructionMode ? "#8bb52a" : ".9 .2 .3 .4");
 		}
 		if (entity is not BasePlayer playerEntity || !playerEntity.userID.IsSteamId())
 		{
-			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "Destroy Entity", 1);
+			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "销毁实体", 1);
 		}
 
 		for (int i = 0; i < CustomButons.Count; i++)
@@ -389,9 +389,9 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 		{
 			if (codeLock.hasGuestCode)
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Guest Code", codeLock.guestCode);
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "访客密码", codeLock.guestCode);
 			}
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Code", codeLock.code);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "密码", codeLock.code);
 		}
 
 		ModularCar car = default;
@@ -399,30 +399,30 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 		{
 			case SleepingBag sleepingBag:
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Assigned To", BasePlayer.FindAwakeOrSleepingByID(sleepingBag.deployerUserID)?.ToString() ?? sleepingBag.deployerUserID.ToString());
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "归属者", BasePlayer.FindAwakeOrSleepingByID(sleepingBag.deployerUserID)?.ToString() ?? sleepingBag.deployerUserID.ToString());
 				break;
 			}
 			case MiningQuarry miningQuarry:
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Static Type", miningQuarry.staticType);
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "静态类型", miningQuarry.staticType);
 				break;
 			}
 			case IOEntity ioEntity:
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Power", ioEntity.currentEnergy.ToString("0"));
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "电力", ioEntity.currentEnergy.ToString("0"));
 				break;
 			}
 			case SteeringWheel steeringWheel:
 			{
 				if (showExtra)
 				{
-					CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Code", steeringWheel.BoatLock?.Code);
+					CreateOption(cui, container, container.Name, ref heightOffset, entityId, "密码", steeringWheel.BoatLock?.Code);
 				}
 				break;
 			}
 			case PlanterBox:
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Temperature", $"{entity.currentTemperature:0}°C / {CelsiusToFahrenheit(entity.currentTemperature):0}°F");
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "温度", $"{entity.currentTemperature:0}°C / {CelsiusToFahrenheit(entity.currentTemperature):0}°F");
 				break;
 			}
 			case VehicleModuleEngine vehicleModuleEngine:
@@ -442,58 +442,58 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 			if (car.CarLock.whitelistPlayers.Count > 0)
 			{
 				var lockCreator = car.CarLock.whitelistPlayers[0];
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Lock Owner ID", lockCreator);
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "锁主人 ID", lockCreator);
 				if (BasePlayer.FindAwakeOrSleepingByID(lockCreator) is BasePlayer owner && owner.IsValid())
 				{
-					CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Lock Owner", owner.displayName);
+					CreateOption(cui, container, container.Name, ref heightOffset, entityId, "锁主人", owner.displayName);
 				}
 			}
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Code", car.CarLock.Code);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "密码", car.CarLock.Code);
 		}
 
 		if (entity?.flags != 0)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Flags", entity?.flags);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "标志位", entity?.flags);
 		}
 		if (entity?.skinID != 0)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Skin ID", entity?.skinID);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "皮肤 ID", entity?.skinID);
 		}
 		if (entity?.transform.localScale != Vector3.one)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Scale", entity?.transform.localScale);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "缩放", entity?.transform.localScale);
 		}
-		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Rotation", entity?.transform.rotation.eulerAngles);
-		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Position", entity?.transform.position);
+		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "旋转", entity?.transform.rotation.eulerAngles);
+		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "位置", entity?.transform.position);
 		if (entity.IsValid() && entity.OwnerID != 0)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Owner ID", entity.OwnerID);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "所有者 ID", entity.OwnerID);
 			if (BasePlayer.FindAwakeOrSleepingByID(entity.OwnerID) is BasePlayer owner && owner.IsValid())
 			{
-				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Owner", owner.displayName);
+				CreateOption(cui, container, container.Name, ref heightOffset, entityId, "所有者", owner.displayName);
 			}
 		}
 		if (entity is BasePlayer myPlayer)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Display Name", myPlayer.displayName);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "显示名称", myPlayer.displayName);
 		}
 		if (entity is BuildingBlock buildingBlock)
 		{
-			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Building ID", buildingBlock.buildingID);
+			CreateOption(cui, container, container.Name, ref heightOffset, entityId, "建筑 ID", buildingBlock.buildingID);
 			if (showExtra)
 			{
-				CreateButton(cui, container, container.Name, ref heightOffset, entityId, $"Destroy Building ({buildingBlock.GetBuilding().decayEntities.Count:n0} entities)", 2);
+				CreateButton(cui, container, container.Name, ref heightOffset, entityId, $"销毁建筑 ({buildingBlock.GetBuilding().decayEntities.Count:n0} 个实体)", 2);
 			}
 		}
-		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "NetID", entityId);
-		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "Target", entity?.ShortPrefabName);
+		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "网络 ID", entityId);
+		CreateOption(cui, container, container.Name, ref heightOffset, entityId, "目标", entity?.ShortPrefabName);
 		if (!showExtra)
 		{
-			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "Show extra settings", 0, "#8cbf1d");
+			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "展开更多设置", 0, "#8cbf1d");
 		}
 		else
 		{
-			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "Show fewer settings", 0);
+			CreateButton(cui, container, container.Name, ref heightOffset, entityId, "收起设置", 0);
 		}
 
 		static void CreateOption(CUI cui, CuiElementContainer container, string panel, ref float offset, NetworkableId id, string name, object value)
@@ -501,7 +501,7 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 			var option = cui.CreatePanel(container, panel, optionColor, blur: true, OyMin: -optionHeight + offset, OyMax: optionHeight + offset);
 			cui.CreateText(container, option, optionTitleColor, name, 10, xMax: .25f, align: TextAnchor.MiddleRight);
 			var input = cui.CreatePanel(container, option, "0 0 0 .5", xMin: .28f);
-			cui.CreateProtectedInputField(container, input, Cache.CUI.WhiteColor, value?.ToString() ?? "undefined", 10, 0, true, OxMin: 7.5f,
+			cui.CreateProtectedInputField(container, input, Cache.CUI.WhiteColor, value?.ToString() ?? "未定义", 10, 0, true, OxMin: 7.5f,
 				align: TextAnchor.MiddleLeft);
 			offset += optionHeight + optionSpacing;
 		}
@@ -745,7 +745,7 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 
 		if (option != 0 && !entity.IsValid())
 		{
-			player.ChatMessage("Entity is now invalid");
+			player.ChatMessage("实体已失效");
 			return;
 		}
 
@@ -783,7 +783,7 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 					}
 					else
 					{
-						Modal.Open(player, "Are you sure you wanna destroy that entity?", temp, (player, modal) =>
+						Modal.Open(player, "确定要销毁该实体吗？", temp, (player, modal) =>
 						{
 							entity.Kill(BaseNetworkable.DestroyMode.Gib);
 							editor.showExtra = false;
@@ -800,7 +800,7 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 				{
 					return;
 				}
-				Modal.Open(player, "Are you sure you wanna destroy that building?", temp, (player, modal) =>
+				Modal.Open(player, "确定要销毁该建筑吗？", temp, (player, modal) =>
 				{
 					var entityPool = Pool.Get<PooledList<BaseEntity>>();
 					entityPool.AddRange(block.GetBuilding().decayEntities);

@@ -303,6 +303,103 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		["Record"] = "记录",
 		["Welcome to <b>Carbon</b>!\n\n<size=12><color=grey>If you've seen this panel again, your existent settings have not been reset.\nFor more information, go to <color=orange>carbonmod.gg</color>.</color></size>"] = "欢迎使用 <b>Carbon</b>！\n\n<size=12><color=grey>如果你再次看到此面板，现有设置并未被重置。\n更多信息请访问 <color=orange>carbonmod.gg</color>。</color></size>",
 		["Continue"] = "继续",
+		["Disabled"] = "禁用",
+		["Save every 5 min."] = "每 5 分钟保存",
+		["Save immediately"] = "立即保存",
+		["Normal"] = "正常",
+		["Level 1"] = "级别 1",
+		["Level 2"] = "级别 2",
+		["Level 3"] = "级别 3",
+		["Level 4"] = "级别 4",
+		["Level 5"] = "级别 5",
+		["Level 6"] = "级别 6",
+		["Primary"] = "仅主目录",
+		["Refresh"] = "刷新",
+		["Config Editor"] = "配置编辑器",
+		["Lang Editor"] = "语言编辑器",
+		["Source Viewer"] = "源码查看器",
+		["Save"] = "保存",
+		["Save & Reload"] = "保存并重载",
+		["Editing"] = "编辑中",
+		["Add Label"] = "添加标签",
+		["Add Toggle"] = "添加开关",
+		["Add Int"] = "添加整数",
+		["Add Float"] = "添加浮点数",
+		["Are you sure you want to update the host name?"] = "确定要更新主机名吗？",
+		["Are you sure you want to update the maximum players that can join the server?"] = "确定要更新服务器最大玩家数吗？",
+		["Are you sure you want to execute?"] = "确定要执行吗？",
+		["Click on existent buttons above to delete. Separate commands with | if you want multiple commands per button."] = "点击上方已有按钮可删除。如需每个按钮执行多条命令，请用 | 分隔。",
+		["No plugins available"] = "没有可用插件",
+		["GUEST"] = "访客",
+		["NOT AUTHENTICATED"] = "未认证",
+		["LOG OUT"] = "登出",
+		["LOG IN"] = "登录",
+		["OUTDATED"] = "已过期",
+		["INSTALLED"] = "已安装",
+		["FREE"] = "免费",
+		["PURCHASED"] = "已购买",
+		["Search..."] = "搜索...",
+		["VERSION CHANGES"] = "版本更新",
+		["UNINSTALL"] = "卸载",
+		["UNLOAD"] = "卸载",
+		["CONFIG"] = "配置",
+		["LANG"] = "语言",
+		["UPDATE"] = "更新",
+		["DOWNLOAD"] = "下载",
+		["CAN'T DOWNLOAD"] = "无法下载",
+		["LOAD"] = "加载",
+		["ENABLE VIA COG"] = "通过齿轮图标启用",
+		["Date Picker"] = "日期选择器",
+		["Color Picker"] = "颜色选择器",
+		["NOW"] = "现在",
+		["HEX"] = "HEX",
+		["RUST"] = "RUST",
+		["CANCEL"] = "取消",
+		["NAME"] = "名称",
+		["INFO"] = "信息",
+		["SIZE"] = "大小",
+		["DELETE"] = "删除",
+		["Destruction Mode"] = "破坏模式",
+		["Destroy Entity"] = "销毁实体",
+		["Destroy Building"] = "销毁建筑",
+		["Show extra settings"] = "展开更多设置",
+		["Show fewer settings"] = "收起设置",
+		["undefined"] = "未定义",
+		["Entity is now invalid"] = "实体已失效",
+		["Are you sure you wanna destroy that entity?"] = "确定要销毁该实体吗？",
+		["Are you sure you wanna destroy that building?"] = "确定要销毁该建筑吗？",
+		["Assemblies"] = "程序集",
+		["Memory"] = "内存",
+		["Calls"] = "调用",
+		["All"] = "全部",
+		["January"] = "1月",
+		["February"] = "2月",
+		["March"] = "3月",
+		["April"] = "4月",
+		["May"] = "5月",
+		["June"] = "6月",
+		["July"] = "7月",
+		["August"] = "8月",
+		["September"] = "9月",
+		["October"] = "10月",
+		["November"] = "11月",
+		["December"] = "12月",
+		["BRIGHTNESS"] = "亮度",
+		["SHADES"] = "色调",
+		["ALPHA"] = "透明度",
+		["Assign all required field values."] = "请填写所有必填字段。",
+		["The modal is valid."] = "表单有效。",
+		["The modal has invalid fields."] = "表单存在无效字段。",
+		["< Go Back"] = "< 返回",
+		["ID"] = "ID",
+		["SN"] = "短名",
+		["DESCRIPTION"] = "描述",
+		["CREATE"] = "创建",
+		["CUSTOM NAME"] = "自定义名称",
+		["SKIN"] = "皮肤",
+		["AMOUNT"] = "数量",
+		["BLUEPRINT"] = "蓝图",
+		["ITEM TEXT"] = "物品文本",
 	};
 
 	internal static string Zh(string text)
@@ -693,15 +790,15 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		{
 			if (authLevel == 0)
 			{
-				player.ChatMessage($"Your auth level is not high enough to use this feature.");
+				player.ChatMessage($"你的权限等级不足以使用此功能。");
 			}
 			else if(authLevel > maxLevel)
 			{
-				player.ChatMessage($"Your auth level is above the maximum level required to use this feature. Please adjust the maximum level required in your config or give yourself auth level {maxLevel}.");
+				player.ChatMessage($"你的权限等级高于使用此功能所需的最高等级。请在配置中调整所需的最高等级，或将自己的权限等级设为 {maxLevel}。");
 			}
 			else if (authLevel < minLevel && authLevel > 0)
 			{
-				player.ChatMessage($"Your auth level is not high enough to use this feature. Please adjust the minimum level required in your config or give yourself auth level {minLevel}.");
+				player.ChatMessage($"你的权限等级不足以使用此功能。请在配置中调整所需的最低等级，或将自己的权限等级设为 {minLevel}。");
 			}
 		}
 
@@ -2574,7 +2671,7 @@ public partial class AdminModule : CarbonModule<AdminConfig, AdminData>
 		target.State.chatMuted = wants;
 		target.SetPlayerFlag(BasePlayer.PlayerFlags.ChatMute, wants);
 		target.DirtyPlayerState();
-		target.ChatMessage($"You have been {(wants ? "muted" : "unmuted")} by an admin. Reason: {reason}");
+		target.ChatMessage($"你已被管理员{(wants ? "禁言" : "解除禁言")}。原因: {reason}");
 
 		// OnCarbonMutePlayer
 		HookCaller.CallStaticHook(2716457321, player, target, wants, reason);

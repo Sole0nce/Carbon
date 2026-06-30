@@ -19,6 +19,18 @@ public struct Localisation
 		["no_auth"] = $"You don't have the minimum auth level [{{0}}] required to execute this command [your level: {{1}}]."
 	};
 
+	public static Dictionary<string, string> Phrases_zh_CN = new()
+	{
+		["cooldown_player"] = "你已被冷却，请等待 {0}。",
+		["unknown_chat_cmd_1"] = "<color=orange>未知命令:</color> {0}",
+		["unknown_chat_cmd_2"] = "<color=orange>未知命令:</color> {0}\n<size=12s>你是否想输入: {1}</size>",
+		["unknown_chat_cmd_separator_1"] = "、",
+		["unknown_chat_cmd_separator_2"] = " 或 ",
+		["no_perm"] = "你没有运行此命令所需的任何权限。",
+		["no_group"] = "你不在运行此命令所需的任何组中。",
+		["no_auth"] = $"你的权限等级不足以执行此命令 [需要: {{0}}，你的等级: {{1}}]。"
+	};
+
 	public static string Get(string key, string playerId)
 	{
 		return Core.lang.GetMessage(key, Core, playerId, Core.lang.GetLanguage(playerId));

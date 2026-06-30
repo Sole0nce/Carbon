@@ -78,16 +78,16 @@ public partial class AdminModule
 						font: CUI.Handler.FontTypes.RobotoCondensedBold);
 
 					cui.CreateText(container, main, "1 1 1 0.4",
-						"SN", 10,
-						xMin: 0.63f, yMax: 0.81f, align: TextAnchor.UpperLeft,
-						font: CUI.Handler.FontTypes.RobotoCondensedBold);
+					"短名", 10,
+					xMin: 0.63f, yMax: 0.81f, align: TextAnchor.UpperLeft,
+					font: CUI.Handler.FontTypes.RobotoCondensedBold);
 
 					cui.CreateInputField(container, main, "0.8 0.2 0.15 1",
 						currentItem.shortname, 10, 0, true,
 						xMin: 0.667f, yMax: 0.81f, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedBold);
 
-					cui.CreateText(container, main, "0.8 0.8 0.8 1", "DESCRIPTION", 11,
+					cui.CreateText(container, main, "0.8 0.8 0.8 1", "描述", 11,
 						xMin: 0.45f, yMax: 0.76f, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedBold);
 					cui.CreateInputField(container, main, "0.8 0.8 0.8 0.6", currentItem.displayDescription.english, 11,
@@ -98,16 +98,16 @@ public partial class AdminModule
 					cui.CreatePanel(container, main, "0.8 0.8 0.8 0.2",
 						xMin: 0.06f, xMax: 0.94f, yMin: 0.54f, yMax: 0.55f);
 
-					cui.CreateText(container, main, "1 1 1 1", "CREATE", 16,
+					cui.CreateText(container, main, "1 1 1 1", "创建", 16,
 						xMin: 0.07f, yMax: 0.5f, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedBold);
 
-					cui.CreateText(container, main, "1 1 1 0.5", "Generate an inventory item based on this definition.",
+					cui.CreateText(container, main, "1 1 1 0.5", "根据此定义生成一个物品。",
 						10,
 						xMin: 0.07f, yMax: 0.46f, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 
-					cui.CreateText(container, main, "1 1 1 0.7", "CUSTOM NAME", 12,
+					cui.CreateText(container, main, "1 1 1 0.7", "自定义名称", 12,
 						xMin: 0.07f, yMax: 0.4f, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 					{
@@ -122,7 +122,7 @@ public partial class AdminModule
 					var yOffset = 0;
 					var xOffset = 0;
 
-					cui.CreateText(container, main, "1 1 1 0.7", "SKIN", 12,
+					cui.CreateText(container, main, "1 1 1 0.7", "皮肤", 12,
 						xMin: 0.07f, yMax: 0.4f, OxMax: xOffset += 200, OxMin: xOffset, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 					{
@@ -134,7 +134,7 @@ public partial class AdminModule
 							align: TextAnchor.MiddleLeft);
 					}
 
-					cui.CreateText(container, main, "1 1 1 0.7", "AMOUNT", 12,
+					cui.CreateText(container, main, "1 1 1 0.7", "数量", 12,
 						xMin: 0.07f, yMax: 0.4f, OyMax: yOffset -= 60, OyMin: yOffset, align: TextAnchor.UpperLeft,
 						font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 					{
@@ -146,7 +146,7 @@ public partial class AdminModule
 							align: TextAnchor.MiddleLeft);
 					}
 
-					cui.CreateText(container, main, "1 1 1 0.7", "BLUEPRINT", 12,
+					cui.CreateText(container, main, "1 1 1 0.7", "蓝图", 12,
 						xMin: 0.07f, yMax: 0.4f, OxMax: xOffset, OxMin: xOffset, OyMax: yOffset, OyMin: yOffset,
 						align: TextAnchor.UpperLeft, font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 					{
@@ -162,7 +162,7 @@ public partial class AdminModule
 						}
 					}
 
-					cui.CreateText(container, main, "1 1 1 0.7", "ITEM TEXT", 12,
+					cui.CreateText(container, main, "1 1 1 0.7", "物品文本", 12,
 						xMin: 0.07f, yMax: 0.4f, OyMax: yOffset -= 60, OyMin: yOffset,
 						align: TextAnchor.UpperLeft, font: CUI.Handler.FontTypes.RobotoCondensedRegular);
 					{
@@ -189,7 +189,7 @@ public partial class AdminModule
 			{
 				tab.ClearColumn(0);
 				{
-					tab.AddButton(-1, "< Go Back", ap => Singleton.SetTab(session.Player, "carbon"),
+					tab.AddButton(-1, "< 返回", ap => Singleton.SetTab(session.Player, "carbon"),
 						ap => AdminModule.Tab.OptionButton.Types.Selected);
 
 					tab.AddName(0, "Configuration");
@@ -362,7 +362,7 @@ public partial class AdminModule
 							var currentlyDisplaying = ConVarSnapshots.Snapshots.Count(x =>
 								string.IsNullOrEmpty(convarSearch) || x.Key.Contains(convarSearch));
 
-							tab.AddText(1, "Changing the following values will not be stored anywhere. This page is simply for informational purposes.\nIf you want Rust to load up your changes, please add them in 'server/identity/cfg/server.cfg'.", 8, "1 1 1 0.5", TextAnchor.MiddleCenter);
+							tab.AddText(1, "以下数值不会被存储。此页面仅供参考。\n如需让 Rust 加载你的修改，请将它们添加到 'server/identity/cfg/server.cfg' 中。", 8, "1 1 1 0.5", TextAnchor.MiddleCenter);
 
 							if (string.IsNullOrEmpty(convarSearch))
 							{
@@ -517,11 +517,11 @@ public partial class AdminModule
 							tab.AddWidget(1, 1, (playerSession, cui, container, parent) =>
 							{
 								cui.CreateText(container, parent, "1 1 1 0.5",
-									"All values with <b>(*)</b> indicate that they're a multiplier value \nrelative to Rust's native value the configuration is defined for.",
+									"带 <b>(*)</b> 的值表示它们是倍数值，\n相对于 Rust 原生配置定义的值。",
 									8, align: TextAnchor.MiddleRight, xMax: 0.48f);
 
 								cui.CreateText(container, parent, "1 1 1 0.5",
-									"<color=orange>Orange variables</color> indicate will enforce the server\nto modded once the value is not <b>-1</b>.",
+									"<color=orange>橙色变量</color> 表示当值不为 <b>-1</b> 时\n将强制服务器标记为 modded。",
 									8, align: TextAnchor.MiddleLeft, xMin: 0.52f);
 							});
 

@@ -27,7 +27,7 @@ public partial class AdminModule
 
 		public static ConfigEditor Make(string json, Action<PlayerSession, JObject> onCancel, Action<PlayerSession, JObject> onSave, Action<PlayerSession, JObject> onSaveAndReload, bool fullscreen = false, string[] blacklist = null)
 		{
-			var tab = new ConfigEditor("configeditor", "Config Editor", Community.Runtime.Core)
+			var tab = new ConfigEditor("configeditor", "配置编辑器", Community.Runtime.Core)
 			{
 				Entry = JObject.Parse(json),
 				OnSave = onSave,
@@ -46,9 +46,9 @@ public partial class AdminModule
 			AddColumn(0);
 
 			var list = Facepunch.Pool.Get<List<OptionButton>>();
-			if (OnCancel != null) list.Add(new OptionButton("Cancel", ap => { OnCancel?.Invoke(ap, Entry); }));
-			if (OnSave != null) list.Add(new OptionButton("Save", ap => { OnSave?.Invoke(ap, Entry); }));
-			if (OnSaveAndReload != null) list.Add(new OptionButton("Save & Reload", ap => { OnSaveAndReload?.Invoke(ap, Entry); }));
+			if (OnCancel != null) list.Add(new OptionButton("取消", ap => { OnCancel?.Invoke(ap, Entry); }));
+			if (OnSave != null) list.Add(new OptionButton("保存", ap => { OnSave?.Invoke(ap, Entry); }));
+			if (OnSaveAndReload != null) list.Add(new OptionButton("保存并重载", ap => { OnSaveAndReload?.Invoke(ap, Entry); }));
 
 			AddButtonArray(-1, list.ToArray());
 			Facepunch.Pool.FreeUnmanaged(ref list);
@@ -153,7 +153,7 @@ public partial class AdminModule
 									value = value.StartsWith("#") ? hex : rust;
 									usableToken.Replace(usableToken = $"#{value}");
 									Community.Runtime.Core.NextFrame(() => Singleton.SetTab(ap.Player, Make(Entry.ToString(), OnCancel, OnSave, OnSaveAndReload), false));
-								}, tooltip: $"The color value of the '{name.Trim()}' property.");
+								}, tooltip: $"属性 '{name.Trim()}' 的颜色值。");
 							}
 							else AddInput(column, name, ap => usableToken.ToObject<string>(), (ap, args) => { usableToken.Replace(usableToken = args.Select(x => x as string).ToString(" ")); });
 							Array.Clear(valueSplit, 0, valueSplit.Length);
@@ -161,17 +161,17 @@ public partial class AdminModule
 							break;
 
 						case JTokenType.Integer:
-							AddInput(column, name, ap => usableToken?.ToObject<long>().ToString(), (ap, args) => { usableToken.Replace(usableToken = args[0]?.ToString().ToLong()); }, tooltip: $"The integer/long value of the '{name.Trim()}' property.");
+							AddInput(column, name, ap => usableToken?.ToObject<long>().ToString(), (ap, args) => { usableToken.Replace(usableToken = args[0]?.ToString().ToLong()); }, tooltip: $"属性 '{name.Trim()}' 的整数/长整数值。");
 							break;
 
 						case JTokenType.Float:
-							AddInput(column, name, ap => usableToken?.ToObject<float>().ToString(), (ap, args) => { usableToken.Replace(usableToken = args[0]?.ToString().ToFloat()); }, tooltip: $"The float value of the '{name.Trim()}' property.");
+							AddInput(column, name, ap => usableToken?.ToObject<float>().ToString(), (ap, args) => { usableToken.Replace(usableToken = args[0]?.ToString().ToFloat()); }, tooltip: $"属性 '{name.Trim()}' 的浮点数值。");
 							break;
 
 						case JTokenType.Boolean:
 							AddToggle(column, name,
 								ap => { usableToken.Replace(usableToken = !usableToken.ToObject<bool>()); },
-								ap => usableToken.ToObject<bool>(), tooltip: $"The boolean value of the '{name.Trim()}' property.");
+								ap => usableToken.ToObject<bool>(), tooltip: $"属性 '{name.Trim()}' 的布尔值。");
 							break;
 
 						case JTokenType.Array:
@@ -238,7 +238,7 @@ public partial class AdminModule
 			{
 				if (editRefresh)
 				{
-					AddName(column, $"Editing '{(tok.Parent as JProperty)?.Name}'");
+					AddName(column, $"编辑 '{(tok.Parent as JProperty)?.Name}'");
 				}
 
 				foreach (var subToken in tok)
@@ -250,7 +250,7 @@ public partial class AdminModule
 					if (removeButtons)
 					{
 						var jproperty = (subToken as JProperty);
-						AddButton(column, $"Remove '{jproperty?.Name.Trim()}'", ap2 =>
+						AddButton(column, $"移除 '{jproperty?.Name.Trim()}'", ap2 =>
 						{
 							(tok as JObject).Remove(jproperty.Name);
 							_drawArray(name, tok.Parent as JArray, ulevel, column, ap2);
@@ -264,7 +264,7 @@ public partial class AdminModule
 			var index = 0;
 			var subColumn = column + 1;
 			ClearAfter(subColumn, true);
-			AddName(subColumn, $"Editing '{name.Trim()}'");
+			AddName(subColumn, $"编辑 '{name.Trim()}'");
 			foreach (var element in array)
 			{
 				_recurseBuild($"{StringEx.SpacedString(Spacing, level, false)}{index:n0}", element, 0, subColumn, array.Count == 1);
@@ -290,14 +290,14 @@ public partial class AdminModule
 						_drawArray(name, array, level, column, ap);
 					}, ap2 => OptionButton.Types.Warned);
 				}
-				else if (array.Count == 0) AddText(subColumn, $"{StringEx.SpacedString(Spacing, 0, false)}No entries", 10, "1 1 1 0.6", TextAnchor.MiddleLeft);
+				else if (array.Count == 0) AddText(subColumn, $"{StringEx.SpacedString(Spacing, 0, false)}无条目", 10, "1 1 1 0.6", TextAnchor.MiddleLeft);
 
-				AddInput(subColumn, "Property Name", ap => ap.GetStorage(this, "jsonprop", "New Property"), (ap, args) => { ap.SetStorage(this, "jsonprop", newPropertyName = args.Select(x => x as string).ToString(" ")); });
-				AddButtonArray(subColumn,
-					new OptionButton("Add Label", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, string.Empty); _drawArray(name, array, level, column, ap); } }),
-					new OptionButton("Add Toggle", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, false); _drawArray(name, array, level, column, ap); } }),
-					new OptionButton("Add Int", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, 0); _drawArray(name, array, level, column, ap); } }),
-					new OptionButton("Add Float", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, 0.0f); _drawArray(name, array, level, column, ap); } }));
+				AddInput(subColumn, "属性名称", ap => ap.GetStorage(this, "jsonprop", "新属性"), (ap, args) => { ap.SetStorage(this, "jsonprop", newPropertyName = args.Select(x => x as string).ToString(" ")); });
+			AddButtonArray(subColumn,
+				new OptionButton("添加标签", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, string.Empty); _drawArray(name, array, level, column, ap); } }),
+				new OptionButton("添加开关", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, false); _drawArray(name, array, level, column, ap); } }),
+				new OptionButton("添加整数", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, 0); _drawArray(name, array, level, column, ap); } }),
+				new OptionButton("添加浮点数", ap => { if (sample == null) array.Add(sample = JObject.Parse("{ }")); if (!(sample as IDictionary<string, JToken>).ContainsKey(newPropertyName)) { sample.Add(newPropertyName, 0.0f); _drawArray(name, array, level, column, ap); } }));
 			}
 			else
 			{

@@ -143,10 +143,10 @@ public partial class FileModule : CarbonModule<EmptyModuleConfig, EmptyModuleDat
 			const float sizeSpace = 0.8f;
 
 			var bar = cui.CreatePanel(container, background, Cache.CUI.BlankColor, yMax: 0.9f);
-			cui.CreateText(container, bar, "1 1 1 0.2", "NAME", 12, align: TextAnchor.UpperLeft, xMin: nameSpace + 0.03f);
-			cui.CreateText(container, bar, "1 1 1 0.2", "INFO", 12, align: TextAnchor.UpperLeft, xMin: extraSpace);
-			cui.CreateText(container, bar, "1 1 1 0.2", "DATE", 12, align: TextAnchor.UpperLeft, xMin: dateSpace);
-			cui.CreateText(container, bar, "1 1 1 0.2", "SIZE", 12, align: TextAnchor.UpperLeft, xMin: sizeSpace);
+			cui.CreateText(container, bar, "1 1 1 0.2", "名称", 12, align: TextAnchor.UpperLeft, xMin: nameSpace + 0.03f);
+		cui.CreateText(container, bar, "1 1 1 0.2", "信息", 12, align: TextAnchor.UpperLeft, xMin: extraSpace);
+		cui.CreateText(container, bar, "1 1 1 0.2", "日期", 12, align: TextAnchor.UpperLeft, xMin: dateSpace);
+		cui.CreateText(container, bar, "1 1 1 0.2", "大小", 12, align: TextAnchor.UpperLeft, xMin: sizeSpace);
 
 			var exit = cui.CreateProtectedButton(container, background, "0.5 0 0 0.4", Cache.CUI.BlankColor,
 				string.Empty,
@@ -201,7 +201,7 @@ public partial class FileModule : CarbonModule<EmptyModuleConfig, EmptyModuleDat
 						10, xMin: sizeSpace, align: TextAnchor.MiddleLeft);
 
 					var deleteButton = cui.CreateProtectedButton(container, fileButton, "0.5 0 0 0.4", "1 0.5 0.5 0.3",
-						"DELETE", 8,
+						"删除", 8,
 						xMin: 0.9f, command: $"file.action delete {i}", id: $"filedelete{i}");
 					deleteButton.Element2.Name = $"filedeletetext{i}";
 				}
@@ -288,7 +288,7 @@ public partial class FileModule : CarbonModule<EmptyModuleConfig, EmptyModuleDat
 
 					update.Add(cui.UpdateProtectedButton($"filedelete{index}", "0 0.5 0 0.4", Cache.CUI.BlankColor,
 						string.Empty, 0, command: $"file.action delete {index}"));
-					update.Add(cui.UpdateText($"filedeletetext{index}", "0 1 0 0.4", "CONFIRM", 8));
+					update.Add(cui.UpdateText($"filedeletetext{index}", "0 1 0 0.4", "确认", 8));
 					update.Send(ap.Player);
 
 					file.DeletingFile = path;
@@ -300,7 +300,7 @@ public partial class FileModule : CarbonModule<EmptyModuleConfig, EmptyModuleDat
 
 						update.Add(cui.UpdateProtectedButton($"filedelete{index}", "0.5 0 0 0.4", Cache.CUI.BlankColor,
 							string.Empty, 0, command: $"file.action delete {index}"));
-						update.Add(cui.UpdateText($"filedeletetext{index}", "1 0.5 0.5 0.3", "DELETE", 8));
+						update.Add(cui.UpdateText($"filedeletetext{index}", "1 0.5 0.5 0.3", "删除", 8));
 						update.Send(ap.Player);
 
 						file.DeletingFile = null;

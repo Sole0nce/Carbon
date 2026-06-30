@@ -101,14 +101,14 @@ public partial class AdminModule
 			};
 			profiler.Over = (_, cui, container, parent, _) =>
 			{
-				var message = MonoProfiler.Crashed ? "<b>Mono profiler has failed initializing properly</b>\nPlease ensure " +
+				var message = MonoProfiler.Crashed ? "<b>Mono 分析器初始化失败</b>\n请确保 " +
 #if UNIX
 				                                     "libCarbonNative.so"
 #else
 				                                     "CarbonNative.dll"
 #endif
-													+ " is located in <b>carbon/native</b> or contact developers" :
-						!MonoProfiler.Enabled ? "<b>Mono profiler is disabled</b>\nEnable it in the config, then reboot the server" : null;
+													+ " 位于 <b>carbon/native</b> 目录中，或联系开发者" :
+					!MonoProfiler.Enabled ? "<b>Mono 分析器已禁用</b>\n请在配置中启用，然后重启服务器" : null;
 
 				if (string.IsNullOrEmpty(message))
 				{
@@ -318,19 +318,19 @@ public partial class AdminModule
 			});
 
 			Stripe(this, 0, (float)filtered.Sum(x => x.total_time_percentage), 100, niceColor, niceColor,
-				"All",
+				"全部",
 				$"{filtered.Sum(x => (float)x.total_time_ms):n0}ms | {filtered.Sum(x => (float)x.total_time_percentage):0.0}%",
 				$"<size=7>{MonoProfiler.Sample.GetDifferenceString(sample.Comparison.Duration)}{TimeEx.Format(sample.Duration, false).ToLower()}\n{sample.Calls.Count:n0} calls</size>",
 				$"adminmodule.profilerselect -1",
 				string.IsNullOrEmpty(assembly));
 
-			AddDropdown(0, $"<b>ASSEMBLIES ({sample.Assemblies.Count:n0})</b>", ap => sortIndex, (ap, i) =>
+			AddDropdown(0, $"<b>程序集 ({sample.Assemblies.Count:n0})</b>", ap => sortIndex, (ap, i) =>
 			{
 				ap.SetStorage(this, "bsort", i);
 				DrawAssemblies(session, assembly);
 			}, sortAssemblyOptions);
 
-			AddInputButton(0, "Search", 0.075f, new OptionInput(null, ap => searchInput, 0, false, (ap, args) =>
+			AddInputButton(0, "搜索", 0.075f, new OptionInput(null, ap => searchInput, 0, false, (ap, args) =>
 			{
 				ap.SetStorage(this, "bsearch", args.Select(x => x as string).ToString(" "));
 				DrawAssemblies(ap, assembly);
@@ -674,7 +674,7 @@ public partial class AdminModule
 			if (memory > highest) highest = memory;
 
 			Stripe(session.SelectedTab, 0, assemblies, highest, intenseColor, niceColor,
-				"Assemblies", $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Assemblies.Max(y => y.calls)) : 0):n0} calls | " +
+				"程序集", $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Assemblies.Max(y => y.calls)) : 0):n0} calls | " +
 				              $"{ByteEx.Format((recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Assemblies.Max(y => y.alloc)) : 0)).ToUpper()} allocs. | " +
 				              $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Assemblies.Max(y => y.total_time_ms)) : 0):n0}ms time | " +
 				              $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Assemblies.Max(y => y.total_exceptions)) : 0):n0} excep.",
@@ -691,7 +691,7 @@ public partial class AdminModule
 				calls.ToString("n0"), null);
 
 			Stripe(session.SelectedTab, 0, memory, highest, intenseColor, niceColor,
-				"Memory", $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Memory.Max(y => y.allocations)) : 0):n0} allocs. | " +
+				"内存", $"{(recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Memory.Max(y => y.allocations)) : 0):n0} allocs. | " +
 				          $"{ByteEx.Format((recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Memory.Max(y => y.total_alloc_size)) : 0)).ToUpper()} total alloc. | " +
 				          $"{ByteEx.Format((recording.Timeline.Any() ? recording.Timeline.Max(x => x.Value.Memory.Max(y => y.instance_size)) : 0)).ToUpper()} inst. size",
 				memory.ToString("n0"), null);

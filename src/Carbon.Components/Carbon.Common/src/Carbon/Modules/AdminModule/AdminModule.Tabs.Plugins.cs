@@ -149,7 +149,7 @@ public partial class AdminModule
 
 							if (disabled)
 							{
-								cui.CreateText(container, btn, "1 0.8 0.8 0.5", "ENABLE VIA COG", 10, yMax: 0.5f);
+								cui.CreateText(container, btn, "1 0.8 0.8 0.5", "通过齿轮图标启用", 10, yMax: 0.5f);
 							}
 
 							optionsOffset += optionsWidth + optionsSpacing;
@@ -196,7 +196,7 @@ public partial class AdminModule
 
 						if (!plugins.Any())
 						{
-							cui.CreateText(container, contentPanel, "0.4 0.4 0.4 0.5", "No plugins available", 10);
+							cui.CreateText(container, contentPanel, "0.4 0.4 0.4 0.5", "没有可用插件", 10);
 						}
 
 						cui.CreateText(container, contentPanel, "0.8 0.8 0.8 0.9",
@@ -232,13 +232,13 @@ public partial class AdminModule
 							cui.CreateText(container, contentPanel, "0.8 0.8 0.8 0.9",
 								authVendor != null && authVendor.IsLoggedIn
 									? authVendor.User?.DisplayName?.ToUpper()
-									: "GUEST", 15, xMax: 0.90f, yMin: 1, yMax: 1, OyMin: -100, OyMax: -30,
+									: "访客", 15, xMax: 0.90f, yMin: 1, yMax: 1, OyMin: -100, OyMax: -30,
 								font: CUI.Handler.FontTypes.RobotoCondensedBold,
 								align: TextAnchor.UpperRight);
 							cui.CreateText(container, contentPanel, "0.85 0.8 0.1 0.9",
 								authVendor != null && authVendor.IsLoggedIn
 									? authVendor.User?.Authority?.ToUpper()
-									: "NOT AUTHENTICATED", 10, xMax: 0.90f, yMin: 1, yMax: 1, OyMin: -100,
+									: "未认证", 10, xMax: 0.90f, yMin: 1, yMax: 1, OyMin: -100,
 								OyMax: -50, font: CUI.Handler.FontTypes.RobotoCondensedRegular,
 								align: TextAnchor.UpperRight);
 
@@ -251,7 +251,7 @@ public partial class AdminModule
 									authVendor != null && authVendor.IsLoggedIn
 										? "1 0.5 0.5 1"
 										: "0.5 1 0.5 1",
-									authVendor != null && authVendor.IsLoggedIn ? "LOG OUT" : "LOG IN", 10,
+									authVendor != null && authVendor.IsLoggedIn ? "登出" : "登录", 10,
 									xMin: 0.85f, xMax: 0.9f, yMin: 1, yMax: 1, OyMin: -90, OyMax: -70,
 									font: CUI.Handler.FontTypes.RobotoCondensedBold,
 									command: "pluginbrowser.login");
@@ -307,7 +307,7 @@ public partial class AdminModule
 									outOfDate ? "0.9 0.5 0.1 0.6" : "0.5 0.9 0.1 0.6", yMin: 0.9f);
 								cui.CreateText(container, installed,
 									outOfDate ? "1 0.75 0.5 1" : "0.75 1 0.5 1",
-									(outOfDate ? "OUTDATED" : "INSTALLED").SpacedString(1), 8,
+									(outOfDate ? "已过期" : "已安装"), 8,
 									font: CUI.Handler.FontTypes.RobotoCondensedBold);
 							}
 
@@ -338,7 +338,7 @@ public partial class AdminModule
 								xMin: 0.05f, yMax: 0.165f,
 								font: CUI.Handler.FontTypes.RobotoCondensedBold,
 								align: TextAnchor.UpperLeft, fadeIn: currentAnim);
-							cui.CreateText(container, card, accentReadableColor, $"by {plugin.Author}", 8,
+							cui.CreateText(container, card, accentReadableColor, $"作者: {plugin.Author}", 8,
 								xMin: 0.05f, yMax: 0.085f,
 								font: CUI.Handler.FontTypes.RobotoCondensedRegular,
 								align: TextAnchor.UpperLeft, fadeIn: currentAnim);
@@ -346,7 +346,7 @@ public partial class AdminModule
 							if (plugin.HasPrice)
 							{
 								cui.CreateText(container, card, plugin.IsPaid() ? "#e0e344" : "#44e3db",
-									plugin.IsPaid() ? $"${plugin.OriginalPrice.ToFloat():0.00}" : "FREE",
+									plugin.IsPaid() ? $"${plugin.OriginalPrice.ToFloat():0.00}" : "免费",
 									10, xMax: 0.95f, yMax: 0.155f,
 									font: CUI.Handler.FontTypes.RobotoCondensedBold,
 									align: TextAnchor.UpperRight, fadeIn: currentAnim);
@@ -371,7 +371,7 @@ public partial class AdminModule
 							{
 								var badge = cui.CreatePanel(container, image, "0 0.4 0.8 0.9", yMax: 0.1f);
 								cui.CreateText(container, badge, "0.5 0.75 1 1",
-									"PURCHASED".SpacedString(1), 8,
+									"已购买", 8,
 									font: CUI.Handler.FontTypes.RobotoCondensedBold);
 							}
 
@@ -392,7 +392,7 @@ public partial class AdminModule
 						cui.CreateImage(container, search, "magnifying-glass", accentReadableColor,
 							xMin: 0.05f, xMax: 0.14f, yMin: 0.2f, yMax: 0.8f);
 						cui.CreateProtectedInputField(container, search, accentReadableColor,
-							string.IsNullOrEmpty(searchInput) ? "Search..." : searchInput, 13, 50, false,
+							string.IsNullOrEmpty(searchInput) ? "搜索..." : searchInput, 13, 50, false,
 							xMin: 0.17f, command: "pluginbrowser.search", align: TextAnchor.MiddleLeft,
 							needsKeyboard: true);
 						var clearSearch = cui.CreateProtectedButton(container, search, Cache.CUI.BlankColor,
@@ -621,11 +621,11 @@ public partial class AdminModule
 									blur: true);
 								cui.CreatePanel(container, mainPanel, "0 0 0 0.9");
 
-								cui.CreateText(container, panel, "1 1 1 1", $"{selectedVendor.Type} Auth",
+								cui.CreateText(container, panel, "1 1 1 1", $"{selectedVendor.Type} 认证",
 									25, xMin: 0.51f, yMax: 0.75f, align: TextAnchor.UpperLeft,
 									font: CUI.Handler.FontTypes.RobotoCondensedBold);
 								cui.CreateText(container, panel, "1 1 1 0.5",
-									$"Securely log into your {selectedVendor.Type} account through OAuth-based login!\n\nScan the QR code or go to the URL, log into {selectedVendor.Type} and type in the provided authentication code below to complete the login process.",
+									$"通过 OAuth 安全登录你的 {selectedVendor.Type} 账户！\n\n扫描二维码或访问链接，登录 {selectedVendor.Type} 后在下方输入提供的认证代码以完成登录。",
 									15, xMin: 0.51f, xMax: 0.9f, yMax: 0.67f, align: TextAnchor.UpperLeft);
 								cui.CreateText(container, panel, "1 1 1 1", Zh("Authorization code:"), 13,
 									xMin: 0.51f, yMax: 0.35f, align: TextAnchor.UpperLeft);
@@ -2454,11 +2454,11 @@ public partial class AdminModule
 		update.Add(cui.UpdatePanel("selectedpluginpnl", "0.1 0.1 0.1 0.5", xMin: 0.0001f, xMax: 1f, yMin: 0.0001f, yMax: 1, blur: false));
 		update.Add(cui.UpdateClientImage("selectedpluginicn", url: plugin.Image, "1 1 1 0.85", xMin: 0, xMax: 1, yMin: 1, yMax: 1, OyMin: -1000, fadeIn: fadeTime));
 		update.Add(cui.UpdateText("selectedpluginname", Cache.CUI.WhiteColor, text: plugin.Name, 35, xMin: 0.05f, yMin: 1, OyMin: -400, font: CUI.Handler.FontTypes.RobotoCondensedBold, align: TextAnchor.LowerLeft, fadeIn: fadeTime));
-		update.Add(cui.UpdateText("selectedpluginprice", plugin.IsPaid() ? "#e0e344" : "#44e3db", text: plugin.IsPaid() ? $"${plugin.OriginalPrice.ToFloat():0.00}" : "FREE", 25, xMax: 0.925f, yMin: 1, OyMin: -400, font: CUI.Handler.FontTypes.RobotoCondensedBold, align: TextAnchor.LowerRight, fadeIn: fadeTime));
+		update.Add(cui.UpdateText("selectedpluginprice", plugin.IsPaid() ? "#e0e344" : "#44e3db", text: plugin.IsPaid() ? $"${plugin.OriginalPrice.ToFloat():0.00}" : "免费", 25, xMax: 0.925f, yMin: 1, OyMin: -400, font: CUI.Handler.FontTypes.RobotoCondensedBold, align: TextAnchor.LowerRight, fadeIn: fadeTime));
 		update.Add(cui.UpdateText("selectedpluginchlog", accentReadableColor, text: plugin.Changelog, 13, align: TextAnchor.UpperLeft, fadeIn: fadeTime));
 		update.Add(cui.UpdateText("selectedplugindesc", accentReadableColor, text: plugin.Description, 12, xMin: 0.05f, xMax: 0.95f, yMin: 1, OyMin: -470, OyMax: -420, font: CUI.Handler.FontTypes.RobotoCondensedRegular, align: TextAnchor.UpperLeft, fadeIn: fadeTime));
 		update.Add(cui.UpdateText("selectedpluginrdate", accentReadableColor, text: $"{date.Day} {date:MMMM}, {date.Year:0000}", 15, yMax: 0.5f, align: TextAnchor.MiddleCenter, font: CUI.Handler.FontTypes.RobotoCondensedRegular, fadeIn: fadeTime));
-		update.Add(cui.UpdateText("selectedplugininfo", color: accentReadableColor, text: $"by <b>{(plugin.Author)}</b>  <b>•</b>  v{plugin.Version}  <b>•</b>  Updated on {plugin.UpdateDate}  <b>•</b>  {plugin.DownloadCount:n0} downloads", 12, xMin: 0.05f, xMax: 0.95f, yMin: 1, OyMin: -450, OyMax: -400, align: TextAnchor.UpperLeft, fadeIn: fadeTime));
+		update.Add(cui.UpdateText("selectedplugininfo", color: accentReadableColor, text: $"作者: <b>{(plugin.Author)}</b>  <b>•</b>  v{plugin.Version}  <b>•</b>  更新于 {plugin.UpdateDate}  <b>•</b>  {plugin.DownloadCount:n0} 次下载", 12, xMin: 0.05f, xMax: 0.95f, yMin: 1, OyMin: -450, OyMax: -400, align: TextAnchor.UpperLeft, fadeIn: fadeTime));
 
 		var builder = Facepunch.Pool.Get<StringBuilder>();
 
@@ -2473,22 +2473,22 @@ public partial class AdminModule
 		if (plugin.IsInstalled())
 		{
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b1", "#b84242", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: $"pluginbrowser.interact 2 \"{Path.GetFileNameWithoutExtension(plugin.File)}\""));
-			update.Add(cui.UpdateText("selectedplugin_b1_txt", "#f7a3a3", text: "UNINSTALL", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b1_txt", "#f7a3a3", text: "卸载", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b1_icn", "trashcan", "#f7a3a3"));
 			update.Add(cui.UpdateImage("selectedplugin_b1_fade", "fade", Cache.CUI.WhiteColor));
 
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b2", "#b84242", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: $"pluginbrowser.interact 11 \"{Path.GetFileNameWithoutExtension(plugin.File)}\""));
-			update.Add(cui.UpdateText("selectedplugin_b2_txt", "#f7a3a3", text: "UNLOAD", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b2_txt", "#f7a3a3", text: "卸载", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b2_icn", "installed", "#f7a3a3"));
 			update.Add(cui.UpdateImage("selectedplugin_b2_fade", "fade", Cache.CUI.WhiteColor));
 
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b3", "0.2 0.2 0.2 0.8", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: $"pluginbrowser.interact 3 \"{Path.GetFileNameWithoutExtension(plugin.File)}\""));
-			update.Add(cui.UpdateText("selectedplugin_b3_txt", "0.8 0.8 0.8 0.8", text: "CONFIG", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b3_txt", "0.8 0.8 0.8 0.8", text: "配置", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b3_icn", "file", "0.8 0.8 0.8 0.8"));
 			update.Add(cui.UpdateImage("selectedplugin_b3_fade", "fade", Cache.CUI.WhiteColor));
 
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b4", "0.2 0.2 0.2 0.8", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: $"pluginbrowser.interact 5 \"{Path.GetFileNameWithoutExtension(plugin.File)}\""));
-			update.Add(cui.UpdateText("selectedplugin_b4_txt", "0.8 0.8 0.8 0.8", text: "LANG", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b4_txt", "0.8 0.8 0.8 0.8", text: "语言", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b4_icn", "translate", "0.8 0.8 0.8 0.8"));
 			update.Add(cui.UpdateImage("selectedplugin_b4_fade", "fade", Cache.CUI.WhiteColor));
 
@@ -2498,7 +2498,7 @@ public partial class AdminModule
 				isOutdated = false;
 			}
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b5", $"0.2 0.2 0.2 {(isOutdated ? 0.8f : 0.2f)}", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: isOutdated ? $"pluginbrowser.interact 1 \"{Path.GetFileNameWithoutExtension(plugin.File)}\"" : string.Empty));
-			update.Add(cui.UpdateText("selectedplugin_b5_txt", "0.8 0.8 0.8 0.8", text: "UPDATE", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b5_txt", "0.8 0.8 0.8 0.8", text: "更新", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b5_icn", "clouddl", "0.8 0.8 0.8 0.8"));
 			update.Add(cui.UpdateImage("selectedplugin_b5_fade", "fade", Cache.CUI.WhiteColor));
 		}
@@ -2506,14 +2506,14 @@ public partial class AdminModule
 		{
 			var canDownload = plugin.GetPreferredVendor() != PluginsTab.LocalInstance && !plugin.IsPaid() || plugin.Owned || (plugin.AvailableOn != null && plugin.AvailableOn.Count > 1);
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b1", !canDownload ? CUI.HexToRustColor("#8db842", 0.4f) : "#8db842", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: canDownload ? $"pluginbrowser.interact 0 \"{Path.GetFileNameWithoutExtension(plugin.File)}\"" : string.Empty));
-			update.Add(cui.UpdateText("selectedplugin_b1_txt", "#d9f7a3", text: canDownload ? "DOWNLOAD" : "CAN'T DOWNLOAD", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b1_txt", "#d9f7a3", text: canDownload ? "下载" : "无法下载", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b1_icn", "clouddl", "#d9f7a3"));
 			update.Add(cui.UpdateImage("selectedplugin_b1_fade", "fade", Cache.CUI.BlankColor));
 
 			var isLoadable = !string.IsNullOrEmpty(CorePlugin.GetPluginFile(Path.GetFileNameWithoutExtension(plugin.File)).Path);
 
 			update.Add(cui.UpdateProtectedButton("selectedplugin_b2", !isLoadable ? CUI.HexToRustColor("#8db842", 0.4f) : "#8db842", Cache.CUI.BlankColor, text: string.Empty, 0, align: TextAnchor.LowerLeft, command: $"pluginbrowser.interact 11 \"{Path.GetFileNameWithoutExtension(plugin.File)}\""));
-			update.Add(cui.UpdateText("selectedplugin_b2_txt", "#d9f7a3", text: "LOAD", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
+			update.Add(cui.UpdateText("selectedplugin_b2_txt", "#d9f7a3", text: "加载", 12, align: TextAnchor.MiddleCenter, xMin: 0.2f, font: CUI.Handler.FontTypes.RobotoCondensedBold));
 			update.Add(cui.UpdateImage("selectedplugin_b2_icn", "installed", "#d9f7a3"));
 			update.Add(cui.UpdateImage("selectedplugin_b2_fade", "fade", Cache.CUI.WhiteColor));
 

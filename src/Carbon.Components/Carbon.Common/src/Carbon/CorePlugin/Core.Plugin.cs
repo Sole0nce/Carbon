@@ -227,5 +227,6 @@ public partial class CorePlugin : CarbonPlugin
 	protected override void LoadDefaultMessages()
 	{
 		lang.RegisterMessages(Localisation.Phrases, this);
+		lang.RegisterMessages(Localisation.Phrases_zh_CN, this, "zh-CN");
 	}
 }

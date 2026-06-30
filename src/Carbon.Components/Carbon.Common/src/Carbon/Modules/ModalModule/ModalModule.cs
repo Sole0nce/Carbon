@@ -119,8 +119,8 @@ public partial class ModalModule : CarbonModule<EmptyModuleConfig, EmptyModuleDa
 		{
 			if (Fields.Count > 0)
 			{
-				var subText = $"<b><color=red>*</color></b>  {"Assign all required field values.".ToUpper().SpacedString(1)}" +
-					$"\n    {(IsValid() ? $"<b><color=green>{"The modal is valid.".ToUpper().SpacedString(1)}</color></b>" : $"<b><color=red>{"The modal has invalid fields.".ToUpper().SpacedString(1)}</color></b>")}" +
+				var subText = $"<b><color=red>*</color></b>  {"请填写所有必填字段。"}" +
+				$"\n    {(IsValid() ? $"<b><color=green>{"表单有效。"}</color></b>" : $"<b><color=red>{"表单存在无效字段。"}</color></b>")}" +
 					$"{(InvalidMessages != null ? $"\n{InvalidMessages.ToString("\n")}" : "")}";
 				cui.CreateText(container, panel, "1 1 1 1", subText.Trim(), 9, align: TextAnchor.LowerLeft, xMin: 0.05f, yMin: 0.05f);
 			}
@@ -175,8 +175,8 @@ public partial class ModalModule : CarbonModule<EmptyModuleConfig, EmptyModuleDa
 						rustColor = $"R:{rustColorSplit[0].ToFloat() * 255:0}   G:{rustColorSplit[1].ToFloat() * 255:0}   B:{rustColorSplit[2].ToFloat() * 255:0}   A:{(rustColorSplit.Length == 4 ? rustColorSplit[3].ToFloat() : 1f) * 255:0}";
 						Array.Clear(rustColorSplit, 0, rustColorSplit.Length);
 
-						cui.CreateText(container, option, textColor, $"<b>{"HEX".SpacedString(1)}:</b>  {hexColor}", 12, xMin: 0.7f, align: TextAnchor.MiddleLeft);
-						cui.CreateText(container, option, textColor, $"<b>{"RUST".SpacedString(1)}:</b>  {rustColor}", 12, xMin: 0.115f, align: TextAnchor.MiddleLeft);
+						cui.CreateText(container, option, textColor, $"<b>HEX:</b>  {hexColor}", 12, xMin: 0.7f, align: TextAnchor.MiddleLeft);
+					cui.CreateText(container, option, textColor, $"<b>RUST:</b>  {rustColor}", 12, xMin: 0.115f, align: TextAnchor.MiddleLeft);
 						cui.CreateProtectedButton(container, option, hexColor, "0 0 0 0", string.Empty, 0, xMin: 0.025f, xMax: 0.085f, yMin: 0.1f, yMax: 0.9f, command: $"modal.action {field.Key}");
 						break;
 
@@ -203,8 +203,8 @@ public partial class ModalModule : CarbonModule<EmptyModuleConfig, EmptyModuleDa
 			}
 
 			var buttons = cui.CreatePanel(container, panel, "0 0 0 0", xMin: 0.075f, xMax: 0.925f, yMin: 0.025f, yMax: 0.1f);
-			cui.CreateProtectedButton(container, buttons, "0.1 0.1 0.1 0.85", "1 1 1 0.7", "CANCEL".SpacedString(1), 10, xMin: 0.7f, xMax: 0.84f, command: "modal.cancel");
-			cui.CreateProtectedButton(container, buttons, IsValid() ? HexToRustColor("#7ebf37", 0.6f) : "0.1 0.1 0.1 0.85", "1 1 1 0.7", "CONFIRM".SpacedString(1), 10, xMin: 0.85f, command: "modal.confirm");
+			cui.CreateProtectedButton(container, buttons, "0.1 0.1 0.1 0.85", "1 1 1 0.7", "取消", 10, xMin: 0.7f, xMax: 0.84f, command: "modal.cancel");
+		cui.CreateProtectedButton(container, buttons, IsValid() ? HexToRustColor("#7ebf37", 0.6f) : "0.1 0.1 0.1 0.85", "1 1 1 0.7", "确认", 10, xMin: 0.85f, command: "modal.confirm");
 
 			if (Pages > 0)
 			{
