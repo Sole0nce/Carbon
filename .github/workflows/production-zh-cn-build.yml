@@ -194,30 +194,12 @@ jobs:
       - name: Pre-build Carbon Runner
         run: dotnet build src/Carbon.Tools/Carbon.Runner/Carbon.Runner.csproj -c Debug -o ./runner-bin
 
-      - name: Cache Rust DLLs
-        id: cache-rust
-        uses: actions/cache@v5
-        with:
-          path: |
-            rust/linux/RustDedicated_Data/Managed
-            rust/windows/RustDedicated_Data/Managed
-          key: rust-dlls-zh-cn-1666500255
-
       - name: Carbon Bootstrap CS
         run: dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/bootstrap.cs
 
       - name: Carbon Update CS
-        if: steps.cache-rust.outputs.cache-hit != 'true'
         shell: bash
         run: dotnet ./runner-bin/Carbon.Runner.dll tools/build/runners/update.cs
-
-      - name: Run Publicizer (Cache Hit)
-        if: steps.cache-rust.outputs.cache-hit == 'true'
-        shell: bash
-        run: |
-          dotnet build src/Carbon.Tools/Carbon.Publicizer/Carbon.Publicizer.csproj -c Debug -o ./publicizer-bin
-          dotnet ./publicizer-bin/Carbon.Publicizer.dll rust/linux/RustDedicated_Data/Managed
-          dotnet ./publicizer-bin/Carbon.Publicizer.dll rust/windows/RustDedicated_Data/Managed
 
       - name: Carbon Build
         shell: bash
