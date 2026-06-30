@@ -156,9 +156,10 @@ public abstract class BridgeServer
 							OnBridgeConnection(bridgeConnection);
 						};
 						socket.OnClose = () =>
-						{
-							listener._subscribedRconClients.Remove(connectionId);
-							listener.clients.Remove(connectionId);
+					{
+						// _subscribedRconClients field was removed in newer Rust versions
+						// listener._subscribedRconClients.Remove(connectionId);
+						listener.clients.Remove(connectionId);
 							if (Connections.TryGetValue(connectionId, out var bridgeConnection))
 							{
 								OnBridgeDisconnection(bridgeConnection);
