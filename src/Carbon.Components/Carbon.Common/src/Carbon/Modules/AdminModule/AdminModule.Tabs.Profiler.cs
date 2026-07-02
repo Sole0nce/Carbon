@@ -1022,15 +1022,15 @@ public partial class AdminModule
 			var file = Path.Combine(Defines.GetProfilesFolder(), $"profile-{date.Year}_{date.Month}_{date.Day}_{date.Hour}{date.Minute}{date.Second}.{extension}");
 			OsEx.File.Create(file, data);
 
-			Notifications.Add(player, $"Exported profile output at '{file}'");
-		}
-		static void WriteFileBytes(string extension, byte[] data, BasePlayer player)
-		{
-			var date = DateTime.Now;
-			var file = Path.Combine(Defines.GetProfilesFolder(), $"profile-{date.Year}_{date.Month}_{date.Day}_{date.Hour}{date.Minute}{date.Second}.{extension}");
-			OsEx.File.Create(file, data);
+		Notifications.Add(player, $"已导出性能分析数据至 '{file}'");
+	}
+	static void WriteFileBytes(string extension, byte[] data, BasePlayer player)
+	{
+		var date = DateTime.Now;
+		var file = Path.Combine(Defines.GetProfilesFolder(), $"profile-{date.Year}_{date.Month}_{date.Day}_{date.Hour}{date.Minute}{date.Second}.{extension}");
+		OsEx.File.Create(file, data);
 
-			Notifications.Add(player, $"Exported profile output at '{file}'");
+		Notifications.Add(player, $"已导出性能分析数据至 '{file}'");
 		}
 	}
 
@@ -1072,10 +1072,10 @@ public partial class AdminModule
 
 				if (MonoProfiler.ValidateFile(item.Path, out var protocol, out var duration, out var isCompared))
 				{
-					return $"Duration: {TimeEx.FormatPlayer(duration).ToLower()}s (protocol {protocol}){(isCompared ? " [C]" : string.Empty)}";
+					return $"时长: {TimeEx.FormatPlayer(duration).ToLower()}s (协议 {protocol}){(isCompared ? " [C]" : string.Empty)}";
 				}
 
-				return $"Invalid protocol {protocol}";
+				return $"无效协议 {protocol}";
 			});
 	}
 

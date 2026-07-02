@@ -20,7 +20,7 @@ public partial class AdminModule
 		private const float _applyChangesCooldown = 60;
 		private static TimeSince _applyChangesTimeSince = _applyChangesCooldown;
 
-		public static readonly string[] AuthLevels = ["User", "Moderator", "Admin", "Developer"];
+		public static readonly string[] AuthLevels = ["用户", "版主", "管理员", "开发者"];
 
 		public enum ConfigTabs
 		{
@@ -346,7 +346,7 @@ public partial class AdminModule
 							ap => configTab == ConfigTabs.CarbonAuto
 								? OptionButton.Types.Selected
 								: OptionButton.Types.None),
-						new OptionButton("Items", ap =>
+						new OptionButton("物品", ap =>
 						{
 							session.SetStorage(tab, "configtab", ConfigTabs.Items);
 							Refresh(tab, ap);

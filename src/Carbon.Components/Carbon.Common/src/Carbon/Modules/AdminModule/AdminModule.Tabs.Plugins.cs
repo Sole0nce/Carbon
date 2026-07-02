@@ -522,7 +522,7 @@ public partial class AdminModule
 							var changelog = cui.CreatePanel(container, selectedScroll, "0.2 0.2 0.2 0.9",
 								xMin: 0.05f, xMax: 0.95f, yMin: 1, OyMin: -700, OyMax: -500);
 							cui.CreateImage(container, changelog, "fade", Cache.CUI.WhiteColor);
-							cui.CreateText(container, changelog, "1 1 1 0.8", "VERSION CHANGES", 13,
+							cui.CreateText(container, changelog, "1 1 1 0.8", "版本更新", 13,
 								font: CUI.Handler.FontTypes.RobotoCondensedBold, xMin: 0.02f, yMax: 0.95f,
 								align: TextAnchor.UpperLeft);
 							cui.CreatePanel(container, changelog, "0.7 0.7 0.7 0.2", xMin: 0.78f,
@@ -562,7 +562,7 @@ public partial class AdminModule
 							changelogVerticalBar.AutoHide = true;
 							changelogVerticalBar.Invert = true;
 
-							cui.CreateText(container, changelogScroll, "1 1 1 0.7", "lorem ipsum", 13,
+							cui.CreateText(container, changelogScroll, "1 1 1 0.7", "暂无更新日志", 13,
 								align: TextAnchor.UpperLeft, id: "selectedpluginchlog");
 							cui.CreateImage(container, selectedPlugin, "fade_flip", "0 0 0 1", yMin: 1,
 								OyMin: -75);
@@ -1048,9 +1048,9 @@ public partial class AdminModule
 			public override string Logo => "cflogo";
 			public override float LogoRatio => 0f;
 			public override string Hero => "cf_hero";
-			public override string Tagline => "The largest marketplace for Rust community-driven content.";
+			public override string Tagline => "Rust 社区驱动的最大内容市场。";
 
-			public override string BarInfo => $"{FetchedPlugins.Count(x => !x.IsPaid()):n0} free, {FetchedPlugins.Count(x => x.IsPaid()):n0} paid";
+			public override string BarInfo => $"{FetchedPlugins.Count(x => !x.IsPaid()):n0} 免费, {FetchedPlugins.Count(x => x.IsPaid()):n0} 付费";
 
 			public override string ListEndpoint => "https://codefling.com/db/?category=2,21";
 			public override string DownloadEndpoint => "https://codefling.com/files/file/[ID]-a?do=download";
@@ -1562,9 +1562,9 @@ public partial class AdminModule
 			public override string Logo => "umodlogo";
 			public override float LogoRatio => 0.2f;
 			public override string Hero => "umod_hero";
-			public override string Tagline => "A large platform for free plugins curated by the Oxide team.";
+			public override string Tagline => "由 Oxide 团队策划的大型免费插件平台。";
 
-			public override string BarInfo => $"{FetchedPlugins.Count:n0} free";
+			public override string BarInfo => $"{FetchedPlugins.Count:n0} 免费";
 
 			public override string ListEndpoint => "https://umod.org/plugins/search.json?page=[ID]&sort=title&sortdir=asc&categories%5B0%5D=universal&categories%5B1%5D=rust";
 			public override string DownloadEndpoint => "https://umod.org/plugins/[ID].cs";
@@ -1861,12 +1861,12 @@ public partial class AdminModule
 			public override string Url => "none";
 			public override string Logo => "carbonw";
 			public override string Hero => "installed_hero";
-			public override string Tagline => "All actively loaded plugins. Items with no metadata most likely don't exist on the public vendors.";
+			public override string Tagline => "所有已加载的插件。无元数据项很可能不存在于公共供应商中。";
 
 			public override float LogoRatio => 0.23f;
 			public override string ListEndpoint => string.Empty;
 			public override string DownloadEndpoint => string.Empty;
-			public override string BarInfo => $"{FetchedPlugins.Count:n0} loaded";
+			public override string BarInfo => $"{FetchedPlugins.Count:n0} 已加载";
 
 			public override bool CanRefresh => false;
 

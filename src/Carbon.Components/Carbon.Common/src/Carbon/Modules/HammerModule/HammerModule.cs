@@ -17,10 +17,10 @@ public partial class HammerModule : CarbonModule<HammerModule.HammerConfig, Hamm
 	public ListHashSet<Func<BaseEntity, bool, (string name, object value, bool shouldShow)>> CustomFields = new();
 	public ListHashSet<Func<BaseEntity, bool, (string name, string color, string command, bool shouldShow)>> CustomButons = new();
 
-	private static readonly Translate.Phrase destroyingBuildingCancelledPhrase = new("destroyedbuildingCancelled", "Destroying building: <color=white>cancelled</color>");
-	private static readonly Translate.Phrase destroyingBuildingPhrase = new("destroyedbuilding", "Destroying building: <color=white>{0}</color>/{1} entities ({2} dead)");
-	private static readonly Translate.Phrase repairedCancelledPhrase = new("repairedCancelled", "Repairing: <color=white>cancelled</color>");
-	private static readonly Translate.Phrase repairedPhrase = new("repaired", "Repairing: <color=white>{0}</color>/{1} entities ({2} needed repair, {3} dead)");
+	private static readonly Translate.Phrase destroyingBuildingCancelledPhrase = new("destroyedbuildingCancelled", "销毁建筑: <color=white>已取消</color>");
+	private static readonly Translate.Phrase destroyingBuildingPhrase = new("destroyedbuilding", "销毁建筑: <color=white>{0}</color>/{1} 个实体 ({2} 个已死亡)");
+	private static readonly Translate.Phrase repairedCancelledPhrase = new("repairedCancelled", "修复: <color=white>已取消</color>");
+	private static readonly Translate.Phrase repairedPhrase = new("repaired", "修复: <color=white>{0}</color>/{1} 个实体 ({2} 个需要修复, {3} 个已死亡)");
 
 	private static readonly Dictionary<ulong, BaseEntity> lastCreativeModePlayers = new();
 	private static readonly Dictionary<ulong, BaseEntity> lastLastCreativeModePlayers = new();
